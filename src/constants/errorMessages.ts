@@ -17,6 +17,7 @@ const enum ErrorMessages {
   incorrectCredentialsErr = 'Login or password is wrong',
   emptyStringErr = 'Value cannot be the empty string',
   duplicateLoginErr = 'Login already use',
+  unexpectedProperty = 'An unexpected property was found in the object',
 }
 
 export default ErrorMessages;

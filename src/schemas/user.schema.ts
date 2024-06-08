@@ -35,9 +35,81 @@ const addUserSchema = Joi.object({
   login: loginSchema.required(),
 });
 
+const updateFullAccessSchema = Joi.object()
+  .keys({
+    fullAccess: Joi.boolean(),
+  })
+  .messages({
+    'object.unknown': ErrorMessages.unexpectedProperty,
+  });
+
+const updateHousesAccessSchema = Joi.object()
+  .keys({
+    houses: Joi.boolean(),
+  })
+  .messages({
+    'object.unknown': ErrorMessages.unexpectedProperty,
+  });
+
+const updateSubscribersAccessSchema = Joi.object()
+  .keys({
+    subscribers: Joi.boolean(),
+  })
+  .messages({
+    'object.unknown': ErrorMessages.unexpectedProperty,
+  });
+
+const updateAccountingAccessSchema = Joi.object()
+  .keys({
+    accounting: Joi.boolean(),
+  })
+  .messages({
+    'object.unknown': ErrorMessages.unexpectedProperty,
+  });
+
+const updateDocumentsAccessSchema = Joi.object()
+  .keys({
+    documents: Joi.boolean(),
+  })
+  .messages({
+    'object.unknown': ErrorMessages.unexpectedProperty,
+  });
+
+const updateCountersAccessSchema = Joi.object()
+  .keys({
+    counters: Joi.boolean(),
+  })
+  .messages({
+    'object.unknown': ErrorMessages.unexpectedProperty,
+  });
+
+const updateOneOffJobsAccessSchema = Joi.object()
+  .keys({
+    oneOffJobs: Joi.boolean(),
+  })
+  .messages({
+    'object.unknown': ErrorMessages.unexpectedProperty,
+  });
+
+const updateSettingsAccessSchema = Joi.object()
+  .keys({
+    settings: Joi.boolean(),
+  })
+  .messages({
+    'object.unknown': ErrorMessages.unexpectedProperty,
+  });
+
 const schemas = {
   loginSchema,
   addUserSchema,
+  updateFullAccessSchema,
+  updateHousesAccessSchema,
+  updateSubscribersAccessSchema,
+  updateAccountingAccessSchema,
+  updateDocumentsAccessSchema,
+  updateCountersAccessSchema,
+  updateOneOffJobsAccessSchema,
+  updateSettingsAccessSchema,
 };
 
 export default schemas;
