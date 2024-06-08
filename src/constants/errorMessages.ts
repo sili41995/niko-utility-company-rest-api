@@ -16,6 +16,7 @@ const enum ErrorMessages {
   //other
   incorrectCredentialsErr = 'Login or password is wrong',
   emptyStringErr = 'Value cannot be the empty string',
+  duplicateLoginErr = 'Login already use',
 }
 
 export default ErrorMessages;

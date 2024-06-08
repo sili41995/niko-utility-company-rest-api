@@ -1,19 +1,30 @@
 import { Response, Request } from 'express';
 import AuthService from '../services/auth.service';
+import { IAuthRequest } from '../types/auth.type';
+import { httpError } from '../utils';
 // import { httpError, sendEmail } from '@/utils';
 // import { AuthProps, Endpoints } from '@/constants';
 // import { IAuthRequest } from '@/types/auth.type';
 
 export class AuthController {
-  constructor(private userService: AuthService) {
-    this.userService = userService;
+  constructor(private authService: AuthService) {
+    this.authService = authService;
   }
 
   async signIn(req: Request, res: Response): Promise<void> {
-    const result = await this.userService.signIn(req.body);
+    const result = await this.authService.signIn(req.body);
+
     res.status(200).json(result);
+  }
+
+  async current(req: IAuthRequest, res: Response): Promise<void> {
+    if (!req.user) {
+      throw httpError({ status: 401 });
+    }
+
+    res.status(200).json(req.user);
   }
 }
 
-const userController = new AuthController(new AuthService());
-export default userController;
+const authController = new AuthController(new AuthService());
+export default authController;
