@@ -8,10 +8,12 @@ const router: Router = Router();
 
 router.use(auth);
 
-const addUserCtrl = ctrlWrapper(userController.add.bind(userController));
+const getAllCtrl = ctrlWrapper(userController.getAll.bind(userController));
+const addCtrl = ctrlWrapper(userController.add.bind(userController));
 const updateByIdCtrl = ctrlWrapper(userController.updateById.bind(userController));
 
-router.post(Endpoints.root, addUserCtrl);
+router.get(Endpoints.root, getAllCtrl);
+router.post(Endpoints.root, addCtrl);
 router.patch(Endpoints.fullAccess, validateBody(userSchemas.updateFullAccessSchema), updateByIdCtrl);
 router.patch(Endpoints.houses, validateBody(userSchemas.updateHousesAccessSchema), updateByIdCtrl);
 router.patch(Endpoints.subscribers, validateBody(userSchemas.updateSubscribersAccessSchema), updateByIdCtrl);

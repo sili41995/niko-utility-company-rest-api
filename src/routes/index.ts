@@ -10,7 +10,7 @@ class AppRouter {
       res.send('API Running');
     });
     this.app.use('/api/auth', authRouter);
-    this.app.use('/api/user', userRouter);
+    this.app.use('/api/users', userRouter);
   }
 }
 

@@ -1,13 +1,19 @@
 import { prisma } from '../app';
-import { ErrorMessages, ProfileSettings } from '../constants';
-import { UserData, NewUser, IUpdateUserByIdProps } from '../types/user.type';
+import { ErrorMessages } from '../constants';
+import { UserData, NewUser, IUpdateUserByIdProps, Users } from '../types/user.type';
 import { httpError } from '../utils';
 import bcrypt from 'bcryptjs';
 
 // const { SECRET_KEY } = process.env;
 
 class AuthService {
-  async addUser(data: NewUser): Promise<UserData> {
+  async getAll(): Promise<Users> {
+    const result = await prisma.user.findMany();
+
+    return result;
+  }
+
+  async add(data: NewUser): Promise<UserData> {
     const { login, password } = data;
     const user = await prisma.user.findUnique({ where: { login } });
 
