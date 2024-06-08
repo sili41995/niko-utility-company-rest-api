@@ -1,4 +1,4 @@
-import { IRegExp } from '@/types/types.type';
+import { IRegExp } from '../types/types.type';
 
 const regExp: IRegExp = {
   email: /^[-?\w.?!#$&'-~%?]+@\w+\.{1}\w{2,4}$/,

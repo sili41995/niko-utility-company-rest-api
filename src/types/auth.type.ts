@@ -15,6 +15,6 @@ export interface IUser {
   settings: boolean;
 }
 
-export type Credentials = Pick<IUser, 'password' | 'email'>;
+export type Credentials = Pick<IUser, 'password' | 'login'>;
 
 export type SignInRes = Pick<IUser, 'token'>;

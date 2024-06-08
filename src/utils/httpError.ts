@@ -1,4 +1,4 @@
-import { IErrorMessageList, IHttpError } from '@/types/types.type';
+import { IErrorMessageList, IHttpError } from '../types/types.type';
 
 const errorMessageList: IErrorMessageList = {
   400: 'Bad Request',

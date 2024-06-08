@@ -1,9 +1,9 @@
-import { Endpoints } from '@/constants';
-import authController from '@/controllers/auth.controller';
-import { ctrlWrapper, validateBody } from '@/middlewares';
+import { Endpoints } from '../../constants';
+import authController from '../../controllers/auth.controller';
 // import auth from '@/middlewares/auth.middleware';
-import { userSchemas } from '@/schemas';
 import { Router } from 'express';
+import { userSchemas } from '../../schemas';
+import { ctrlWrapper, validateBody } from '../../middlewares';
 
 const router: Router = Router();
 

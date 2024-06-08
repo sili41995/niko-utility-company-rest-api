@@ -2,9 +2,9 @@ import express, { Express, Request, Response, NextFunction } from 'express';
 import logger from 'morgan';
 import cors from 'cors';
 import 'dotenv/config';
-import { IHttpError } from '@/types/types.type';
+import { IHttpError } from './types/types.type';
 import { PrismaClient } from '@prisma/client';
-import AppRouter from '@/routes';
+import AppRouter from './routes';
 
 const app: Express = express();
 const router = new AppRouter(app);

@@ -1,6 +1,6 @@
 import Joi from 'joi';
-import { ErrorMessages, ProfileSettings } from '@/constants';
-import { regExp } from '@/constants';
+import { ErrorMessages, ProfileSettings } from '../constants';
+import { regExp } from '../constants';
 
 const nameSettings = Joi.string().messages({
   'any.required': ErrorMessages.nameReqErr,
@@ -25,7 +25,7 @@ const emailSettings = Joi.string().pattern(regExp.email).messages({
 
 const loginSchema = Joi.object({
   password: passwordSettings.required(),
-  email: emailSettings.required(),
+  login: loginSettings.required(),
 });
 
 const addUserSchema = Joi.object({

@@ -1,6 +1,6 @@
-import { httpError } from '@/utils';
 import { Request, Response, NextFunction } from 'express';
 import { ObjectSchema } from 'joi';
+import { httpError } from '../utils';
 
 const validateBody =
   <T>(schema: ObjectSchema<T>) =>

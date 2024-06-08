@@ -1,5 +1,4 @@
 {
-  "typeRoots": ["@types/node", "./src/types"],
   "compilerOptions": {
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
@@ -7,19 +6,14 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "isolatedModules": true,
+    "lib": ["ES2021"],
     "module": "CommonJS",
-    "moduleResolution": "Node",
-    "baseUrl": ".",
+    "moduleResolution": "node",
     "outDir": "./dist",
     "skipLibCheck": true,
     "sourceMap": true,
     "strictNullChecks": true,
-    "target": "ES2018",
-    "strict": true,
-    "paths": {
-      "@/*": ["./src/*"]
-    }
-  },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+    "target": "es2019",
+    "strict": true
+  }
 }

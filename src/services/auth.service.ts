@@ -1,15 +1,15 @@
-import { prisma } from '@/app';
-import { ErrorMessages, ProfileSettings } from '@/constants';
-import { Credentials, SignInRes } from '@/types/auth.type';
-import { generateToken, httpError } from '@/utils';
+import { prisma } from '../app';
+import { ErrorMessages, ProfileSettings } from '../constants';
+import { Credentials, SignInRes } from '../types/auth.type';
+import { generateToken, httpError } from '../utils';
 import bcrypt from 'bcryptjs';
 // import jwt, { Secret } from 'jsonwebtoken';
 
 const { SECRET_KEY } = process.env;
 
 class AuthService {
-  async signIn({ email, password }: Credentials): Promise<SignInRes> {
-    const user = await prisma.user.findUnique({ where: { email } });
+  async signIn({ login, password }: Credentials): Promise<SignInRes> {
+    const user = await prisma.user.findUnique({ where: { login } });
     const isValidPassword = await bcrypt.compare(password as string, user?.password ?? '');
 
     if (!user || !isValidPassword) {
@@ -30,9 +30,9 @@ class AuthService {
     });
 
     const result = await prisma.user.update({
-      where: { email },
+      where: { login },
       data: { token },
-      select: { id: true, email: true, token: true, name: true },
+      select: { token: true },
     });
 
     return result;

@@ -1,5 +1,5 @@
 import { Response, Request } from 'express';
-import AuthService from '@/services/auth.service';
+import AuthService from '../services/auth.service';
 // import { httpError, sendEmail } from '@/utils';
 // import { AuthProps, Endpoints } from '@/constants';
 // import { IAuthRequest } from '@/types/auth.type';

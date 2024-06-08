@@ -1,7 +1,7 @@
 const enum Endpoints {
   root = '/',
   //   register = '/register',
-  login = '/login',
+  login = '/signin',
   //   logout = '/logout',
   //   current = '/current',
   //   restorePass = '/restore-password',

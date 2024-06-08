@@ -14,7 +14,7 @@ const enum ErrorMessages {
   //name
   nameReqErr = 'Missing required name field',
   //other
-  incorrectCredentialsErr = 'Email or password is wrong',
+  incorrectCredentialsErr = 'Login or password is wrong',
   emptyStringErr = 'Value cannot be the empty string',
 }
 
