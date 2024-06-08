@@ -3,7 +3,7 @@ import { ErrorMessages, ProfileSettings } from '@/constants';
 import { Credentials, SignInRes } from '@/types/auth.type';
 import { generateToken, httpError } from '@/utils';
 import bcrypt from 'bcryptjs';
-import jwt, { Secret } from 'jsonwebtoken';
+// import jwt, { Secret } from 'jsonwebtoken';
 
 const { SECRET_KEY } = process.env;
 
@@ -12,7 +12,7 @@ class AuthService {
     const user = await prisma.user.findUnique({ where: { email } });
     const isValidPassword = await bcrypt.compare(password as string, user?.password ?? '');
 
-    if (!user || !user.isVerify || !isValidPassword) {
+    if (!user || !isValidPassword) {
       throw httpError({
         status: 401,
         message: ErrorMessages.incorrectCredentialsErr,
