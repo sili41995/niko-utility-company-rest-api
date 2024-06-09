@@ -11,7 +11,7 @@ const enum Endpoints {
   //   dynamicSearch = 'search',
   //   dynamicStatus = 'status',
   dynamicId = 'id',
-  fullAccess = `/:${dynamicId}/full-access`,
+  fullAccess = `/:${dynamicId}/fullAccess`,
   houses = `/:${dynamicId}/houses`,
   subscribers = `/:${dynamicId}/subscribers`,
   accounting = `/:${dynamicId}/accounting`,
