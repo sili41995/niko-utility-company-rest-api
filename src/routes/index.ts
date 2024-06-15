@@ -1,6 +1,7 @@
 import { Application } from 'express';
 import authRouter from './api/auth.route';
 import userRouter from './api/user.route';
+import generalSettingsRouter from './api/generalSettings.route';
 
 class AppRouter {
   constructor(private app: Application) {}
@@ -11,6 +12,7 @@ class AppRouter {
     });
     this.app.use('/api/auth', authRouter);
     this.app.use('/api/users', userRouter);
+    this.app.use('/api/general-settings', generalSettingsRouter);
   }
 }
 

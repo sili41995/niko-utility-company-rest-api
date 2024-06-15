@@ -29,3 +29,11 @@ model User {
   oneOffJobs Boolean @default(false)
   settings Boolean @default(false)
 }
+
+model GeneralSettings {
+   id Int @id @default(autoincrement())
+   currentAccount String
+   mfi String
+   helpPhone String
+   adsInPayments String?
+}

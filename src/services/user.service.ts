@@ -6,7 +6,7 @@ import bcrypt from 'bcryptjs';
 
 // const { SECRET_KEY } = process.env;
 
-class AuthService {
+class UserService {
   async getAll(): Promise<Users> {
     const result = await prisma.user.findMany();
 
@@ -52,4 +52,4 @@ class AuthService {
   }
 }
 
-export default AuthService;
+export default UserService;

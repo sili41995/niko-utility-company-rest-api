@@ -11,4 +11,9 @@ export interface IRegExp {
   login: RegExp;
   email: RegExp;
   notEmptyValue: RegExp;
+  helpPhone: RegExp;
+  currentAccount: RegExp;
+  mfi: RegExp;
 }
+
+export type ModelName = 'user';
