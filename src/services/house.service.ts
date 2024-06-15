@@ -29,7 +29,7 @@ class HouseService {
   }
 
   async getById(id: number): Promise<IHouse | null> {
-    const result = await prisma.house.findUnique({ where: { id }, include: { Street: true } });
+    const result = await prisma.house.findUnique({ where: { id } });
 
     return result;
   }
