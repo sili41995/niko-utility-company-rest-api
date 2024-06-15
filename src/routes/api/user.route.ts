@@ -14,13 +14,13 @@ const updateByIdCtrl = ctrlWrapper(userController.updateById.bind(userController
 
 router.get(Endpoints.root, getAllCtrl);
 router.post(Endpoints.root, addCtrl);
-router.patch(Endpoints.fullAccess, userIsExist, validateBody(userSchemas.updateFullAccessSchema), updateByIdCtrl);
-router.patch(Endpoints.houses, userIsExist, validateBody(userSchemas.updateHousesAccessSchema), updateByIdCtrl);
-router.patch(Endpoints.subscribers, userIsExist, validateBody(userSchemas.updateSubscribersAccessSchema), updateByIdCtrl);
-router.patch(Endpoints.accounting, userIsExist, validateBody(userSchemas.updateAccountingAccessSchema), updateByIdCtrl);
-router.patch(Endpoints.documents, userIsExist, validateBody(userSchemas.updateDocumentsAccessSchema), updateByIdCtrl);
-router.patch(Endpoints.counters, userIsExist, validateBody(userSchemas.updateCountersAccessSchema), updateByIdCtrl);
-router.patch(Endpoints.oneOffJobs, userIsExist, validateBody(userSchemas.updateOneOffJobsAccessSchema), updateByIdCtrl);
-router.patch(Endpoints.settings, userIsExist, validateBody(userSchemas.updateSettingsAccessSchema), updateByIdCtrl);
+router.patch(Endpoints.fullAccess, userIsExist, validateBody(userSchemas.updateFullAccess), updateByIdCtrl);
+router.patch(Endpoints.houses, userIsExist, validateBody(userSchemas.updateHousesAccess), updateByIdCtrl);
+router.patch(Endpoints.subscribers, userIsExist, validateBody(userSchemas.updateSubscribersAccess), updateByIdCtrl);
+router.patch(Endpoints.accounting, userIsExist, validateBody(userSchemas.updateAccountingAccess), updateByIdCtrl);
+router.patch(Endpoints.documents, userIsExist, validateBody(userSchemas.updateDocumentsAccess), updateByIdCtrl);
+router.patch(Endpoints.counters, userIsExist, validateBody(userSchemas.updateCountersAccess), updateByIdCtrl);
+router.patch(Endpoints.oneOffJobs, userIsExist, validateBody(userSchemas.updateOneOffJobsAccess), updateByIdCtrl);
+router.patch(Endpoints.settings, userIsExist, validateBody(userSchemas.updateSettingsAccess), updateByIdCtrl);
 
 export default router;

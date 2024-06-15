@@ -33,7 +33,21 @@ model User {
 model GeneralSettings {
    id Int @id @default(autoincrement())
    currentAccount String
-   mfi String
+   mfi Int
    helpPhone String
    adsInPayments String?
+}
+
+model HouseNumber {
+  id Int @id @default(autoincrement())
+  number String @unique
+  Street Street @relation(fields: [street], references: [id])
+  street Int
+}
+
+model Street {
+  id Int @id @default(autoincrement())
+  name String @unique
+  type String
+  houseNumbers HouseNumber[]
 }

@@ -1,4 +1,5 @@
 import ProfileSettings from './profileSettings';
+import StreetTypes from './streetTypes';
 
 const enum ErrorMessages {
   //login
@@ -17,11 +18,14 @@ const enum ErrorMessages {
   incorrectCredentialsErr = 'Login or password is wrong',
   emptyStringErr = 'Value cannot be the empty string',
   duplicateLoginErr = 'Login already use',
+  duplicateStreetErr = 'Street already use',
   unexpectedProperty = 'An unexpected property was found in the object',
   currentAccountRegExpErr = 'String must start with the letters UA followed by 27 digits',
   mfiRegExpErr = 'Value must consist of numbers only and be 6 characters long',
   missingFieldsErr = 'Missing fields',
   helpPhoneSettingsRegExpErr = 'Value must consist of numbers only and may contain spaces and hyphens',
+  typeReqErr = 'Missing required type field',
+  streetTypesErr = `Value of the type field must be one of these - '${StreetTypes.ave}', '${StreetTypes.descent}', '${StreetTypes.ln}', '${StreetTypes.st}' or '${StreetTypes.stn}'`,
 }
 
 export default ErrorMessages;

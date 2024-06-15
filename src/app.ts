@@ -5,6 +5,7 @@ import 'dotenv/config';
 import { IHttpError } from './types/types.type';
 import { PrismaClient } from '@prisma/client';
 import AppRouter from './routes';
+import bcrypt from 'bcryptjs';
 
 const app: Express = express();
 const router = new AppRouter(app);
@@ -24,5 +25,7 @@ app.use((req: Request, res: Response): void => {
 app.use((err: IHttpError, req: Request, res: Response, next: NextFunction): void => {
   res.status(err.status || 500).json({ message: err.message });
 });
+
+// console.log(bcrypt.hashSync('Ca5ge8ty!', 10));
 
 export default app;

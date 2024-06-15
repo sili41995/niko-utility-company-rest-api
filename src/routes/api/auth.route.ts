@@ -9,7 +9,7 @@ const router: Router = Router();
 const loginCtrl = ctrlWrapper(authController.signIn.bind(authController));
 const currentCtrl = ctrlWrapper(authController.current.bind(authController));
 
-router.post(Endpoints.login, validateBody(userSchemas.loginSchema), loginCtrl);
+router.post(Endpoints.login, validateBody(userSchemas.login), loginCtrl);
 router.get(Endpoints.current, auth, currentCtrl);
 
 export default router;

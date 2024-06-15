@@ -23,19 +23,19 @@ const emailSettings = Joi.string().pattern(regExp.email).messages({
   'string.pattern.base': ErrorMessages.emailRegExpErr,
 });
 
-const loginSchema = Joi.object({
+const login = Joi.object({
   password: passwordSettings.required(),
   login: loginSettings.required(),
 });
 
-const addUserSchema = Joi.object({
+const addUser = Joi.object({
   password: passwordSettings.required(),
   email: emailSettings.required(),
   name: nameSettings.required(),
-  login: loginSchema.required(),
+  login: loginSettings.required(),
 });
 
-const updateFullAccessSchema = Joi.object()
+const updateFullAccess = Joi.object()
   .keys({
     fullAccess: Joi.boolean(),
   })
@@ -43,7 +43,7 @@ const updateFullAccessSchema = Joi.object()
     'object.unknown': ErrorMessages.unexpectedProperty,
   });
 
-const updateHousesAccessSchema = Joi.object()
+const updateHousesAccess = Joi.object()
   .keys({
     houses: Joi.boolean(),
   })
@@ -51,7 +51,7 @@ const updateHousesAccessSchema = Joi.object()
     'object.unknown': ErrorMessages.unexpectedProperty,
   });
 
-const updateSubscribersAccessSchema = Joi.object()
+const updateSubscribersAccess = Joi.object()
   .keys({
     subscribers: Joi.boolean(),
   })
@@ -59,7 +59,7 @@ const updateSubscribersAccessSchema = Joi.object()
     'object.unknown': ErrorMessages.unexpectedProperty,
   });
 
-const updateAccountingAccessSchema = Joi.object()
+const updateAccountingAccess = Joi.object()
   .keys({
     accounting: Joi.boolean(),
   })
@@ -67,7 +67,7 @@ const updateAccountingAccessSchema = Joi.object()
     'object.unknown': ErrorMessages.unexpectedProperty,
   });
 
-const updateDocumentsAccessSchema = Joi.object()
+const updateDocumentsAccess = Joi.object()
   .keys({
     documents: Joi.boolean(),
   })
@@ -75,7 +75,7 @@ const updateDocumentsAccessSchema = Joi.object()
     'object.unknown': ErrorMessages.unexpectedProperty,
   });
 
-const updateCountersAccessSchema = Joi.object()
+const updateCountersAccess = Joi.object()
   .keys({
     counters: Joi.boolean(),
   })
@@ -83,7 +83,7 @@ const updateCountersAccessSchema = Joi.object()
     'object.unknown': ErrorMessages.unexpectedProperty,
   });
 
-const updateOneOffJobsAccessSchema = Joi.object()
+const updateOneOffJobsAccess = Joi.object()
   .keys({
     oneOffJobs: Joi.boolean(),
   })
@@ -91,7 +91,7 @@ const updateOneOffJobsAccessSchema = Joi.object()
     'object.unknown': ErrorMessages.unexpectedProperty,
   });
 
-const updateSettingsAccessSchema = Joi.object()
+const updateSettingsAccess = Joi.object()
   .keys({
     settings: Joi.boolean(),
   })
@@ -100,16 +100,16 @@ const updateSettingsAccessSchema = Joi.object()
   });
 
 const schemas = {
-  loginSchema,
-  addUserSchema,
-  updateFullAccessSchema,
-  updateHousesAccessSchema,
-  updateSubscribersAccessSchema,
-  updateAccountingAccessSchema,
-  updateDocumentsAccessSchema,
-  updateCountersAccessSchema,
-  updateOneOffJobsAccessSchema,
-  updateSettingsAccessSchema,
+  login,
+  addUser,
+  updateFullAccess,
+  updateHousesAccess,
+  updateSubscribersAccess,
+  updateAccountingAccess,
+  updateDocumentsAccess,
+  updateCountersAccess,
+  updateOneOffJobsAccess,
+  updateSettingsAccess,
 };
 
 export default schemas;

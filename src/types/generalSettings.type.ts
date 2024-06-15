@@ -1,7 +1,7 @@
 export interface IGeneralSettings {
   id: number;
   currentAccount: string;
-  mfi: string;
+  mfi: number;
   helpPhone: string;
   adsInPayments: string | null;
 }
