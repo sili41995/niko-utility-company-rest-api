@@ -38,7 +38,7 @@ model GeneralSettings {
    adsInPayments String?
 }
 
-model HouseNumber {
+model House {
   id Int @id @default(autoincrement())
   number String @unique
   Street Street @relation(fields: [street], references: [id])
@@ -49,5 +49,5 @@ model Street {
   id Int @id @default(autoincrement())
   name String @unique
   type String
-  houseNumbers HouseNumber[]
+  houseNumbers House[]
 }

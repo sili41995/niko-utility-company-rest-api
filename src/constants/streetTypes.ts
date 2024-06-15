@@ -3,7 +3,7 @@ const enum StreetTypes {
   ln = 'пров.',
   stn = 'СТ',
   descent = 'спуск',
-  ave = 'проспект',
+  ave = 'просп.',
 }
 
 export default StreetTypes;
