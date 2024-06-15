@@ -11,7 +11,8 @@ class HouseService {
   }
 
   async add(data: NewHouse): Promise<IHouse> {
-    const house = await prisma.house.findFirst({ where: { number: data.number, street: data.street } });
+    const { number, street } = data;
+    const house = await prisma.house.findFirst({ where: { number, street } });
 
     if (house) {
       throw httpError({
