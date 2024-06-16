@@ -9,11 +9,11 @@ const router: Router = Router();
 router.use(auth);
 
 const getAllCtrl = ctrlWrapper(houseController.getAll.bind(houseController));
-const getByIdCtrl = ctrlWrapper(houseController.getById.bind(houseController));
+const getByStreetIdCtrl = ctrlWrapper(houseController.getByStreetId.bind(houseController));
 const addCtrl = ctrlWrapper(houseController.add.bind(houseController));
 
 router.get(Endpoints.root, getAllCtrl);
-router.get(`/:${Endpoints.dynamicId}`, getByIdCtrl);
+router.get(`/:${Endpoints.dynamicId}`, getByStreetIdCtrl);
 router.post(Endpoints.root, validateBody(houseSchemas.add), addCtrl);
 
 export default router;

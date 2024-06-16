@@ -18,10 +18,10 @@ export class HouseController {
     res.status(201).json(result);
   }
 
-  async getById(req: Request, res: Response): Promise<void> {
+  async getByStreetId(req: Request, res: Response): Promise<void> {
     const dynamicId = req.params[Endpoints.dynamicId];
     const id = Number(dynamicId);
-    const result = await this.houseService.getById(id);
+    const result = await this.houseService.getByStreetId(id);
 
     res.status(200).json(result);
   }
