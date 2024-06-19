@@ -43,6 +43,7 @@ model House {
   number String
   Street Street @relation(fields: [street], references: [id])
   street Int
+  subscriberAccounts SubscriberAccount[]
 }
 
 model Street {
@@ -50,4 +51,28 @@ model Street {
   name String @unique
   type String
   houseNumbers House[]
+}
+
+model SubscriberAccount{
+  id Int @id @default(autoincrement())
+  apartment Int
+  subscriberAccount String @unique
+  email String?
+  birthday String?
+  contract String @unique
+  contractDate DateTime
+  isLivingApartment Boolean
+  residents Int
+  period DateTime
+  isRemovalHouseholdWaste Boolean
+  utr String
+  passport String
+  surname String
+  name String
+  middleName String
+  phone String
+  additionalPhone String
+  accountType String
+  house Int
+  House House @relation(fields: [house], references: [id])
 }

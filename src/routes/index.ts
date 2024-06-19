@@ -4,6 +4,7 @@ import userRouter from './api/user.route';
 import generalSettingsRouter from './api/generalSettings.route';
 import streetRouter from './api/street.route';
 import housesRouter from './api/house.route';
+import subscriberAccountsRouter from './api/subscriberAccount.route';
 
 class AppRouter {
   constructor(private app: Application) {}
@@ -17,6 +18,7 @@ class AppRouter {
     this.app.use('/api/general-settings', generalSettingsRouter);
     this.app.use('/api/streets', streetRouter);
     this.app.use('/api/houses', housesRouter);
+    this.app.use('/api/subscriber-accounts', subscriberAccountsRouter);
   }
 }
 
