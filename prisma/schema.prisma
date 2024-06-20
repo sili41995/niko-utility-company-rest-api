@@ -57,13 +57,11 @@ model SubscriberAccount{
   id Int @id @default(autoincrement())
   apartment Int
   subscriberAccount String @unique
-  email String?
-  birthday String?
   contract String @unique
-  contractDate DateTime
+  contractDate DateTime @db.Date
   isLivingApartment Boolean
   residents Int
-  period DateTime
+  period DateTime @db.Date
   isRemovalHouseholdWaste Boolean
   utr String
   passport String
@@ -73,6 +71,9 @@ model SubscriberAccount{
   phone String
   additionalPhone String
   accountType String
+  comment String?
+  email String?
+  birthday String?
   house Int
   House House @relation(fields: [house], references: [id])
 }

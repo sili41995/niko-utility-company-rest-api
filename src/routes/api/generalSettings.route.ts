@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { Endpoints } from '../../constants';
-import { auth, ctrlWrapper, generalSettingsIsExist, validateBody } from '../../middlewares';
+import { auth, ctrlWrapper, generalSettingsIsExist, isValidId, validateBody } from '../../middlewares';
 import generalSettingsController from '../../controllers/generalSettings.controller';
 import { generalSettingsSchemas } from '../../schemas';
 
@@ -12,6 +12,6 @@ const getCtrl = ctrlWrapper(generalSettingsController.get.bind(generalSettingsCo
 const updateByIdCtrl = ctrlWrapper(generalSettingsController.updateById.bind(generalSettingsController));
 
 router.get(Endpoints.root, getCtrl);
-router.put(Endpoints.settings, generalSettingsIsExist, validateBody(generalSettingsSchemas.updateGeneralSettings), updateByIdCtrl);
+router.put(Endpoints.settings, isValidId, generalSettingsIsExist, validateBody(generalSettingsSchemas.updateGeneralSettings), updateByIdCtrl);
 
 export default router;

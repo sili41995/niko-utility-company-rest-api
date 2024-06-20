@@ -11,11 +11,11 @@ export class SubscriberAccountController {
     res.status(200).json(result);
   }
 
-  // async add(req: Request, res: Response): Promise<void> {
-  //   const result = await this.subscriberAccountService.add(req.body);
+  async add(req: Request, res: Response): Promise<void> {
+    const result = await this.subscriberAccountService.add(req.body);
 
-  //   res.status(201).json(result);
-  // }
+    res.status(201).json(result);
+  }
 }
 
 const subscriberAccountController = new SubscriberAccountController(new SubscriberAccountService());

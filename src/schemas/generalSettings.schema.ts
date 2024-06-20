@@ -10,8 +10,8 @@ const mfiSettings = Joi.string().pattern(regExp.mfi).messages({
   'string.pattern.base': ErrorMessages.mfiRegExpErr,
 });
 
-const helpPhoneSettings = Joi.string().pattern(regExp.helpPhone).messages({
-  'string.pattern.base': ErrorMessages.helpPhoneSettingsRegExpErr,
+const helpPhoneSettings = Joi.string().pattern(regExp.phone).messages({
+  'string.pattern.base': ErrorMessages.helpPhoneRegExpErr,
 });
 
 const updateGeneralSettings = Joi.object({

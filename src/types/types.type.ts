@@ -11,7 +11,7 @@ export interface IRegExp {
   login: RegExp;
   email: RegExp;
   notEmptyValue: RegExp;
-  helpPhone: RegExp;
+  phone: RegExp;
   currentAccount: RegExp;
   mfi: RegExp;
 }

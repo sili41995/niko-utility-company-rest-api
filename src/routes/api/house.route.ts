@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { Endpoints } from '../../constants';
-import { auth, ctrlWrapper, validateBody } from '../../middlewares';
+import { auth, ctrlWrapper, isValidId, validateBody } from '../../middlewares';
 import houseController from '../../controllers/house.controller';
 import { houseSchemas } from '../../schemas';
 
@@ -13,7 +13,7 @@ const getByStreetIdCtrl = ctrlWrapper(houseController.getByStreetId.bind(houseCo
 const addCtrl = ctrlWrapper(houseController.add.bind(houseController));
 
 router.get(Endpoints.root, getAllCtrl);
-router.get(`/:${Endpoints.dynamicId}`, getByStreetIdCtrl);
+router.get(`/:${Endpoints.dynamicId}`, isValidId, getByStreetIdCtrl);
 router.post(Endpoints.root, validateBody(houseSchemas.add), addCtrl);
 
 export default router;

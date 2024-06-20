@@ -1,32 +1,42 @@
 import { prisma } from '../app';
 import { ErrorMessages } from '../constants';
-import { IStreet, NewStreet, Streets } from '../types/street.type';
-import { SubscriberAccounts } from '../types/subscriberAccount.type';
+import { IFindAllSubscriberAccountsRes, ISubscriberAccount, NewSubscriberAccount } from '../types/subscriberAccount.type';
 import { httpError } from '../utils';
 
 class SubscriberAccountService {
-  async getAll(): Promise<SubscriberAccounts> {
+  async getAll(): Promise<IFindAllSubscriberAccountsRes> {
     const result = await prisma.subscriberAccount.findMany({ orderBy: { subscriberAccount: 'asc' } });
+    const count = await prisma.subscriberAccount.count();
+
+    return {
+      data: result,
+      count,
+    };
+  }
+
+  async add(data: NewSubscriberAccount): Promise<ISubscriberAccount> {
+    const subscriberAccount = await prisma.subscriberAccount.findFirst({ where: { OR: [{ subscriberAccount: data.subscriberAccount }, { contract: data.contract }] } });
+    const isDuplicateSubscriberAccount = subscriberAccount && subscriberAccount.subscriberAccount === data.subscriberAccount;
+    const isDuplicateContract = subscriberAccount && subscriberAccount.contract === data.contract;
+
+    if (isDuplicateSubscriberAccount) {
+      throw httpError({
+        status: 409,
+        message: ErrorMessages.duplicateSubscriberAccountErr,
+      });
+    } else if (isDuplicateContract) {
+      throw httpError({
+        status: 409,
+        message: ErrorMessages.duplicateContractErr,
+      });
+    }
+
+    const result = await prisma.subscriberAccount.create({
+      data,
+    });
 
     return result;
   }
-
-  // async add(data: NewStreet): Promise<IStreet> {
-  //   const street = await prisma.street.findUnique({ where: { name: data.name } });
-
-  //   if (street) {
-  //     throw httpError({
-  //       status: 409,
-  //       message: ErrorMessages.duplicateStreetErr,
-  //     });
-  //   }
-
-  //   const result = await prisma.street.create({
-  //     data,
-  //   });
-
-  //   return result;
-  // }
 }
 
 export default SubscriberAccountService;
