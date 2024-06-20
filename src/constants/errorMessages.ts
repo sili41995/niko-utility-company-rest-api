@@ -62,6 +62,8 @@ const enum ErrorMessages {
   houseReqErr = 'Missing required house field',
   houseNumberErr = 'House field must be a number',
   duplicateSubscriberAccountErr = 'Subscriber account already use',
+  isEligibleForBenefitReqErr = 'Missing required is eligible for benefit field',
+  isEligibleForBenefitBooleanErr = 'Is eligible for benefit field must be a boolean',
 }
 
 export default ErrorMessages;

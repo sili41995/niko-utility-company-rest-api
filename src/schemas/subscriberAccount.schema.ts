@@ -69,6 +69,11 @@ const middleNameSettings = Joi.string().messages({
   'any.required': ErrorMessages.middleNameReqErr,
 });
 
+const isEligibleForBenefitSettings = Joi.boolean().messages({
+  'any.required': ErrorMessages.isEligibleForBenefitReqErr,
+  'boolean.base': ErrorMessages.isEligibleForBenefitBooleanErr,
+});
+
 const phoneSettings = Joi.string().pattern(regExp.phone).messages({
   'any.required': ErrorMessages.phoneReqErr,
   'string.pattern.base': ErrorMessages.phoneRegExpErr,
@@ -120,6 +125,7 @@ const add = Joi.object({
   surname: surnameSettings.required(),
   name: nameSettings.required(),
   middleName: middleNameSettings.required(),
+  isEligibleForBenefit: isEligibleForBenefitSettings.required(),
   phone: phoneSettings.required(),
   additionalPhone: additionalPhoneSettings.required(),
   accountType: accountTypeSettings.required(),

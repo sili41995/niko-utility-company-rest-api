@@ -68,6 +68,7 @@ model SubscriberAccount{
   surname String
   name String
   middleName String
+  isEligibleForBenefit Boolean
   phone String
   additionalPhone String
   accountType String
