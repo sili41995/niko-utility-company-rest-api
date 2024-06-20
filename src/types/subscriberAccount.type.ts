@@ -13,6 +13,7 @@ export interface ISubscriberAccount {
   surname: string;
   name: string;
   middleName: string;
+  isEligibleForBenefit: boolean;
   phone: string;
   additionalPhone: string;
   accountType: string;
