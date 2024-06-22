@@ -1,6 +1,6 @@
 export interface ISubscriberAccount {
   id: number;
-  apartment: number;
+  apartment: string;
   subscriberAccount: string;
   contract: string;
   contractDate: Date;

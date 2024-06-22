@@ -10,9 +10,8 @@ import { AccountTypes, ErrorMessages, StreetTypes, regExp } from '../constants';
 //   'any.only': ErrorMessages.streetTypesErr,
 // });
 
-const apartmentSettings = Joi.number().messages({
+const apartmentSettings = Joi.string().messages({
   'any.required': ErrorMessages.apartmentReqErr,
-  'number.base': ErrorMessages.apartmentNumberErr,
 });
 
 const subscriberAccountSettings = Joi.number().messages({

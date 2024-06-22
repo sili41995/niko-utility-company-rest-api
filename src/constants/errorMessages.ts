@@ -37,7 +37,6 @@ const enum ErrorMessages {
   typeReqErr = 'Missing required type field',
   numberReqErr = 'Missing required number field',
   apartmentReqErr = 'Missing required apartment field',
-  apartmentNumberErr = 'Apartment field must be a number',
   subscriberAccountReqErr = 'Missing required subscriber account field',
   subscriberAccountNumberErr = 'Subscriber account field must be a number',
   contractReqErr = 'Missing required contract field',

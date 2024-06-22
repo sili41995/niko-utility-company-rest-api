@@ -56,7 +56,7 @@ model Street {
 
 model SubscriberAccount{
   id Int @id @default(autoincrement())
-  apartment Int
+  apartment String
   subscriberAccount String @unique
   contract String @unique
   contractDate DateTime @db.Date
