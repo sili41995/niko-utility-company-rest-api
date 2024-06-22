@@ -33,6 +33,7 @@ class SubscriberAccountService {
 
     const result = await prisma.subscriberAccount.create({
       data,
+      include: { house: true, street: true },
     });
 
     return result;
