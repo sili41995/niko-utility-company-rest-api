@@ -5,7 +5,7 @@ import { httpError } from '../utils';
 
 class SubscriberAccountService {
   async getAll(): Promise<IFindAllSubscriberAccountsRes> {
-    const result = await prisma.subscriberAccount.findMany({ orderBy: { subscriberAccount: 'asc' } });
+    const result = await prisma.subscriberAccount.findMany({ orderBy: { subscriberAccount: 'asc' }, include: { house: true, street: true } });
     const count = await prisma.subscriberAccount.count();
 
     return {

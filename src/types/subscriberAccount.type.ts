@@ -17,7 +17,8 @@ export interface ISubscriberAccount {
   phone: string;
   additionalPhone: string;
   accountType: string;
-  house: number;
+  houseId: number;
+  streetId: number;
   email: string | null;
   birthday: string | null;
   comment: string | null;

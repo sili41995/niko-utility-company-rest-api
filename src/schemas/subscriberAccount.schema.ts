@@ -98,9 +98,14 @@ const accountTypeSettings = Joi.string()
     'any.only': ErrorMessages.accountTypesErr,
   });
 
-const houseSettings = Joi.number().messages({
-  'any.required': ErrorMessages.houseReqErr,
-  'number.base': ErrorMessages.houseNumberErr,
+const houseIdSettings = Joi.number().messages({
+  'any.required': ErrorMessages.houseIdReqErr,
+  'number.base': ErrorMessages.houseIdNumberErr,
+});
+
+const streetIdSettings = Joi.number().messages({
+  'any.required': ErrorMessages.streetIdReqErr,
+  'number.base': ErrorMessages.streetIdNumberErr,
 });
 
 const emailSettings = Joi.string().pattern(regExp.email).messages({
@@ -129,7 +134,8 @@ const add = Joi.object({
   phone: phoneSettings.required(),
   additionalPhone: additionalPhoneSettings.required(),
   accountType: accountTypeSettings.required(),
-  house: houseSettings.required(),
+  houseId: houseIdSettings.required(),
+  streetId: streetIdSettings.required(),
   email: emailSettings,
   birthday: birthdaySettings,
   comment: commentSettings,

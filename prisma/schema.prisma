@@ -51,6 +51,7 @@ model Street {
   name String @unique
   type String
   houseNumbers House[]
+  subscriberAccounts SubscriberAccount[]
 }
 
 model SubscriberAccount{
@@ -75,6 +76,8 @@ model SubscriberAccount{
   comment String?
   email String?
   birthday String?
-  house Int
-  House House @relation(fields: [house], references: [id])
+  houseId Int
+  house House @relation(fields: [houseId], references: [id])
+  streetId Int
+  street Street @relation(fields: [streetId], references: [id])
 }
