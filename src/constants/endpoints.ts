@@ -14,9 +14,8 @@ const enum Endpoints {
   counters = `/:${dynamicId}/counters`,
   oneOffJobs = `/:${dynamicId}/oneOffJobs`,
   settings = `/:${dynamicId}`,
-  //   dynamicToken = 'token',
-  //   dynamicPage = 'page',
-  //   dynamicLimit = 'limit',
+  dynamicPage = 'page',
+  dynamicLimit = 'limit',
 }
 
 export default Endpoints;

@@ -16,4 +16,7 @@ export interface IRegExp {
   mfi: RegExp;
 }
 
-export type ModelName = 'user';
+export interface IFindFilters {
+  skip: number;
+  take: number;
+}

@@ -1,5 +1,6 @@
 import { Response, Request } from 'express';
 import SubscriberAccountService from '../services/subscriberAccount.service';
+import { getFindFilters } from '../utils';
 
 export class SubscriberAccountController {
   constructor(private subscriberAccountService: SubscriberAccountService) {
@@ -7,7 +8,8 @@ export class SubscriberAccountController {
   }
 
   async getAll(req: Request, res: Response): Promise<void> {
-    const result = await this.subscriberAccountService.getAll();
+    const findFilters = getFindFilters(req.query);
+    const result = await this.subscriberAccountService.getAll(findFilters);
     res.status(200).json(result);
   }
 

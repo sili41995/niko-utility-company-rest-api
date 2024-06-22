@@ -1,11 +1,12 @@
 import { prisma } from '../app';
 import { ErrorMessages } from '../constants';
 import { IFindAllSubscriberAccountsRes, ISubscriberAccount, NewSubscriberAccount } from '../types/subscriberAccount.type';
+import { IFindFilters } from '../types/types.type';
 import { httpError } from '../utils';
 
 class SubscriberAccountService {
-  async getAll(): Promise<IFindAllSubscriberAccountsRes> {
-    const result = await prisma.subscriberAccount.findMany({ orderBy: { subscriberAccount: 'asc' }, include: { house: true, street: true } });
+  async getAll({ skip, take }: IFindFilters): Promise<IFindAllSubscriberAccountsRes> {
+    const result = await prisma.subscriberAccount.findMany({ orderBy: { subscriberAccount: 'asc' }, include: { house: true, street: true }, skip, take });
     const count = await prisma.subscriberAccount.count();
 
     return {
