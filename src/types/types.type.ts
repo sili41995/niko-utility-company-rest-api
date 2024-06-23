@@ -19,4 +19,11 @@ export interface IRegExp {
 export interface IFindFilters {
   skip: number;
   take: number;
+  surname: string | undefined;
+  name: string | undefined;
+  account: string | undefined;
+  type: string | undefined;
+  street: string | undefined;
+  house: string | undefined;
+  apartment: string | undefined;
 }

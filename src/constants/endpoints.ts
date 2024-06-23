@@ -1,8 +1,6 @@
 const enum Endpoints {
   root = '/',
-  //   register = '/register',
   login = '/signin',
-  //   logout = '/logout',
   current = '/current',
   user = '/user',
   dynamicId = 'id',
@@ -16,6 +14,13 @@ const enum Endpoints {
   settings = `/:${dynamicId}`,
   dynamicPage = 'page',
   dynamicLimit = 'limit',
+  dynamicAccount = 'account',
+  dynamicApartment = 'apartment',
+  dynamicHouse = 'house',
+  dynamicName = 'name',
+  dynamicStreet = 'street',
+  dynamicSurname = 'surname',
+  dynamicType = 'type',
 }
 
 export default Endpoints;

@@ -31,4 +31,5 @@ export type NewSubscriberAccount = Omit<ISubscriberAccount, 'id'>;
 export interface IFindAllSubscriberAccountsRes {
   data: SubscriberAccounts;
   count: number;
+  filteredCount: number;
 }
