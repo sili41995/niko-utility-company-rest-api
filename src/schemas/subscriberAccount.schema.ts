@@ -148,6 +148,9 @@ const updateById = Joi.object({
   period: periodSettings,
   phone: phoneSettings,
   residents: residentsSettings,
+  email: emailSettings,
+  birthday: birthdaySettings,
+  comment: commentSettings,
 })
   .min(1)
   .messages({
