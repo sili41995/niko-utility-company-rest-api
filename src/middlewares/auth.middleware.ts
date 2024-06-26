@@ -17,7 +17,7 @@ const auth = async (req: IAuthRequest, res: Response, next: NextFunction): Promi
 
   try {
     const { id } = jwt.verify(token, SECRET_KEY as Secret) as IDecodedToken;
-    const user = await prisma.user.findFirst({
+    const user = await prisma.user.findUnique({
       where: { id },
       select: {
         id: true,

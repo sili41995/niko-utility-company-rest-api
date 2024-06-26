@@ -75,7 +75,7 @@ model SubscriberAccount{
   accountType String
   comment String?
   email String?
-  birthday String?
+  birthday DateTime? @db.Date
   houseId Int
   house House @relation(fields: [houseId], references: [id])
   streetId Int

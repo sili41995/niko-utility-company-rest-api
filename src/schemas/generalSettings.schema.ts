@@ -14,7 +14,7 @@ const helpPhoneSettings = Joi.string().pattern(regExp.phone).messages({
   'string.pattern.base': ErrorMessages.helpPhoneRegExpErr,
 });
 
-const updateGeneralSettings = Joi.object({
+const updateById = Joi.object({
   currentAccount: currentAccountSettings,
   mfi: mfiSettings,
   helpPhone: helpPhoneSettings,
@@ -26,7 +26,7 @@ const updateGeneralSettings = Joi.object({
   });
 
 const schemas = {
-  updateGeneralSettings,
+  updateById,
 };
 
 export default schemas;

@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
 import { prisma } from '../app';
 import { ErrorMessages } from '../constants';
-import { IFindAllSubscriberAccountsRes, ISubscriberAccount, NewSubscriberAccount } from '../types/subscriberAccount.type';
+import { IFindAllSubscriberAccountsRes, ISubscriberAccount, IUpdateSubscriberAccountByIdProps, NewSubscriberAccount } from '../types/subscriberAccount.type';
 import { IFindFilters } from '../types/types.type';
 import { httpError } from '../utils';
 
@@ -48,6 +48,12 @@ class SubscriberAccountService {
       data,
       include: { house: true, street: true },
     });
+
+    return result;
+  }
+
+  async updateById({ id, data }: IUpdateSubscriberAccountByIdProps): Promise<ISubscriberAccount> {
+    const result = await prisma.subscriberAccount.update({ where: { id }, data });
 
     return result;
   }

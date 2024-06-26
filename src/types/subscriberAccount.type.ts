@@ -20,7 +20,7 @@ export interface ISubscriberAccount {
   houseId: number;
   streetId: number;
   email: string | null;
-  birthday: string | null;
+  birthday: Date | null;
   comment: string | null;
 }
 
@@ -28,8 +28,20 @@ export type SubscriberAccounts = ISubscriberAccount[];
 
 export type NewSubscriberAccount = Omit<ISubscriberAccount, 'id'>;
 
+export interface IEditSubscriberAccountData
+  extends Pick<ISubscriberAccount, 'additionalPhone' | 'isEligibleForBenefit' | 'isLivingApartment' | 'isRemovalHouseholdWaste' | 'period' | 'phone' | 'residents'> {
+  comment?: string;
+  birthday?: Date;
+  email?: string;
+}
+
 export interface IFindAllSubscriberAccountsRes {
   data: SubscriberAccounts;
   count: number;
   filteredCount: number;
+}
+
+export interface IUpdateSubscriberAccountByIdProps {
+  id: number;
+  data: IEditSubscriberAccountData;
 }

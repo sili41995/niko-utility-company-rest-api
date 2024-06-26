@@ -140,8 +140,23 @@ const add = Joi.object({
   comment: commentSettings,
 });
 
+const updateById = Joi.object({
+  additionalPhone: additionalPhoneSettings,
+  isEligibleForBenefit: isEligibleForBenefitSettings,
+  isLivingApartment: isLivingApartmentSettings,
+  isRemovalHouseholdWaste: isRemovalHouseholdWasteSettings,
+  period: periodSettings,
+  phone: phoneSettings,
+  residents: residentsSettings,
+})
+  .min(1)
+  .messages({
+    'object.min': ErrorMessages.missingFieldsErr,
+  });
+
 const schemas = {
   add,
+  updateById,
 };
 
 export default schemas;
