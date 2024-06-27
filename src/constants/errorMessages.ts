@@ -1,5 +1,6 @@
 import AccountTypes from './accountTypes';
 import ProfileSettings from './profileSettings';
+import SectorTypes from './sectorTypes';
 import StreetTypes from './streetTypes';
 
 const enum ErrorMessages {
@@ -31,6 +32,13 @@ const enum ErrorMessages {
   phoneRegExpErr = 'Phone number must consist of numbers only and may contain +, - and spaces.',
   additionalPhoneRegExpErr = 'Additional phone number must consist of numbers only and may contain +, - and spaces.',
   additionalPhoneReqErr = 'Missing required additional phone field',
+  //tariff
+  tariffReqErr = 'Missing required tariff field',
+  tariffNumberErr = 'Tariff field must be a number',
+  sectorReqErr = 'Missing required sector field',
+  sectorTypesErr = `Value of the sector field must be one of these - '${SectorTypes.multiFamily}', '${SectorTypes.private}' or '${SectorTypes.other}'`,
+  startReqErr = 'Missing required start field',
+  startDateErr = 'Start field must be a date',
   //other
   incorrectCredentialsErr = 'Login or password is wrong',
   emptyStringErr = 'Value cannot be the empty string',

@@ -1,0 +1,18 @@
+import { prisma } from '../app';
+import { ITariff, NewTariff, Tariffs } from '../types/tariff.type';
+
+class TariffService {
+  async getAll(): Promise<Tariffs> {
+    const result = await prisma.tariff.findMany();
+
+    return result;
+  }
+
+  async add(data: NewTariff): Promise<ITariff> {
+    const result = await prisma.tariff.create({ data });
+
+    return result;
+  }
+}
+
+export default TariffService;

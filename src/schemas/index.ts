@@ -3,3 +3,4 @@ export { default as generalSettingsSchemas } from './generalSettings.schema';
 export { default as streetSchemas } from './street.schema';
 export { default as houseSchemas } from './house.schema';
 export { default as subscriberAccountSchemas } from './subscriberAccount.schema';
+export { default as tariffSchemas } from './tariff.schemas';

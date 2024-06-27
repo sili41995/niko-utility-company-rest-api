@@ -81,3 +81,16 @@ model SubscriberAccount{
   streetId Int
   street Street @relation(fields: [streetId], references: [id])
 }
+
+enum SectorType {
+  multiFamily
+  private
+  other
+}
+
+model Tariff{
+    id Int @id @default(autoincrement())
+    tariff Float
+    sector SectorType
+    start DateTime @db.Date
+}
