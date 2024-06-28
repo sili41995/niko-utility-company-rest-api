@@ -14,6 +14,6 @@ const updateByIdCtrl = ctrlWrapper(subscriberAccountController.updateById.bind(s
 
 router.get(Endpoints.root, getAllCtrl);
 router.post(Endpoints.root, validateBody(subscriberAccountSchemas.add), addCtrl);
-router.put(Endpoints.settings, isValidId, subscriberAccountIsExist, validateBody(subscriberAccountSchemas.updateById), updateByIdCtrl);
+router.put(Endpoints.updateById, isValidId, subscriberAccountIsExist, validateBody(subscriberAccountSchemas.updateById), updateByIdCtrl);
 
 export default router;

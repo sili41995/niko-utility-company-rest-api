@@ -21,6 +21,6 @@ router.patch(Endpoints.accounting, isValidId, userIsExist, validateBody(userSche
 router.patch(Endpoints.documents, isValidId, userIsExist, validateBody(userSchemas.updateDocumentsAccess), updateByIdCtrl);
 router.patch(Endpoints.counters, isValidId, userIsExist, validateBody(userSchemas.updateCountersAccess), updateByIdCtrl);
 router.patch(Endpoints.oneOffJobs, isValidId, userIsExist, validateBody(userSchemas.updateOneOffJobsAccess), updateByIdCtrl);
-router.patch(Endpoints.settings, isValidId, userIsExist, validateBody(userSchemas.updateSettingsAccess), updateByIdCtrl);
+router.patch(Endpoints.updateById, isValidId, userIsExist, validateBody(userSchemas.updateSettingsAccess), updateByIdCtrl);
 
 export default router;

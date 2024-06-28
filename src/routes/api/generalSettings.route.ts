@@ -12,6 +12,6 @@ const getCtrl = ctrlWrapper(generalSettingsController.get.bind(generalSettingsCo
 const updateByIdCtrl = ctrlWrapper(generalSettingsController.updateById.bind(generalSettingsController));
 
 router.get(Endpoints.root, getCtrl);
-router.put(Endpoints.settings, isValidId, generalSettingsIsExist, validateBody(generalSettingsSchemas.updateById), updateByIdCtrl);
+router.put(Endpoints.updateById, isValidId, generalSettingsIsExist, validateBody(generalSettingsSchemas.updateById), updateByIdCtrl);
 
 export default router;

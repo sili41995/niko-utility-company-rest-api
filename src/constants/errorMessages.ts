@@ -36,9 +36,12 @@ const enum ErrorMessages {
   tariffReqErr = 'Missing required tariff field',
   tariffNumberErr = 'Tariff field must be a number',
   sectorReqErr = 'Missing required sector field',
-  sectorTypesErr = `Value of the sector field must be one of these - '${SectorTypes.multiFamily}', '${SectorTypes.private}' or '${SectorTypes.other}'`,
+  sectorTypesErr = `Value of the sector field must be one of these - '${SectorTypes.multiApartment}', '${SectorTypes.private}' or '${SectorTypes.other}'`,
   startReqErr = 'Missing required start field',
   startDateErr = 'Start field must be a date',
+  privateTariffNotFound = 'Tariff for the private sector was not found',
+  multiApartmentTariffNotFound = 'Tariff for the multi-apartment sector was not found',
+  otherTariffNotFound = 'Tariff for the other sector was not found',
   //other
   incorrectCredentialsErr = 'Login or password is wrong',
   emptyStringErr = 'Value cannot be the empty string',

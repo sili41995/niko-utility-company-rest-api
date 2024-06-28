@@ -93,7 +93,7 @@ const emailSettings = Joi.string().pattern(regExp.email).messages({
   'string.pattern.base': ErrorMessages.emailRegExpErr,
 });
 
-const sectorSettings = Joi.string().valid(SectorTypes.multiFamily, SectorTypes.private, SectorTypes.other).messages({
+const sectorSettings = Joi.string().valid(SectorTypes.multiApartment, SectorTypes.private, SectorTypes.other).messages({
   'any.required': ErrorMessages.sectorReqErr,
   'any.only': ErrorMessages.sectorTypesErr,
 });

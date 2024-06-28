@@ -11,7 +11,7 @@ const enum Endpoints {
   documents = `/:${dynamicId}/documents`,
   counters = `/:${dynamicId}/counters`,
   oneOffJobs = `/:${dynamicId}/oneOffJobs`,
-  settings = `/:${dynamicId}`,
+  updateById = `/:${dynamicId}`,
   dynamicPage = 'page',
   dynamicLimit = 'limit',
   dynamicAccount = 'account',

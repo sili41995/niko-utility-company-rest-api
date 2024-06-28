@@ -20,7 +20,7 @@ export interface ISubscriberAccount {
   accountType: string;
   houseId: number;
   streetId: number;
-  sector: `${SectorTypes.multiFamily}` | `${SectorTypes.private}` | `${SectorTypes.other}`;
+  sector: `${SectorTypes.multiApartment}` | `${SectorTypes.private}` | `${SectorTypes.other}`;
   apartment: string | null;
   email: string | null;
   birthday: Date | null;

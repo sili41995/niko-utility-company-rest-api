@@ -6,7 +6,7 @@ const tariffSettings = Joi.number().messages({
   'number.base': ErrorMessages.tariffNumberErr,
 });
 
-const sectorSettings = Joi.string().valid(SectorTypes.multiFamily, SectorTypes.private, SectorTypes.other).messages({
+const sectorSettings = Joi.string().valid(SectorTypes.multiApartment, SectorTypes.private, SectorTypes.other).messages({
   'any.required': ErrorMessages.sectorReqErr,
   'any.only': ErrorMessages.sectorTypesErr,
 });
