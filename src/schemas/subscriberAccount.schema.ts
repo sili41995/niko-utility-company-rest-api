@@ -1,14 +1,5 @@
 import Joi from 'joi';
-import { AccountTypes, ErrorMessages, StreetTypes, regExp } from '../constants';
-
-// const nameSettings = Joi.string().messages({
-//   'any.required': ErrorMessages.nameReqErr,
-// });
-
-// const typeSettings = Joi.string().valid(StreetTypes.ave, StreetTypes.descent, StreetTypes.ln, StreetTypes.st, StreetTypes.stn).messages({
-//   'any.required': ErrorMessages.typeReqErr,
-//   'any.only': ErrorMessages.streetTypesErr,
-// });
+import { AccountTypes, ErrorMessages, SectorTypes, StreetTypes, regExp } from '../constants';
 
 const apartmentSettings = Joi.string().messages({
   'any.required': ErrorMessages.apartmentReqErr,
@@ -83,19 +74,10 @@ const additionalPhoneSettings = Joi.string().pattern(regExp.phone).messages({
   'string.pattern .base': ErrorMessages.additionalPhoneRegExpErr,
 });
 
-const accountTypeSettings = Joi.string()
-  .valid(
-    AccountTypes.budgetaryInstitution,
-    AccountTypes.condominiumAssociation,
-    AccountTypes.housingCooperative,
-    AccountTypes.individual,
-    AccountTypes.legalEntity,
-    AccountTypes.residentialBuildingCooperative
-  )
-  .messages({
-    'any.required': ErrorMessages.accountTypeReqErr,
-    'any.only': ErrorMessages.accountTypesErr,
-  });
+const accountTypeSettings = Joi.string().valid(AccountTypes.individual, AccountTypes.legalEntity).messages({
+  'any.required': ErrorMessages.accountTypeReqErr,
+  'any.only': ErrorMessages.accountTypesErr,
+});
 
 const houseIdSettings = Joi.number().messages({
   'any.required': ErrorMessages.houseIdReqErr,
@@ -111,12 +93,17 @@ const emailSettings = Joi.string().pattern(regExp.email).messages({
   'string.pattern.base': ErrorMessages.emailRegExpErr,
 });
 
+const sectorSettings = Joi.string().valid(SectorTypes.multiFamily, SectorTypes.private, SectorTypes.other).messages({
+  'any.required': ErrorMessages.sectorReqErr,
+  'any.only': ErrorMessages.sectorTypesErr,
+});
+
 const commentSettings = Joi.string();
 
 const birthdaySettings = Joi.string();
 
 const add = Joi.object({
-  apartment: apartmentSettings.required(),
+  apartment: apartmentSettings,
   subscriberAccount: subscriberAccountSettings.required(),
   contract: contractSettings.required(),
   contractDate: contractDateSettings.required(),
@@ -135,6 +122,7 @@ const add = Joi.object({
   accountType: accountTypeSettings.required(),
   houseId: houseIdSettings.required(),
   streetId: streetIdSettings.required(),
+  sector: sectorSettings.required(),
   email: emailSettings,
   birthday: birthdaySettings,
   comment: commentSettings,

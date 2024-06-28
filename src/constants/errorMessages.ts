@@ -67,7 +67,7 @@ const enum ErrorMessages {
   surnameReqErr = 'Missing required surname field',
   middleNameReqErr = 'Missing required middle name field',
   accountTypeReqErr = 'Missing required account type field',
-  accountTypesErr = `Value of the account type field must be one of these - '${AccountTypes.budgetaryInstitution}', '${AccountTypes.condominiumAssociation}', '${AccountTypes.housingCooperative}', '${AccountTypes.individual}', '${AccountTypes.legalEntity}' or '${AccountTypes.residentialBuildingCooperative}'`,
+  accountTypesErr = `Value of the account type field must be one of these - '${AccountTypes.individual}' or '${AccountTypes.legalEntity}'`,
   houseIdReqErr = 'Missing required house id field',
   houseIdNumberErr = 'House id field must be a number',
   streetIdReqErr = 'Missing required street id field',
@@ -77,5 +77,3 @@ const enum ErrorMessages {
 }
 
 export default ErrorMessages;
-// 'Missing required _____ field';
-// '_____ field must be a _____',

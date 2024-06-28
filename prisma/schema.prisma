@@ -13,6 +13,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum SectorType {
+  multiFamily
+  private
+  other
+}
+
 model User {
   id Int @id @default(autoincrement())
   name String
@@ -56,7 +62,7 @@ model Street {
 
 model SubscriberAccount{
   id Int @id @default(autoincrement())
-  apartment String
+  apartment String?
   subscriberAccount String @unique
   contract String @unique
   contractDate DateTime @db.Date
@@ -76,16 +82,11 @@ model SubscriberAccount{
   comment String?
   email String?
   birthday DateTime? @db.Date
+  sector SectorType
   houseId Int
   house House @relation(fields: [houseId], references: [id])
   streetId Int
   street Street @relation(fields: [streetId], references: [id])
-}
-
-enum SectorType {
-  multiFamily
-  private
-  other
 }
 
 model Tariff{
