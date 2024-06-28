@@ -1,6 +1,7 @@
+import { SectorTypes } from '../constants';
+
 export interface ISubscriberAccount {
   id: number;
-  apartment: string;
   subscriberAccount: string;
   contract: string;
   contractDate: Date;
@@ -19,6 +20,8 @@ export interface ISubscriberAccount {
   accountType: string;
   houseId: number;
   streetId: number;
+  sector: `${SectorTypes.multiFamily}` | `${SectorTypes.private}` | `${SectorTypes.other}`;
+  apartment: string | null;
   email: string | null;
   birthday: Date | null;
   comment: string | null;
