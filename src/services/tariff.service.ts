@@ -5,7 +5,7 @@ import { httpError } from '../utils';
 
 class TariffService {
   async getAll(): Promise<Tariffs> {
-    const result = await prisma.tariff.findMany();
+    const result = await prisma.tariff.findMany({ orderBy: { start: 'desc' } });
 
     return result;
   }
