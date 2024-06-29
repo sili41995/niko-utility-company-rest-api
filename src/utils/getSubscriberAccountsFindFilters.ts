@@ -1,8 +1,8 @@
 import QueryString from 'qs';
 import { Endpoints, GeneralParams } from '../constants';
-import { IFindFilters } from '../types/types.type';
+import { ISubscriberAccountsFindFilters } from '../types/subscriberAccount.type';
 
-const getFindFilters = (query: QueryString.ParsedQs): IFindFilters => {
+const getSubscriberAccountsFindFilters = (query: QueryString.ParsedQs): ISubscriberAccountsFindFilters => {
   const pageQuery = query[Endpoints.dynamicPage];
   const limitQuery = query[Endpoints.dynamicLimit];
   const take = limitQuery ? Number(limitQuery) : GeneralParams.recordLimit;
@@ -35,4 +35,4 @@ const getFindFilters = (query: QueryString.ParsedQs): IFindFilters => {
   };
 };
 
-export default getFindFilters;
+export default getSubscriberAccountsFindFilters;

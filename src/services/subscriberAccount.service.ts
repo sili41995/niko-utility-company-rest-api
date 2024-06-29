@@ -1,12 +1,11 @@
 import { Prisma } from '@prisma/client';
 import { prisma } from '../app';
 import { ErrorMessages } from '../constants';
-import { IFindAllSubscriberAccountsRes, ISubscriberAccount, IUpdateSubscriberAccountByIdProps, NewSubscriberAccount } from '../types/subscriberAccount.type';
-import { IFindFilters } from '../types/types.type';
+import { IFindAllSubscriberAccountsRes, ISubscriberAccount, ISubscriberAccountsFindFilters, IUpdateSubscriberAccountByIdProps, NewSubscriberAccount } from '../types/subscriberAccount.type';
 import { httpError } from '../utils';
 
 class SubscriberAccountService {
-  async getAll({ skip, take, surname, name, account, type, street, house, apartment }: IFindFilters): Promise<IFindAllSubscriberAccountsRes> {
+  async getAll({ skip, take, surname, name, account, type, street, house, apartment }: ISubscriberAccountsFindFilters): Promise<IFindAllSubscriberAccountsRes> {
     const where: Prisma.SubscriberAccountWhereInput = {
       surname: { startsWith: surname, mode: 'insensitive' },
       name: { startsWith: name, mode: 'insensitive' },
@@ -53,6 +52,7 @@ class SubscriberAccountService {
   }
 
   async updateById({ id, data }: IUpdateSubscriberAccountByIdProps): Promise<ISubscriberAccount> {
+    const { id: documentId } = await prisma.document.create({ data: { document: data.document, comment: data.comment, subscriberAccountId: id } });
     const result = await prisma.subscriberAccount.update({ where: { id }, data });
 
     return result;

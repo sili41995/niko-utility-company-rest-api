@@ -21,6 +21,8 @@ const enum Endpoints {
   dynamicStreet = 'street',
   dynamicSurname = 'surname',
   dynamicType = 'type',
+  dynamicComment = 'comment',
+  dynamicDocument = 'document',
 }
 
 export default Endpoints;

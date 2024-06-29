@@ -1,4 +1,5 @@
 import { SectorTypes } from '../constants';
+import { IFindFilters } from './types.type';
 
 export interface ISubscriberAccount {
   id: number;
@@ -24,7 +25,6 @@ export interface ISubscriberAccount {
   apartment: string | null;
   email: string | null;
   birthday: Date | null;
-  comment: string | null;
 }
 
 export type SubscriberAccounts = ISubscriberAccount[];
@@ -33,7 +33,8 @@ export type NewSubscriberAccount = Omit<ISubscriberAccount, 'id'>;
 
 export interface IEditSubscriberAccountData
   extends Pick<ISubscriberAccount, 'additionalPhone' | 'isEligibleForBenefit' | 'isLivingApartment' | 'isRemovalHouseholdWaste' | 'period' | 'phone' | 'residents'> {
-  comment?: string;
+  comment: string;
+  document: string;
   birthday?: Date;
   email?: string;
 }
@@ -47,4 +48,14 @@ export interface IFindAllSubscriberAccountsRes {
 export interface IUpdateSubscriberAccountByIdProps {
   id: number;
   data: IEditSubscriberAccountData;
+}
+
+export interface ISubscriberAccountsFindFilters extends IFindFilters {
+  surname: string | undefined;
+  name: string | undefined;
+  account: string | undefined;
+  type: string | undefined;
+  street: string | undefined;
+  house: string | undefined;
+  apartment: string | undefined;
 }

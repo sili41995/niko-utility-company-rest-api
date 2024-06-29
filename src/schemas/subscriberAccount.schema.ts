@@ -100,6 +100,8 @@ const sectorSettings = Joi.string().valid(SectorTypes.multiApartment, SectorType
 
 const commentSettings = Joi.string();
 
+const documentSettings = Joi.string();
+
 const birthdaySettings = Joi.string();
 
 const add = Joi.object({
@@ -125,10 +127,11 @@ const add = Joi.object({
   sector: sectorSettings.required(),
   email: emailSettings,
   birthday: birthdaySettings,
-  comment: commentSettings,
 });
 
 const updateById = Joi.object({
+  comment: commentSettings.required(),
+  document: documentSettings.required(),
   additionalPhone: additionalPhoneSettings,
   isEligibleForBenefit: isEligibleForBenefitSettings,
   isLivingApartment: isLivingApartmentSettings,
@@ -138,7 +141,6 @@ const updateById = Joi.object({
   residents: residentsSettings,
   email: emailSettings,
   birthday: birthdaySettings,
-  comment: commentSettings,
 })
   .min(1)
   .messages({

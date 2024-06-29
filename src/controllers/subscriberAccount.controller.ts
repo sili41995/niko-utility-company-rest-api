@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 import SubscriberAccountService from '../services/subscriberAccount.service';
-import { getFindFilters } from '../utils';
+import { getSubscriberAccountsFindFilters } from '../utils';
 import { Endpoints } from '../constants';
 
 export class SubscriberAccountController {
@@ -9,7 +9,7 @@ export class SubscriberAccountController {
   }
 
   async getAll(req: Request, res: Response): Promise<void> {
-    const findFilters = getFindFilters(req.query);
+    const findFilters = getSubscriberAccountsFindFilters(req.query);
     const result = await this.subscriberAccountService.getAll(findFilters);
     res.status(200).json(result);
   }

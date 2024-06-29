@@ -79,7 +79,6 @@ model SubscriberAccount{
   phone String
   additionalPhone String
   accountType String
-  comment String?
   email String?
   birthday DateTime? @db.Date
   sector SectorType
@@ -87,11 +86,21 @@ model SubscriberAccount{
   house House @relation(fields: [houseId], references: [id])
   streetId Int
   street Street @relation(fields: [streetId], references: [id])
+  documents Document[]
 }
 
 model Tariff{
-    id Int @id @default(autoincrement())
-    tariff Float
-    sector SectorType
-    start DateTime @db.Date
+  id Int @id @default(autoincrement())
+  tariff Float
+  sector SectorType
+  start DateTime @db.Date
+}
+
+model Document{
+  id Int @id @default(autoincrement())
+  document String
+  comment String
+  subscriberAccountId Int
+  subscriberAccount SubscriberAccount @relation(fields: [subscriberAccountId], references: [id])
+  createdAt DateTime @default(now())
 }
