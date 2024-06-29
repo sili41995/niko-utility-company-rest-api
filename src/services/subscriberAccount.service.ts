@@ -15,7 +15,13 @@ class SubscriberAccountService {
       house: { number: { startsWith: house } },
       apartment: { startsWith: apartment },
     };
-    const result = await prisma.subscriberAccount.findMany({ where, orderBy: { subscriberAccount: 'asc' }, include: { house: true, street: true, documents: true }, skip, take });
+    const result = await prisma.subscriberAccount.findMany({
+      where,
+      orderBy: { subscriberAccount: 'asc' },
+      include: { house: true, street: true, documents: { orderBy: { createdAt: 'desc' } } },
+      skip,
+      take,
+    });
     const count = await prisma.subscriberAccount.count();
     const filteredCount = await prisma.subscriberAccount.count({ where });
 
@@ -45,7 +51,7 @@ class SubscriberAccountService {
 
     const result = await prisma.subscriberAccount.create({
       data,
-      include: { house: true, street: true, documents: true },
+      include: { house: true, street: true, documents: { orderBy: { createdAt: 'desc' } } },
     });
 
     return result;
@@ -53,7 +59,7 @@ class SubscriberAccountService {
 
   async updateById({ id, data }: IUpdateSubscriberAccountByIdProps): Promise<ISubscriberAccount> {
     await prisma.document.create({ data: { document: data.document, comment: data.comment, subscriberAccountId: id } });
-    const result = await prisma.subscriberAccount.update({ where: { id }, data, include: { house: true, street: true, documents: true } });
+    const result = await prisma.subscriberAccount.update({ where: { id }, data, include: { house: true, street: true, documents: { orderBy: { createdAt: 'desc' } } } });
 
     return result;
   }
