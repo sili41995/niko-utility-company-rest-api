@@ -7,6 +7,7 @@ import housesRouter from './api/house.route';
 import subscriberAccountsRouter from './api/subscriberAccount.route';
 import tariffsRouter from './api/tariff.route';
 import documentsRouter from './api/document.route';
+import pricesRouter from './api/price.route';
 
 class AppRouter {
   constructor(private app: Application) {}
@@ -23,6 +24,7 @@ class AppRouter {
     this.app.use('/api/subscriber-accounts', subscriberAccountsRouter);
     this.app.use('/api/tariffs', tariffsRouter);
     this.app.use('/api/documents', documentsRouter);
+    this.app.use('/api/prices', pricesRouter);
   }
 }
 

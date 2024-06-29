@@ -11,11 +11,6 @@ export class TariffController {
     res.status(200).json(result);
   }
 
-  async getCurrent(req: Request, res: Response): Promise<void> {
-    const result = await this.tariffService.getCurrent();
-    res.status(200).json(result);
-  }
-
   async add(req: Request, res: Response): Promise<void> {
     const result = await this.tariffService.add(req.body);
 
