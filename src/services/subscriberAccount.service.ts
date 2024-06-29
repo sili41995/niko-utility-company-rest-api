@@ -58,8 +58,9 @@ class SubscriberAccountService {
   }
 
   async updateById({ id, data }: IUpdateSubscriberAccountByIdProps): Promise<ISubscriberAccount> {
+    const { comment, document, ...subscriberAccountData } = data;
     await prisma.document.create({ data: { document: data.document, comment: data.comment, subscriberAccountId: id } });
-    const result = await prisma.subscriberAccount.update({ where: { id }, data, include: { house: true, street: true, documents: { orderBy: { createdAt: 'desc' } } } });
+    const result = await prisma.subscriberAccount.update({ where: { id }, data: subscriberAccountData, include: { house: true, street: true, documents: { orderBy: { createdAt: 'desc' } } } });
 
     return result;
   }
