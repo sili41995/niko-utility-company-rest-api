@@ -1,4 +1,4 @@
-export interface ICalculatePrices {
+export interface IPricesInfo {
   count: number;
   updatedAt: Date;
 }

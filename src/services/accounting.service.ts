@@ -1,11 +1,28 @@
 import { Prisma } from '@prisma/client';
 import { prisma } from '../app';
 import { ErrorMessages, SectorTypes } from '../constants';
-import { ICalculatePrices } from '../types/accounting.type';
+import { IPricesInfo } from '../types/accounting.type';
 import { httpError } from '../utils';
 
-class SubscriberAccountService {
-  async calculatePrices(): Promise<ICalculatePrices> {
+class AccountingService {
+  async getPrices(): Promise<IPricesInfo> {
+    const result = await prisma.price.findFirst();
+    const count = await prisma.price.count();
+
+    if (!result) {
+      throw httpError({
+        status: 409,
+        message: ErrorMessages.priceNotFound,
+      });
+    }
+
+    return {
+      count,
+      updatedAt: result.updatedAt,
+    };
+  }
+
+  async calculatePrices(): Promise<IPricesInfo> {
     const currentDate = new Date();
     const tariffOrderBy: Prisma.TariffOrderByWithRelationInput = { start: 'desc' };
     const tariffDateFilter = { lte: currentDate };
@@ -54,4 +71,4 @@ class SubscriberAccountService {
   }
 }
 
-export default SubscriberAccountService;
+export default AccountingService;

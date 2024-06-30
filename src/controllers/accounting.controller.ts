@@ -6,6 +6,11 @@ export class AccountingController {
     this.accountingService = accountingService;
   }
 
+  async getPrices(req: Request, res: Response): Promise<void> {
+    const result = await this.accountingService.getPrices();
+    res.status(200).json(result);
+  }
+
   async calculatePrices(req: Request, res: Response): Promise<void> {
     const result = await this.accountingService.calculatePrices();
     res.status(200).json(result);

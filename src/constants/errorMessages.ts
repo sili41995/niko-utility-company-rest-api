@@ -77,6 +77,7 @@ const enum ErrorMessages {
   streetIdNumberErr = 'Street id field must be a number',
   isEligibleForBenefitReqErr = 'Missing required is eligible for benefit field',
   isEligibleForBenefitBooleanErr = 'Is eligible for benefit field must be a boolean',
+  priceNotFound = 'Price was not found',
 }
 
 export default ErrorMessages;

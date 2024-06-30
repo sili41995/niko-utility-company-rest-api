@@ -7,8 +7,10 @@ const router: Router = Router();
 
 router.use(auth);
 
+const getPricesCtrl = ctrlWrapper(accountingController.getPrices.bind(accountingController));
 const calculatePricesCtrl = ctrlWrapper(accountingController.calculatePrices.bind(accountingController));
 
+router.get(Endpoints.prices, getPricesCtrl);
 router.put(Endpoints.prices, calculatePricesCtrl);
 
 export default router;
