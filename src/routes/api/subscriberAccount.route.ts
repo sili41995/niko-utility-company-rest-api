@@ -11,9 +11,13 @@ router.use(auth);
 const getAllCtrl = ctrlWrapper(subscriberAccountController.getAll.bind(subscriberAccountController));
 const addCtrl = ctrlWrapper(subscriberAccountController.add.bind(subscriberAccountController));
 const updateByIdCtrl = ctrlWrapper(subscriberAccountController.updateById.bind(subscriberAccountController));
+const getPricesCtrl = ctrlWrapper(subscriberAccountController.getPrices.bind(subscriberAccountController));
+const calculatePricesCtrl = ctrlWrapper(subscriberAccountController.calculatePrices.bind(subscriberAccountController));
 
 router.get(Endpoints.root, getAllCtrl);
 router.post(Endpoints.root, validateBody(subscriberAccountSchemas.add), addCtrl);
+router.get(Endpoints.prices, getPricesCtrl);
+router.patch(Endpoints.prices, calculatePricesCtrl);
 router.put(Endpoints.updateById, isValidId, subscriberAccountIsExist, validateBody(subscriberAccountSchemas.updateById), updateByIdCtrl);
 
 export default router;

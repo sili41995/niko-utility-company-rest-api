@@ -30,6 +30,16 @@ export class SubscriberAccountController {
 
     res.status(200).json(result);
   }
+
+  async getPrices(req: Request, res: Response): Promise<void> {
+    const result = await this.subscriberAccountService.getPrices();
+    res.status(200).json(result);
+  }
+
+  async calculatePrices(req: Request, res: Response): Promise<void> {
+    const result = await this.subscriberAccountService.calculatePrices();
+    res.status(200).json(result);
+  }
 }
 
 const subscriberAccountController = new SubscriberAccountController(new SubscriberAccountService());

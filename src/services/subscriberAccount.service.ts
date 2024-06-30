@@ -1,8 +1,9 @@
 import { Prisma } from '@prisma/client';
 import { prisma } from '../app';
-import { ErrorMessages } from '../constants';
+import { ErrorMessages, SectorTypes } from '../constants';
 import { IFindAllSubscriberAccountsRes, ISubscriberAccount, ISubscriberAccountsFindFilters, IUpdateSubscriberAccountByIdProps, NewSubscriberAccount } from '../types/subscriberAccount.type';
 import { httpError } from '../utils';
+import { IPricesInfo } from '../types/accounting.type';
 
 class SubscriberAccountService {
   async getAll({ skip, take, surname, name, account, type, street, house, apartment }: ISubscriberAccountsFindFilters): Promise<IFindAllSubscriberAccountsRes> {
@@ -63,6 +64,75 @@ class SubscriberAccountService {
     const result = await prisma.subscriberAccount.update({ where: { id }, data: subscriberAccountData, include: { house: true, street: true, documents: { orderBy: { createdAt: 'desc' } } } });
 
     return result;
+  }
+
+  async getPrices(): Promise<IPricesInfo> {
+    const result = await prisma.subscriberAccount.findFirst({ where: { lastCalculate: { not: null } } });
+
+    if (!result || !result.lastCalculate) {
+      throw httpError({
+        status: 409,
+        message: ErrorMessages.priceNotFound,
+      });
+    }
+
+    return {
+      lastCalculate: result.lastCalculate,
+    };
+  }
+
+  async calculatePrices(): Promise<IPricesInfo> {
+    const currentDate = new Date();
+    const tariffOrderBy: Prisma.TariffOrderByWithRelationInput = { start: 'desc' };
+    const tariffDateFilter = { lte: currentDate };
+
+    const multiApartmentSector = await prisma.tariff.findFirst({ where: { sector: SectorTypes.multiApartment, start: tariffDateFilter }, orderBy: tariffOrderBy });
+
+    const privateSector = await prisma.tariff.findFirst({ where: { sector: SectorTypes.private, start: tariffDateFilter }, orderBy: tariffOrderBy });
+
+    const otherSector = await prisma.tariff.findFirst({ where: { sector: SectorTypes.other, start: tariffDateFilter }, orderBy: tariffOrderBy });
+
+    if (!multiApartmentSector) {
+      throw httpError({
+        status: 409,
+        message: ErrorMessages.multiApartmentTariffNotFound,
+      });
+    }
+
+    if (!privateSector) {
+      throw httpError({
+        status: 409,
+        message: ErrorMessages.privateTariffNotFound,
+      });
+    }
+
+    if (!otherSector) {
+      throw httpError({
+        status: 409,
+        message: ErrorMessages.otherTariffNotFound,
+      });
+    }
+
+    const { tariff: multiApartmentSectorTariff } = multiApartmentSector;
+    const { tariff: privateSectorTariff } = privateSector;
+    const { tariff: otherSectorTariff } = otherSector;
+
+    await prisma.$executeRaw`UPDATE "SubscriberAccount" SET "price" = "residents" * ${multiApartmentSectorTariff}, "lastCalculate" = ${currentDate}::timestamp WHERE "sector" = ${SectorTypes.multiApartment}::"SectorType"`;
+    await prisma.$executeRaw`UPDATE "SubscriberAccount" SET "price" = "residents" * ${privateSectorTariff}, "lastCalculate" = ${currentDate}::timestamp WHERE "sector" = ${SectorTypes.private}::"SectorType"`;
+    await prisma.$executeRaw`UPDATE "SubscriberAccount" SET "price" = "residents" * ${otherSectorTariff}, "lastCalculate" = ${currentDate}::timestamp WHERE "sector" = ${SectorTypes.other}::"SectorType"`;
+
+    const result = await prisma.subscriberAccount.findFirst({ where: { lastCalculate: { not: null } } });
+
+    if (!result || !result.lastCalculate) {
+      throw httpError({
+        status: 409,
+        message: ErrorMessages.priceNotFound,
+      });
+    }
+
+    return {
+      lastCalculate: result.lastCalculate,
+    };
   }
 }
 

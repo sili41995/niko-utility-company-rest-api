@@ -87,7 +87,8 @@ model SubscriberAccount{
   streetId Int
   street Street @relation(fields: [streetId], references: [id])
   documents Document[]
-  price Price?
+  price Float @default(0)
+  lastCalculate DateTime?
 }
 
 model Tariff{
@@ -104,12 +105,4 @@ model Document{
   subscriberAccountId Int
   subscriberAccount SubscriberAccount @relation(fields: [subscriberAccountId], references: [id])
   createdAt DateTime @default(now())
-}
-
-model Price{
-  id Int @id @default(autoincrement())
-  price Float
-  subscriberAccountId Int @unique
-  subscriberAccount SubscriberAccount @relation(fields: [subscriberAccountId], references: [id])
-  updatedAt DateTime
 }
