@@ -3,6 +3,7 @@ const enum Endpoints {
   login = '/signin',
   current = '/current',
   user = '/user',
+  prices = '/prices',
   dynamicId = 'id',
   fullAccess = `/:${dynamicId}/fullAccess`,
   houses = `/:${dynamicId}/houses`,

@@ -1,6 +1,5 @@
 import { prisma } from '../app';
 import { ErrorMessages, ProfileSettings } from '../constants';
-import { UserData, NewUser } from '../types/user.type';
 import { Credentials, SignInRes } from '../types/auth.type';
 import { generateToken, httpError } from '../utils';
 import bcrypt from 'bcryptjs';
