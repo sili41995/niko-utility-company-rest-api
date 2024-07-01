@@ -78,6 +78,8 @@ const enum ErrorMessages {
   isEligibleForBenefitReqErr = 'Missing required is eligible for benefit field',
   isEligibleForBenefitBooleanErr = 'Is eligible for benefit field must be a boolean',
   priceNotFound = 'Price was not found',
+  ownerReqErr = 'Missing required owner field',
+  subscriberAccountNotFound = 'Subscriber account was not found',
 }
 
 export default ErrorMessages;

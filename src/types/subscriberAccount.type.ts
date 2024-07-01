@@ -1,6 +1,21 @@
 import { SectorTypes } from '../constants';
 import { IFindFilters } from './types.type';
 
+export interface IOwner {
+  id: number;
+  utr: string;
+  passport: string;
+  surname: string;
+  name: string;
+  middleName: string;
+  phone: string;
+  additionalPhone: string;
+  email: string | null;
+  birthday: Date | null;
+  subscriberAccountId: number;
+}
+
+export type UpdatedOwnerData = Pick<IOwner, 'phone' | 'additionalPhone' | 'email' | 'birthday'>;
 export interface ISubscriberAccount {
   id: number;
   subscriberAccount: string;
@@ -10,33 +25,24 @@ export interface ISubscriberAccount {
   residents: number;
   period: Date;
   isRemovalHouseholdWaste: boolean;
-  utr: string;
-  passport: string;
-  surname: string;
-  name: string;
-  middleName: string;
   isEligibleForBenefit: boolean;
-  phone: string;
-  additionalPhone: string;
   accountType: string;
   houseId: number;
   streetId: number;
   sector: `${SectorTypes.multiApartment}` | `${SectorTypes.private}` | `${SectorTypes.other}`;
   apartment: string | null;
-  email: string | null;
-  birthday: Date | null;
 }
 
 export type SubscriberAccounts = ISubscriberAccount[];
 
-export type NewSubscriberAccount = Omit<ISubscriberAccount, 'id'>;
+export interface INewSubscriberAccount extends Omit<ISubscriberAccount, 'id'> {
+  owner: IOwner;
+}
 
-export interface IEditSubscriberAccountData
-  extends Pick<ISubscriberAccount, 'additionalPhone' | 'isEligibleForBenefit' | 'isLivingApartment' | 'isRemovalHouseholdWaste' | 'period' | 'phone' | 'residents'> {
+export interface IEditSubscriberAccountData extends Pick<ISubscriberAccount, 'isEligibleForBenefit' | 'isLivingApartment' | 'isRemovalHouseholdWaste' | 'period' | 'residents'> {
   comment: string;
   document: string;
-  birthday?: Date;
-  email?: string;
+  owner?: UpdatedOwnerData;
 }
 
 export interface IFindAllSubscriberAccountsRes {

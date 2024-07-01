@@ -1,15 +1,14 @@
 import { Prisma } from '@prisma/client';
 import { prisma } from '../app';
 import { ErrorMessages, SectorTypes } from '../constants';
-import { IFindAllSubscriberAccountsRes, ISubscriberAccount, ISubscriberAccountsFindFilters, IUpdateSubscriberAccountByIdProps, NewSubscriberAccount } from '../types/subscriberAccount.type';
+import { IFindAllSubscriberAccountsRes, ISubscriberAccount, ISubscriberAccountsFindFilters, IUpdateSubscriberAccountByIdProps, INewSubscriberAccount } from '../types/subscriberAccount.type';
 import { httpError } from '../utils';
 import { IPricesInfo } from '../types/accounting.type';
 
 class SubscriberAccountService {
   async getAll({ skip, take, surname, name, account, type, street, house, apartment }: ISubscriberAccountsFindFilters): Promise<IFindAllSubscriberAccountsRes> {
     const where: Prisma.SubscriberAccountWhereInput = {
-      surname: { startsWith: surname, mode: 'insensitive' },
-      name: { startsWith: name, mode: 'insensitive' },
+      owner: { surname: { startsWith: surname, mode: 'insensitive' }, name: { startsWith: name, mode: 'insensitive' } },
       subscriberAccount: { startsWith: account },
       accountType: type,
       street: { name: { startsWith: street } },
@@ -33,7 +32,7 @@ class SubscriberAccountService {
     };
   }
 
-  async add(data: NewSubscriberAccount): Promise<ISubscriberAccount> {
+  async add(data: INewSubscriberAccount): Promise<ISubscriberAccount> {
     const subscriberAccount = await prisma.subscriberAccount.findFirst({ where: { OR: [{ subscriberAccount: data.subscriberAccount }, { contract: data.contract }] } });
     const isDuplicateSubscriberAccount = subscriberAccount && subscriberAccount.subscriberAccount === data.subscriberAccount;
     const isDuplicateContract = subscriberAccount && subscriberAccount.contract === data.contract;
@@ -50,18 +49,39 @@ class SubscriberAccountService {
       });
     }
 
-    const result = await prisma.subscriberAccount.create({
-      data,
-      include: { house: true, street: true, documents: { orderBy: { createdAt: 'desc' } } },
+    const { owner, ...subscriberAccountData } = data;
+    const { id: subscriberAccountId } = await prisma.subscriberAccount.create({
+      data: subscriberAccountData,
     });
+    await prisma.owner.create({ data: { ...owner, subscriberAccountId } });
+    const result = await prisma.subscriberAccount.findUnique({
+      where: { id: subscriberAccountId },
+      include: { house: true, street: true, owner: true, documents: { orderBy: { createdAt: 'desc' } } },
+    });
+
+    if (!result) {
+      throw httpError({
+        status: 409,
+        message: ErrorMessages.subscriberAccountNotFound,
+      });
+    }
 
     return result;
   }
 
   async updateById({ id, data }: IUpdateSubscriberAccountByIdProps): Promise<ISubscriberAccount> {
-    const { comment, document, ...subscriberAccountData } = data;
+    const { comment, document, owner, ...subscriberAccountData } = data;
     await prisma.document.create({ data: { document: data.document, comment: data.comment, subscriberAccountId: id } });
-    const result = await prisma.subscriberAccount.update({ where: { id }, data: subscriberAccountData, include: { house: true, street: true, documents: { orderBy: { createdAt: 'desc' } } } });
+
+    if (owner) {
+      await prisma.owner.update({ where: { subscriberAccountId: id }, data: owner });
+    }
+
+    const result = await prisma.subscriberAccount.update({
+      where: { id },
+      data: subscriberAccountData,
+      include: { house: true, street: true, owner: true, documents: { orderBy: { createdAt: 'desc' } } },
+    });
 
     return result;
   }

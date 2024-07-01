@@ -60,6 +60,21 @@ model Street {
   subscriberAccounts SubscriberAccount[]
 }
 
+model Owner{
+  id Int @id @default(autoincrement())
+  utr String
+  passport String
+  surname String
+  name String
+  middleName String
+  phone String
+  additionalPhone String
+  email String?
+  birthday DateTime? @db.Date
+  subscriberAccountId Int @unique
+  subscriberAccount SubscriberAccount @relation(fields: [subscriberAccountId], references: [id])
+}
+
 model SubscriberAccount{
   id Int @id @default(autoincrement())
   apartment String?
@@ -70,18 +85,10 @@ model SubscriberAccount{
   residents Int
   period DateTime @db.Date
   isRemovalHouseholdWaste Boolean
-  utr String
-  passport String
-  surname String
-  name String
-  middleName String
   isEligibleForBenefit Boolean
-  phone String
-  additionalPhone String
   accountType String
-  email String?
-  birthday DateTime? @db.Date
   sector SectorType
+  owner Owner?
   houseId Int
   house House @relation(fields: [houseId], references: [id])
   streetId Int

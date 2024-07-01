@@ -104,6 +104,29 @@ const documentSettings = Joi.string();
 
 const birthdaySettings = Joi.string();
 
+const ownerSettings = Joi.object({
+  utr: utrSettings.required(),
+  passport: passportSettings.required(),
+  surname: surnameSettings.required(),
+  name: nameSettings.required(),
+  middleName: middleNameSettings.required(),
+  phone: phoneSettings.required(),
+  additionalPhone: additionalPhoneSettings.required(),
+  email: emailSettings,
+  birthday: birthdaySettings,
+}).messages({
+  'any.required': ErrorMessages.ownerReqErr,
+});
+
+const updatedOwnerDataSettings = Joi.object({
+  phone: phoneSettings,
+  additionalPhone: additionalPhoneSettings,
+  email: emailSettings,
+  birthday: birthdaySettings,
+}).messages({
+  'any.required': ErrorMessages.ownerReqErr,
+});
+
 const add = Joi.object({
   apartment: apartmentSettings,
   subscriberAccount: subscriberAccountSettings.required(),
@@ -113,34 +136,23 @@ const add = Joi.object({
   residents: residentsSettings.required(),
   period: periodSettings.required(),
   isRemovalHouseholdWaste: isRemovalHouseholdWasteSettings.required(),
-  utr: utrSettings.required(),
-  passport: passportSettings.required(),
-  surname: surnameSettings.required(),
-  name: nameSettings.required(),
-  middleName: middleNameSettings.required(),
   isEligibleForBenefit: isEligibleForBenefitSettings.required(),
-  phone: phoneSettings.required(),
-  additionalPhone: additionalPhoneSettings.required(),
   accountType: accountTypeSettings.required(),
   houseId: houseIdSettings.required(),
   streetId: streetIdSettings.required(),
   sector: sectorSettings.required(),
-  email: emailSettings,
-  birthday: birthdaySettings,
+  owner: ownerSettings.required(),
 });
 
 const updateById = Joi.object({
   comment: commentSettings.required(),
   document: documentSettings.required(),
-  additionalPhone: additionalPhoneSettings,
   isEligibleForBenefit: isEligibleForBenefitSettings,
   isLivingApartment: isLivingApartmentSettings,
   isRemovalHouseholdWaste: isRemovalHouseholdWasteSettings,
   period: periodSettings,
-  phone: phoneSettings,
   residents: residentsSettings,
-  email: emailSettings,
-  birthday: birthdaySettings,
+  owner: updatedOwnerDataSettings,
 })
   .min(1)
   .messages({
