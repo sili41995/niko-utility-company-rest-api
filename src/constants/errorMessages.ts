@@ -80,6 +80,7 @@ const enum ErrorMessages {
   priceNotFound = 'Price was not found',
   ownerReqErr = 'Missing required owner field',
   subscriberAccountNotFound = 'Subscriber account was not found',
+  duplicateDocumentErr = 'Document already use',
 }
 
 export default ErrorMessages;

@@ -107,7 +107,7 @@ model Tariff{
 
 model Document{
   id Int @id @default(autoincrement())
-  document String @unique
+  document String
   comment String
   subscriberAccountId Int
   subscriberAccount SubscriberAccount @relation(fields: [subscriberAccountId], references: [id])

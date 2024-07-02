@@ -71,6 +71,16 @@ class SubscriberAccountService {
 
   async updateById({ id, data }: IUpdateSubscriberAccountByIdProps): Promise<ISubscriberAccount> {
     const { comment, document, owner, ...subscriberAccountData } = data;
+
+    const documentResult = await prisma.document.findFirst({ where: { document } });
+
+    if (documentResult) {
+      throw httpError({
+        status: 409,
+        message: ErrorMessages.duplicateDocumentErr,
+      });
+    }
+
     await prisma.document.create({ data: { document: data.document, comment: data.comment, subscriberAccountId: id } });
 
     if (owner) {
