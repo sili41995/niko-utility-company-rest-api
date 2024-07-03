@@ -113,3 +113,9 @@ model Document{
   subscriberAccount SubscriberAccount @relation(fields: [subscriberAccountId], references: [id])
   createdAt DateTime @default(now())
 }
+
+model Period{
+   id Int @id @default(autoincrement())
+   isCurrentPeriod Boolean
+   start DateTime @db.Date @default(now())
+}

@@ -2,9 +2,6 @@ import { Response, Request } from 'express';
 import AuthService from '../services/auth.service';
 import { IAuthRequest } from '../types/auth.type';
 import { httpError } from '../utils';
-// import { httpError, sendEmail } from '@/utils';
-// import { AuthProps, Endpoints } from '@/constants';
-// import { IAuthRequest } from '@/types/auth.type';
 
 export class AuthController {
   constructor(private authService: AuthService) {

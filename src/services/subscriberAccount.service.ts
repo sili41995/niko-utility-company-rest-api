@@ -1,9 +1,15 @@
 import { Prisma } from '@prisma/client';
 import { prisma } from '../app';
 import { ErrorMessages, SectorTypes } from '../constants';
-import { IFindAllSubscriberAccountsRes, ISubscriberAccount, ISubscriberAccountsFindFilters, IUpdateSubscriberAccountByIdProps, INewSubscriberAccount } from '../types/subscriberAccount.type';
+import {
+  IFindAllSubscriberAccountsRes,
+  ISubscriberAccount,
+  ISubscriberAccountsFindFilters,
+  IUpdateSubscriberAccountByIdProps,
+  INewSubscriberAccount,
+  IPricesInfo,
+} from '../types/subscriberAccount.type';
 import { httpError } from '../utils';
-import { IPricesInfo } from '../types/accounting.type';
 
 class SubscriberAccountService {
   async getAll({ skip, take, surname, name, account, type, street, house, apartment }: ISubscriberAccountsFindFilters): Promise<IFindAllSubscriberAccountsRes> {

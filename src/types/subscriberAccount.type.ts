@@ -65,3 +65,7 @@ export interface ISubscriberAccountsFindFilters extends IFindFilters {
   house: string | undefined;
   apartment: string | undefined;
 }
+
+export interface IPricesInfo {
+  lastCalculate: Date;
+}

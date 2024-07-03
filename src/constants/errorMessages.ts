@@ -42,15 +42,7 @@ const enum ErrorMessages {
   privateTariffNotFound = 'Tariff for the private sector was not found',
   multiApartmentTariffNotFound = 'Tariff for the multi-apartment sector was not found',
   otherTariffNotFound = 'Tariff for the other sector was not found',
-  //other
-  incorrectCredentialsErr = 'Login or password is wrong',
-  emptyStringErr = 'Value cannot be the empty string',
-  unexpectedProperty = 'An unexpected property was found in the object',
-  currentAccountRegExpErr = 'String must start with the letters UA followed by 27 digits',
-  mfiRegExpErr = 'Value must consist of numbers only and be 6 characters long',
-  missingFieldsErr = 'Missing fields',
-  typeReqErr = 'Missing required type field',
-  numberReqErr = 'Missing required number field',
+  //subscriberAccount
   apartmentReqErr = 'Missing required apartment field',
   subscriberAccountReqErr = 'Missing required subscriber account field',
   subscriberAccountNumberErr = 'Subscriber account field must be a number',
@@ -80,7 +72,18 @@ const enum ErrorMessages {
   priceNotFound = 'Price was not found',
   ownerReqErr = 'Missing required owner field',
   subscriberAccountNotFound = 'Subscriber account was not found',
+  //other
+  incorrectCredentialsErr = 'Login or password is wrong',
+  emptyStringErr = 'Value cannot be the empty string',
+  unexpectedProperty = 'An unexpected property was found in the object',
+  currentAccountRegExpErr = 'String must start with the letters UA followed by 27 digits',
+  mfiRegExpErr = 'Value must consist of numbers only and be 6 characters long',
+  missingFieldsErr = 'Missing fields',
+  typeReqErr = 'Missing required type field',
+  numberReqErr = 'Missing required number field',
   duplicateDocumentErr = 'Document already use',
+  periodNotFound = 'Period was not found',
+  duplicatePeriodErr = 'Period already use',
 }
 
 export default ErrorMessages;

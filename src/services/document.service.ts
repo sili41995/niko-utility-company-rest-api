@@ -1,8 +1,6 @@
 import { Prisma } from '@prisma/client';
 import { prisma } from '../app';
-import { ErrorMessages } from '../constants';
 import { IFindAllDocumentsRes, IDocumentsFindFilters } from '../types/document.type';
-import { httpError } from '../utils';
 
 class DocumentService {
   async getAll({ skip, take, comment, document }: IDocumentsFindFilters): Promise<IFindAllDocumentsRes> {
