@@ -115,7 +115,23 @@ model Document{
 }
 
 model Period{
-   id Int @id @default(autoincrement())
-   isCurrentPeriod Boolean
-   start DateTime @db.Date @default(now())
+  id Int @id @default(autoincrement())
+  isCurrentPeriod Boolean
+  start DateTime @db.Date @default(now())
+  statistics Statistics?
+}
+
+model Statistics{
+  id Int @id @default(autoincrement())
+  subscriberAccounts Int
+  residents Int
+  balanceStart Int
+  accrued Int @default(0)
+  penalty Int @default(0)
+  adjustment Int
+  benefits Int @default(0)
+  subsidies Int @default(0)
+  balanceEnd Int
+  periodId Int @unique
+  period Period @relation(fields: [periodId], references: [id])
 }

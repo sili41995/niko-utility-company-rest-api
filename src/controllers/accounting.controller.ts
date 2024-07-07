@@ -6,6 +6,11 @@ export class AccountingController {
     this.accountingService = accountingService;
   }
 
+  async getAllPeriods(req: Request, res: Response): Promise<void> {
+    const result = await this.accountingService.getAllPeriods();
+    res.status(200).json(result);
+  }
+
   async getCurrentPeriod(req: Request, res: Response): Promise<void> {
     const result = await this.accountingService.getCurrentPeriod();
     res.status(200).json(result);
@@ -13,7 +18,7 @@ export class AccountingController {
 
   async addPeriod(req: Request, res: Response): Promise<void> {
     const result = await this.accountingService.addPeriod();
-    res.status(200).json(result);
+    res.status(201).json(result);
   }
 }
 

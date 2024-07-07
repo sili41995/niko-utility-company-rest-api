@@ -1,7 +1,6 @@
 import { Response, Request } from 'express';
 import GeneralSettingsService from '../services/generalSettings.service';
 import { Endpoints } from '../constants';
-import { httpError } from '../utils';
 
 export class GeneralSettingsController {
   constructor(private generalSettingsService: GeneralSettingsService) {

@@ -1,9 +1,23 @@
 import { prisma } from '../app';
 import { ErrorMessages } from '../constants';
-import { IPeriod } from '../types/accounting.type';
-import { httpError } from '../utils';
+import { IPeriod, Periods } from '../types/accounting.type';
+import { getYearParams, httpError } from '../utils';
 
 class AccountingService {
+  async getAllPeriods(): Promise<Periods> {
+    const { yearStart, yearEnd } = getYearParams();
+    const result = await prisma.period.findMany({ where: { start: { gte: yearStart, lt: yearEnd } } });
+
+    if (!result) {
+      throw httpError({
+        status: 409,
+        message: ErrorMessages.periodNotFound,
+      });
+    }
+
+    return result;
+  }
+
   async getCurrentPeriod(): Promise<IPeriod> {
     const result = await prisma.period.findFirst({ where: { isCurrentPeriod: true }, orderBy: { start: 'desc' } });
 
