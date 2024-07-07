@@ -11,19 +11,6 @@ class AccountingService {
     return result;
   }
 
-  async getCurrentPeriod(): Promise<IPeriod> {
-    const result = await prisma.period.findFirst({ where: { isCurrentPeriod: true }, orderBy: { start: 'desc' } });
-
-    if (!result) {
-      throw httpError({
-        status: 409,
-        message: ErrorMessages.periodNotFound,
-      });
-    }
-
-    return result;
-  }
-
   async addPeriod(): Promise<IPeriod> {
     const date = new Date();
 

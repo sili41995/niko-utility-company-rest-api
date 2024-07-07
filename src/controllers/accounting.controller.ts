@@ -11,11 +11,6 @@ export class AccountingController {
     res.status(200).json(result);
   }
 
-  async getCurrentPeriod(req: Request, res: Response): Promise<void> {
-    const result = await this.accountingService.getCurrentPeriod();
-    res.status(200).json(result);
-  }
-
   async addPeriod(req: Request, res: Response): Promise<void> {
     const result = await this.accountingService.addPeriod();
     res.status(201).json(result);
