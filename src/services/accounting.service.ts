@@ -6,7 +6,7 @@ import { getYearParams, httpError } from '../utils';
 class AccountingService {
   async getAllPeriods(): Promise<Periods> {
     const { yearStart, yearEnd } = getYearParams();
-    const result = await prisma.period.findMany({ where: { start: { gte: yearStart, lte: yearEnd } } });
+    const result = await prisma.period.findMany({ where: { start: { gte: yearStart, lte: yearEnd } }, orderBy: { start: 'desc' } });
 
     return result;
   }
