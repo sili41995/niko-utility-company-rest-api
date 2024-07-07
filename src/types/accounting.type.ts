@@ -5,3 +5,8 @@ export interface IPeriod {
 }
 
 export type Periods = IPeriod[];
+
+export interface IGetYearParams {
+  yearStart: string;
+  yearEnd: string;
+}
