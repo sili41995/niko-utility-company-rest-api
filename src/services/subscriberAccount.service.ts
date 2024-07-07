@@ -67,7 +67,7 @@ class SubscriberAccountService {
 
     if (!result) {
       throw httpError({
-        status: 409,
+        status: 404,
         message: ErrorMessages.subscriberAccountNotFound,
       });
     }
@@ -107,7 +107,7 @@ class SubscriberAccountService {
 
     if (!result || !result.lastCalculate) {
       throw httpError({
-        status: 409,
+        status: 404,
         message: ErrorMessages.priceNotFound,
       });
     }
@@ -130,21 +130,21 @@ class SubscriberAccountService {
 
     if (!multiApartmentSector) {
       throw httpError({
-        status: 409,
+        status: 404,
         message: ErrorMessages.multiApartmentTariffNotFound,
       });
     }
 
     if (!privateSector) {
       throw httpError({
-        status: 409,
+        status: 404,
         message: ErrorMessages.privateTariffNotFound,
       });
     }
 
     if (!otherSector) {
       throw httpError({
-        status: 409,
+        status: 404,
         message: ErrorMessages.otherTariffNotFound,
       });
     }
@@ -161,7 +161,7 @@ class SubscriberAccountService {
 
     if (!result || !result.lastCalculate) {
       throw httpError({
-        status: 409,
+        status: 404,
         message: ErrorMessages.priceNotFound,
       });
     }
