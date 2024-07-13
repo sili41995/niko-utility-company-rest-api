@@ -96,6 +96,7 @@ model SubscriberAccount{
   streetId Int
   street Street @relation(fields: [streetId], references: [id])
   documents Document[]
+  priceAdjustments PriceAdjustment[]
   lastCalculate DateTime?
 }
 
@@ -135,4 +136,13 @@ model Statistics{
   balanceEnd Int
   periodId Int @unique
   period Period @relation(fields: [periodId], references: [id])
+}
+
+model PriceAdjustment{
+  id Int @id @default(autoincrement())
+  price Float
+  date DateTime @db.Date
+  comment String
+  subscriberAccountId Int
+  subscriberAccount SubscriberAccount @relation(fields: [subscriberAccountId], references: [id])
 }

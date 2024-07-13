@@ -86,6 +86,11 @@ const enum ErrorMessages {
   duplicatePeriodErr = 'Period already use',
   priceNumberErr = 'Price field must be a number',
   priceReqErr = 'Missing required price field',
+  dateDateErr = 'Date field must be a date',
+  dateReqErr = 'Missing required date field',
+  commentReqErr = 'Missing required comment field',
+  subscriberAccountIdNumberErr = 'Subscriber account id field must be a number',
+  subscriberAccountIdReqErr = 'Missing required subscriber account id field',
 }
 
 export default ErrorMessages;

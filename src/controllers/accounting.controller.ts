@@ -17,15 +17,19 @@ export class AccountingController {
     res.status(201).json(result);
   }
 
-  async updatePriceById(req: Request, res: Response): Promise<void> {
-    const dynamicId = req.params[Endpoints.dynamicId];
-    const id = Number(dynamicId);
-    const result = await this.accountingService.updatePriceById({
-      id,
-      data: req.body,
-    });
-
+  async getPrices(req: Request, res: Response): Promise<void> {
+    const result = await this.accountingService.getPrices();
     res.status(200).json(result);
+  }
+
+  async calculatePrices(req: Request, res: Response): Promise<void> {
+    const result = await this.accountingService.calculatePrices();
+    res.status(200).json(result);
+  }
+
+  async addPriceAdjustment(req: Request, res: Response): Promise<void> {
+    const result = await this.accountingService.addPriceAdjustment(req.body);
+    res.status(201).json(result);
   }
 }
 

@@ -1,3 +1,5 @@
+import { ISubscriberAccount } from './subscriberAccount.type';
+
 export interface IPeriod {
   id: number;
   isCurrentPeriod: boolean;
@@ -11,7 +13,13 @@ export interface IGetYearParams {
   yearEnd: string;
 }
 
-export interface IUpdatePriceByIdProps {
+export interface IPriceAdjustment {
   id: number;
-  data: { price: number };
+  price: number;
+  date: Date;
+  comment: string;
+  subscriberAccountId: number;
+  subscriberAccount?: ISubscriberAccount;
 }
+
+export type AddPriceAdjustmentData = Omit<IPriceAdjustment, 'id' | 'subscriberAccount'>;

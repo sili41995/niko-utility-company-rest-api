@@ -127,11 +127,6 @@ const updatedOwnerDataSettings = Joi.object({
   'any.required': ErrorMessages.ownerReqErr,
 });
 
-const priceSettings = Joi.number().messages({
-  'any.required': ErrorMessages.priceReqErr,
-  'number.base': ErrorMessages.priceNumberErr,
-});
-
 const add = Joi.object({
   apartment: apartmentSettings,
   subscriberAccount: subscriberAccountSettings.required(),
@@ -164,14 +159,9 @@ const updateById = Joi.object({
     'object.min': ErrorMessages.missingFieldsErr,
   });
 
-const updatePriceById = Joi.object({
-  price: priceSettings.required(),
-});
-
 const schemas = {
   add,
   updateById,
-  updatePriceById,
 };
 
 export default schemas;
