@@ -1,3 +1,4 @@
+import { PaymentSources } from '../constants';
 import { ISubscriberAccount } from './subscriberAccount.type';
 
 export interface IPeriod {
@@ -22,4 +23,25 @@ export interface IPriceAdjustment {
   subscriberAccount?: ISubscriberAccount;
 }
 
-export type AddPriceAdjustmentData = Omit<IPriceAdjustment, 'id' | 'subscriberAccount'>;
+export type NewPriceAdjustment = Omit<IPriceAdjustment, 'id' | 'subscriberAccount'>;
+
+export interface IPayment {
+  id: number;
+  amount: number;
+  source:
+    | `${PaymentSources.abank}`
+    | `${PaymentSources.adjustment}`
+    | `${PaymentSources.aval}`
+    | `${PaymentSources.benefitCompensation}`
+    | `${PaymentSources.cash}`
+    | `${PaymentSources.oshchadbank}`
+    | `${PaymentSources.postage}`
+    | `${PaymentSources.privatbank}`
+    | `${PaymentSources.ukrgasbank}`
+    | `${PaymentSources.ukrsibbank}`;
+  date: Date;
+  subscriberAccountId: number;
+  subscriberAccount?: ISubscriberAccount;
+}
+
+export type NewPayment = Omit<IPayment, 'id' | 'subscriberAccount'>;

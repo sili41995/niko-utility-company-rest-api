@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
 import { prisma } from '../app';
 import { ErrorMessages, SectorTypes } from '../constants';
-import { AddPriceAdjustmentData, IPeriod, IPriceAdjustment, Periods } from '../types/accounting.type';
+import { NewPriceAdjustment, IPeriod, IPriceAdjustment, Periods, IPayment, NewPayment } from '../types/accounting.type';
 import { IPricesInfo } from '../types/subscriberAccount.type';
 import { getYearParams, httpError } from '../utils';
 
@@ -121,10 +121,25 @@ class AccountingService {
     };
   }
 
-  async addPriceAdjustment(data: AddPriceAdjustmentData): Promise<IPriceAdjustment> {
+  async addPriceAdjustment(data: NewPriceAdjustment): Promise<IPriceAdjustment> {
     const result = await prisma.priceAdjustment.create({ data });
 
     await prisma.subscriberAccount.update({ where: { id: data.subscriberAccountId }, data: { price: data.price } });
+
+    return result;
+  }
+
+  async addPayment(data: NewPayment): Promise<IPayment> {
+    const result = await prisma.payment.create({ data });
+
+    await prisma.subscriberAccount.update({
+      where: { id: result.subscriberAccountId },
+      data: {
+        balance: {
+          decrement: result.amount,
+        },
+      },
+    });
 
     return result;
   }

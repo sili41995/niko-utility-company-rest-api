@@ -31,6 +31,11 @@ export class AccountingController {
     const result = await this.accountingService.addPriceAdjustment(req.body);
     res.status(201).json(result);
   }
+
+  async addPayment(req: Request, res: Response): Promise<void> {
+    const result = await this.accountingService.addPayment(req.body);
+    res.status(201).json(result);
+  }
 }
 
 const accountingController = new AccountingController(new AccountingService());

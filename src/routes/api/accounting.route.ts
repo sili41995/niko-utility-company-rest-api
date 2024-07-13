@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { Endpoints } from '../../constants';
 import { auth, ctrlWrapper, validateBody } from '../../middlewares';
 import accountingController from '../../controllers/accounting.controller';
-import { priceAdjustmentSchemas } from '../../schemas';
+import { paymentsSchemas, priceAdjustmentSchemas } from '../../schemas';
 
 const router: Router = Router();
 
