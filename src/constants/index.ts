@@ -6,3 +6,4 @@ export { default as StreetTypes } from './streetTypes';
 export { default as AccountTypes } from './accountTypes';
 export { default as GeneralParams } from './generalParams';
 export { default as SectorTypes } from './sectorTypes';
+export { default as PaymentSources } from './paymentSources';

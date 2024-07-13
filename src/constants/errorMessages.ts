@@ -1,4 +1,5 @@
 import AccountTypes from './accountTypes';
+import PaymentSources from './paymentSources';
 import ProfileSettings from './profileSettings';
 import SectorTypes from './sectorTypes';
 import StreetTypes from './streetTypes';
@@ -91,6 +92,8 @@ const enum ErrorMessages {
   commentReqErr = 'Missing required comment field',
   subscriberAccountIdNumberErr = 'Subscriber account id field must be a number',
   subscriberAccountIdReqErr = 'Missing required subscriber account id field',
+  paymentSourceReqErr = 'Missing required source field',
+  paymentSourcesErr = `Value of the source field must be one of these - '${PaymentSources.abank}', '${PaymentSources.adjustment}', '${PaymentSources.aval}', '${PaymentSources.benefitCompensation}', '${PaymentSources.cash}', '${PaymentSources.oshchadbank}', '${PaymentSources.postage}', '${PaymentSources.privatbank}', '${PaymentSources.ukrgasbank}' or '${PaymentSources.ukrsibbank}'`,
 }
 
 export default ErrorMessages;
