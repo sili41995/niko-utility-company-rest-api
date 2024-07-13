@@ -10,3 +10,8 @@ export interface IGetYearParams {
   yearStart: string;
   yearEnd: string;
 }
+
+export interface IUpdatePriceByIdProps {
+  id: number;
+  data: { price: number };
+}

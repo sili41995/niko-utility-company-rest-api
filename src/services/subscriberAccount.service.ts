@@ -38,6 +38,19 @@ class SubscriberAccountService {
     };
   }
 
+  async getByNumber(subscriberAccount: string): Promise<ISubscriberAccount> {
+    const result = await prisma.subscriberAccount.findFirst({ where: { subscriberAccount } });
+
+    if (!result) {
+      throw httpError({
+        status: 404,
+        message: ErrorMessages.subscriberAccountNotFound,
+      });
+    }
+
+    return result;
+  }
+
   async add(data: INewSubscriberAccount): Promise<ISubscriberAccount> {
     const subscriberAccount = await prisma.subscriberAccount.findFirst({ where: { OR: [{ subscriberAccount: data.subscriberAccount }, { contract: data.contract }] } });
     const isDuplicateSubscriberAccount = subscriberAccount && subscriberAccount.subscriberAccount === data.subscriberAccount;

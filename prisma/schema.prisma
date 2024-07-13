@@ -88,13 +88,14 @@ model SubscriberAccount{
   isEligibleForBenefit Boolean
   accountType String
   sector SectorType
+  balance Float @default(0)
+  price Float @default(0)
   owner Owner?
   houseId Int
   house House @relation(fields: [houseId], references: [id])
   streetId Int
   street Street @relation(fields: [streetId], references: [id])
   documents Document[]
-  price Float @default(0)
   lastCalculate DateTime?
 }
 

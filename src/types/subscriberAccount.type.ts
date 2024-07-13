@@ -16,6 +16,7 @@ export interface IOwner {
 }
 
 export type UpdatedOwnerData = Pick<IOwner, 'phone' | 'additionalPhone' | 'email' | 'birthday'>;
+
 export interface ISubscriberAccount {
   id: number;
   subscriberAccount: string;
@@ -27,6 +28,7 @@ export interface ISubscriberAccount {
   isRemovalHouseholdWaste: boolean;
   isEligibleForBenefit: boolean;
   accountType: string;
+  balance: number;
   houseId: number;
   streetId: number;
   sector: `${SectorTypes.multiApartment}` | `${SectorTypes.private}` | `${SectorTypes.other}`;

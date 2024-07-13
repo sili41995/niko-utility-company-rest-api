@@ -14,6 +14,13 @@ export class SubscriberAccountController {
     res.status(200).json(result);
   }
 
+  async getByNumber(req: Request, res: Response): Promise<void> {
+    const number = req.params[Endpoints.dynamicNumber];
+    const result = await this.subscriberAccountService.getByNumber(number);
+
+    res.status(200).json(result);
+  }
+
   async add(req: Request, res: Response): Promise<void> {
     const result = await this.subscriberAccountService.add(req.body);
 

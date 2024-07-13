@@ -84,6 +84,8 @@ const enum ErrorMessages {
   duplicateDocumentErr = 'Document already use',
   periodNotFound = 'Period was not found',
   duplicatePeriodErr = 'Period already use',
+  priceNumberErr = 'Price field must be a number',
+  priceReqErr = 'Missing required price field',
 }
 
 export default ErrorMessages;

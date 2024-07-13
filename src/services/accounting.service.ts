@@ -1,6 +1,7 @@
 import { prisma } from '../app';
 import { ErrorMessages } from '../constants';
-import { IPeriod, Periods } from '../types/accounting.type';
+import { IPeriod, IUpdatePriceByIdProps, Periods } from '../types/accounting.type';
+import { ISubscriberAccount } from '../types/subscriberAccount.type';
 import { getYearParams, httpError } from '../utils';
 
 class AccountingService {
@@ -46,6 +47,15 @@ class AccountingService {
         message: ErrorMessages.periodNotFound,
       });
     }
+
+    return result;
+  }
+
+  async updatePriceById({ id, data }: IUpdatePriceByIdProps): Promise<ISubscriberAccount> {
+    const result = await prisma.subscriberAccount.update({
+      where: { id },
+      data,
+    });
 
     return result;
   }
