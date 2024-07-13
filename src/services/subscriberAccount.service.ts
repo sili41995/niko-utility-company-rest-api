@@ -39,7 +39,7 @@ class SubscriberAccountService {
   }
 
   async getByNumber(subscriberAccount: string): Promise<ISubscriberAccount> {
-    const result = await prisma.subscriberAccount.findFirst({ where: { subscriberAccount } });
+    const result = await prisma.subscriberAccount.findFirst({ where: { subscriberAccount }, include: { street: true, house: true, owner: true } });
 
     if (!result) {
       throw httpError({
