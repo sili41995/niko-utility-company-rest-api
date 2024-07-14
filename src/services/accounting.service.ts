@@ -1,9 +1,10 @@
 import { Prisma } from '@prisma/client';
 import { prisma } from '../app';
 import { ErrorMessages, SectorTypes } from '../constants';
-import { NewPriceAdjustment, IPeriod, IPriceAdjustment, Periods, IPayment, NewPayment } from '../types/accounting.type';
+import { NewPriceAdjustment, IPeriod, IPriceAdjustment, Periods, IPayment, NewPayment, IFindAllPaymentsRes } from '../types/accounting.type';
 import { IPricesInfo } from '../types/subscriberAccount.type';
 import { getYearParams, httpError } from '../utils';
+import { IFindFilters } from '../types/types.type';
 
 class AccountingService {
   async getAllPeriods(): Promise<Periods> {
@@ -127,6 +128,21 @@ class AccountingService {
     await prisma.subscriberAccount.update({ where: { id: data.subscriberAccountId }, data: { price: data.price } });
 
     return result;
+  }
+
+  async getAllPayments({ skip, take }: IFindFilters): Promise<IFindAllPaymentsRes> {
+    const result = await prisma.payment.findMany({
+      orderBy: { date: 'desc' },
+      include: { subscriberAccount: true },
+      skip,
+      take,
+    });
+    const count = await prisma.subscriberAccount.count();
+
+    return {
+      data: result,
+      count,
+    };
   }
 
   async addPayment(data: NewPayment): Promise<IPayment> {

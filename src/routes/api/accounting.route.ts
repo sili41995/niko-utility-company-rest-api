@@ -13,6 +13,7 @@ const addPeriodCtrl = ctrlWrapper(accountingController.addPeriod.bind(accounting
 const addPriceAdjustmentCtrl = ctrlWrapper(accountingController.addPriceAdjustment.bind(accountingController));
 const getPricesCtrl = ctrlWrapper(accountingController.getPrices.bind(accountingController));
 const calculatePricesCtrl = ctrlWrapper(accountingController.calculatePrices.bind(accountingController));
+const getAllPaymentsCtrl = ctrlWrapper(accountingController.getAllPayments.bind(accountingController));
 const addPaymentCtrl = ctrlWrapper(accountingController.addPayment.bind(accountingController));
 
 // periods
@@ -23,6 +24,7 @@ router.get(Endpoints.prices, getPricesCtrl);
 router.patch(Endpoints.prices, calculatePricesCtrl);
 router.post(Endpoints.prices, validateBody(priceAdjustmentSchemas.add), addPriceAdjustmentCtrl);
 // payments
+router.get(Endpoints.payments, getAllPaymentsCtrl);
 router.post(Endpoints.payments, validateBody(paymentsSchemas.add), addPaymentCtrl);
 
 export default router;

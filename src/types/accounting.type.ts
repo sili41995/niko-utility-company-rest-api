@@ -44,4 +44,11 @@ export interface IPayment {
   subscriberAccount?: ISubscriberAccount;
 }
 
+export type Payments = IPayment[];
+
 export type NewPayment = Omit<IPayment, 'id' | 'subscriberAccount'>;
+
+export interface IFindAllPaymentsRes {
+  data: Payments;
+  count: number;
+}

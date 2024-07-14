@@ -1,6 +1,7 @@
 import { Response, Request } from 'express';
 import AccountingService from '../services/accounting.service';
 import { Endpoints } from '../constants';
+import { getPaymentsFindFilters } from '../utils';
 
 export class AccountingController {
   constructor(private accountingService: AccountingService) {
@@ -30,6 +31,12 @@ export class AccountingController {
   async addPriceAdjustment(req: Request, res: Response): Promise<void> {
     const result = await this.accountingService.addPriceAdjustment(req.body);
     res.status(201).json(result);
+  }
+
+  async getAllPayments(req: Request, res: Response): Promise<void> {
+    const findFilters = getPaymentsFindFilters(req.query);
+    const result = await this.accountingService.getAllPayments(findFilters);
+    res.status(200).json(result);
   }
 
   async addPayment(req: Request, res: Response): Promise<void> {
