@@ -6,7 +6,6 @@ const enum Endpoints {
   prices = '/prices',
   periods = '/periods',
   payments = '/payments',
-  currentPeriod = `${periods}/current`,
   dynamicId = 'id',
   fullAccess = `/:${dynamicId}/fullAccess`,
   houses = `/:${dynamicId}/houses`,
