@@ -137,7 +137,7 @@ class AccountingService {
       skip,
       take,
     });
-    const count = await prisma.subscriberAccount.count();
+    const count = await prisma.payment.count();
 
     return {
       data: result,
