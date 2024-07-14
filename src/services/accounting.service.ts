@@ -133,7 +133,7 @@ class AccountingService {
   async getAllPayments({ skip, take }: IFindFilters): Promise<IFindAllPaymentsRes> {
     const result = await prisma.payment.findMany({
       orderBy: { date: 'desc' },
-      include: { subscriberAccount: true },
+      include: { subscriberAccount: true, period: true },
       skip,
       take,
     });
@@ -159,7 +159,7 @@ class AccountingService {
       });
     }
 
-    const result = await prisma.payment.create({ data: { ...data, periodId: period.id }, include: { period: true } });
+    const result = await prisma.payment.create({ data: { ...data, periodId: period.id } });
 
     await prisma.subscriberAccount.update({
       where: { id: result.subscriberAccountId },
