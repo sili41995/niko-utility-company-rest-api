@@ -146,7 +146,20 @@ class AccountingService {
   }
 
   async addPayment(data: NewPayment): Promise<IPayment> {
-    const result = await prisma.payment.create({ data });
+    const period = await prisma.period.findFirst({
+      where: {
+        isCurrentPeriod: true,
+      },
+    });
+
+    if (!period) {
+      throw httpError({
+        status: 404,
+        message: ErrorMessages.periodNotFound,
+      });
+    }
+
+    const result = await prisma.payment.create({ data: { ...data, periodId: period.id }, include: { period: true } });
 
     await prisma.subscriberAccount.update({
       where: { id: result.subscriberAccountId },

@@ -135,6 +135,7 @@ model Period{
   isCurrentPeriod Boolean
   start DateTime @db.Date @default(now())
   statistics Statistics?
+  payments Payment[]
 }
 
 model Statistics{
@@ -166,6 +167,8 @@ model Payment{
   amount Float
   source PaymentSource
   date DateTime @db.Date
+  periodId Int
+  period Period @relation(fields: [periodId], references: [id])
   subscriberAccountId Int
   subscriberAccount SubscriberAccount @relation(fields: [subscriberAccountId], references: [id])
 }
