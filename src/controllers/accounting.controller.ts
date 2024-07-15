@@ -1,7 +1,9 @@
 import { Response, Request } from 'express';
 import AccountingService from '../services/accounting.service';
-import { Endpoints } from '../constants';
-import { getPaymentsFindFilters } from '../utils';
+import { getPaymentsFindFilters, httpError } from '../utils';
+import pdf from 'html-pdf';
+import path from 'path';
+import { ErrorMessages } from '../constants';
 
 export class AccountingController {
   constructor(private accountingService: AccountingService) {
@@ -41,12 +43,28 @@ export class AccountingController {
 
   async addPayment(req: Request, res: Response): Promise<void> {
     const result = await this.accountingService.addPayment(req.body);
+
     res.status(201).json(result);
   }
 
   async getInvoices(req: Request, res: Response): Promise<void> {
-    const result = await this.accountingService.getInvoices();
-    res.status(200).json(result);
+    const htmlMarkup = await this.accountingService.getInvoices();
+    const filePath = path.resolve('temp', 'invoices.pdf');
+
+    pdf
+      .create(htmlMarkup, {
+        format: 'A4',
+      })
+      .toFile(filePath, (err, file) => {
+        if (err) {
+          throw httpError({
+            status: 404,
+            message: ErrorMessages.fileNotFound,
+          });
+        }
+
+        res.status(200).sendFile(file.filename);
+      });
   }
 }
 

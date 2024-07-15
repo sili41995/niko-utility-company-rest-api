@@ -6,3 +6,4 @@ export { default as getYearParams } from './getYearParams';
 export { default as getPaymentsFindFilters } from './getPaymentsFindFilters';
 export { default as createInvoice } from './createInvoice';
 export { default as createHtmlMarkup } from './createHtmlMarkup';
+export { default as getInvoices } from './getInvoices';

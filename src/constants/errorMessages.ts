@@ -96,6 +96,7 @@ const enum ErrorMessages {
   paymentSourcesErr = `Value of the source field must be one of these - '${PaymentSources.abank}', '${PaymentSources.adjustment}', '${PaymentSources.aval}', '${PaymentSources.benefitCompensation}', '${PaymentSources.cash}', '${PaymentSources.oshchadbank}', '${PaymentSources.postage}', '${PaymentSources.privatbank}', '${PaymentSources.ukrgasbank}' or '${PaymentSources.ukrsibbank}'`,
   amountReqErr = 'Missing required amount field',
   amountNumberErr = 'Amount field must be a number',
+  fileNotFound = 'File was not found',
 }
 
 export default ErrorMessages;
