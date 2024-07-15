@@ -3,8 +3,11 @@ import { prisma } from '../app';
 import { ErrorMessages, SectorTypes } from '../constants';
 import { NewPriceAdjustment, IPeriod, IPriceAdjustment, Periods, IPayment, NewPayment, IFindAllPaymentsRes } from '../types/accounting.type';
 import { IPricesInfo } from '../types/subscriberAccount.type';
-import { getYearParams, httpError } from '../utils';
+import { createHtmlMarkup, createInvoice, getYearParams, httpError } from '../utils';
 import { IFindFilters } from '../types/types.type';
+import { jsPDF } from 'jspdf';
+import puppeteer from 'puppeteer';
+import path from 'path';
 
 class AccountingService {
   async getAllPeriods(): Promise<Periods> {
@@ -171,6 +174,22 @@ class AccountingService {
     });
 
     return result;
+  }
+
+  async getInvoices() {
+    const subscriberAccounts = await prisma.subscriberAccount.findMany();
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.setContent('<html><head><title>Document</title></head><body><p>11111</p></body></html>');
+    console.log(1);
+    await page.pdf({
+      path: 'invoice.pdf',
+      format: 'A4',
+    });
+    console.log(2);
+    await browser.close();
+
+    return subscriberAccounts;
   }
 }
 

@@ -4,3 +4,5 @@ export { default as getSubscriberAccountsFindFilters } from './getSubscriberAcco
 export { default as getDocumentsFindFilters } from './getDocumentsFindFilters';
 export { default as getYearParams } from './getYearParams';
 export { default as getPaymentsFindFilters } from './getPaymentsFindFilters';
+export { default as createInvoice } from './createInvoice';
+export { default as createHtmlMarkup } from './createHtmlMarkup';

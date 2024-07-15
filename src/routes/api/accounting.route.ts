@@ -15,6 +15,7 @@ const getPricesCtrl = ctrlWrapper(accountingController.getPrices.bind(accounting
 const calculatePricesCtrl = ctrlWrapper(accountingController.calculatePrices.bind(accountingController));
 const getAllPaymentsCtrl = ctrlWrapper(accountingController.getAllPayments.bind(accountingController));
 const addPaymentCtrl = ctrlWrapper(accountingController.addPayment.bind(accountingController));
+const getInvoicesCtrl = ctrlWrapper(accountingController.getInvoices.bind(accountingController));
 
 // periods
 router.get(Endpoints.periods, getAllPeriodsCtrl);
@@ -26,5 +27,6 @@ router.post(Endpoints.prices, validateBody(priceAdjustmentSchemas.add), addPrice
 // payments
 router.get(Endpoints.payments, getAllPaymentsCtrl);
 router.post(Endpoints.payments, validateBody(paymentsSchemas.add), addPaymentCtrl);
+router.get(Endpoints.invoices, getInvoicesCtrl);
 
 export default router;
