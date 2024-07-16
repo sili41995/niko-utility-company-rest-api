@@ -49,7 +49,8 @@ export class AccountingController {
 
   async getInvoices(req: Request, res: Response): Promise<void> {
     const htmlMarkup = await this.accountingService.getInvoices();
-    const filePath = path.resolve('temp', 'invoices.pdf');
+    const filename = 'invoices.pdf';
+    const filePath = path.resolve('temp', filename);
 
     pdf
       .create(htmlMarkup, {
@@ -63,7 +64,7 @@ export class AccountingController {
           });
         }
 
-        res.status(200).sendFile(file.filename);
+        res.status(200).setHeader('Content-Disposition', `attachment; filename="${filename}"`).sendFile(file.filename);
       });
   }
 }
