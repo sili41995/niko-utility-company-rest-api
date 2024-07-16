@@ -45,7 +45,7 @@ const createInvoice = () =>
                 </tr>
               </tbody>
             </table>
-            <table style="font-size: 8px" class="invoice-table">
+            <table style="font-size: 10px" class="invoice-table">
        <thead>
                 <tr>
                   <th class="invoice-table-cell">Код</th>
