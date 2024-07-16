@@ -24,7 +24,7 @@ class SubscriberAccountService {
     const result = await prisma.subscriberAccount.findMany({
       where,
       orderBy: { subscriberAccount: 'asc' },
-      include: { house: true, street: true, owner: true, documents: { orderBy: { createdAt: 'desc' } } },
+      include: { house: { include: { street: true } }, street: true, owner: true, documents: { orderBy: { createdAt: 'desc' } } },
       skip,
       take,
     });
@@ -39,7 +39,7 @@ class SubscriberAccountService {
   }
 
   async getByNumber(subscriberAccount: string): Promise<ISubscriberAccount> {
-    const result = await prisma.subscriberAccount.findFirst({ where: { subscriberAccount }, include: { street: true, house: true, owner: true } });
+    const result = await prisma.subscriberAccount.findFirst({ where: { subscriberAccount }, include: { street: true, house: { include: { street: true } }, owner: true } });
 
     if (!result) {
       throw httpError({
@@ -75,7 +75,7 @@ class SubscriberAccountService {
     await prisma.owner.create({ data: { ...owner, subscriberAccountId } });
     const result = await prisma.subscriberAccount.findUnique({
       where: { id: subscriberAccountId },
-      include: { house: true, street: true, owner: true, documents: { orderBy: { createdAt: 'desc' } } },
+      include: { house: { include: { street: true } }, street: true, owner: true, documents: { orderBy: { createdAt: 'desc' } } },
     });
 
     if (!result) {
@@ -109,7 +109,7 @@ class SubscriberAccountService {
     const result = await prisma.subscriberAccount.update({
       where: { id },
       data: subscriberAccountData,
-      include: { house: true, street: true, owner: true, documents: { orderBy: { createdAt: 'desc' } } },
+      include: { house: { include: { street: true } }, owner: true, street: true, documents: { orderBy: { createdAt: 'desc' } } },
     });
 
     return result;

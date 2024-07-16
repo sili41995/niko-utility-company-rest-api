@@ -97,6 +97,7 @@ const enum ErrorMessages {
   amountReqErr = 'Missing required amount field',
   amountNumberErr = 'Amount field must be a number',
   fileNotFound = 'File was not found',
+  generalSettingsNotFound = 'General settings was not found',
 }
 
 export default ErrorMessages;

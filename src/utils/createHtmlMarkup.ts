@@ -47,6 +47,7 @@ const createHtmlMarkup = (content: string): string => `
       .invoice-table-cell {
         padding: 1px;
         border: 1px solid #2a2a2a;
+        text-transform: capitalize;
       }
       .invoice-table-row {
         text-align: center;

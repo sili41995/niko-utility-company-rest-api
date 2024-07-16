@@ -60,8 +60,8 @@ model GeneralSettings {
 model House {
   id Int @id @default(autoincrement())
   number String
-  Street Street @relation(fields: [street], references: [id])
-  street Int
+  street Street @relation(fields: [streetId], references: [id])
+  streetId Int
   subscriberAccounts SubscriberAccount[]
 }
 

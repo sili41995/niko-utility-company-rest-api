@@ -133,7 +133,7 @@ class AccountingService {
   async getAllPayments({ skip, take }: IFindFilters): Promise<IFindAllPaymentsRes> {
     const result = await prisma.payment.findMany({
       orderBy: { date: 'desc' },
-      include: { subscriberAccount: true, period: true },
+      include: { subscriberAccount: { include: { house: { include: { street: true } }, owner: true } }, period: true },
       skip,
       take,
     });
@@ -174,9 +174,25 @@ class AccountingService {
   }
 
   async getInvoices(): Promise<string> {
-    const subscriberAccounts = await prisma.subscriberAccount.findMany();
+    const subscriberAccounts = await prisma.subscriberAccount.findMany({ include: { house: { include: { street: true } }, owner: true } });
+    const generalSettings = await prisma.generalSettings.findFirst();
+    const period = await prisma.period.findFirst({ where: { isCurrentPeriod: true } });
 
-    const invoices = getInvoices({ subscriberAccounts });
+    if (!generalSettings) {
+      throw httpError({
+        status: 404,
+        message: ErrorMessages.generalSettingsNotFound,
+      });
+    }
+
+    if (!period) {
+      throw httpError({
+        status: 404,
+        message: ErrorMessages.periodNotFound,
+      });
+    }
+
+    const invoices = getInvoices({ subscriberAccounts, generalSettings, period });
     const filePath = saveInvoicesToPdf(invoices);
 
     return filePath;

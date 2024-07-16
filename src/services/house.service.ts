@@ -5,14 +5,14 @@ import { httpError } from '../utils';
 
 class HouseService {
   async getAll(): Promise<Houses> {
-    const result = await prisma.house.findMany({ orderBy: { number: 'asc' } });
+    const result = await prisma.house.findMany({ orderBy: { number: 'asc' }, include: { street: true } });
 
     return result;
   }
 
   async add(data: NewHouse): Promise<IHouse> {
-    const { number, street } = data;
-    const house = await prisma.house.findFirst({ where: { number, street } });
+    const { number, streetId } = data;
+    const house = await prisma.house.findFirst({ where: { number, streetId } });
 
     if (house) {
       throw httpError({
@@ -23,13 +23,14 @@ class HouseService {
 
     const result = await prisma.house.create({
       data,
+      include: { street: true },
     });
 
     return result;
   }
 
   async getByStreetId(id: number): Promise<Houses | null> {
-    const result = await prisma.house.findMany({ where: { street: id } });
+    const result = await prisma.house.findMany({ where: { streetId: id }, include: { street: true } });
 
     return result;
   }

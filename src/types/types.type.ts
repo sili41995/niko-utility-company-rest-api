@@ -1,4 +1,6 @@
-import { SubscriberAccounts } from './subscriberAccount.type';
+import { IPeriod } from './accounting.type';
+import { IGeneralSettings } from './generalSettings.type';
+import { ISubscriberAccount, SubscriberAccounts } from './subscriberAccount.type';
 
 export interface IHttpError {
   status: number;
@@ -25,4 +27,15 @@ export interface IFindFilters {
 
 export interface IGetInvoicesProps {
   subscriberAccounts: SubscriberAccounts;
+  generalSettings: IGeneralSettings;
+  period: IPeriod;
+}
+
+export interface IFormatDateProps {
+  date: Date;
+  dateFormat: string;
+}
+
+export interface ICreateInvoiceProps extends Omit<IGetInvoicesProps, 'subscriberAccounts'> {
+  subscriberAccount: ISubscriberAccount;
 }

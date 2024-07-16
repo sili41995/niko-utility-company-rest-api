@@ -1,4 +1,5 @@
 import { SectorTypes } from '../constants';
+import { IHouse } from './house.type';
 import { IFindFilters } from './types.type';
 
 export interface IOwner {
@@ -33,11 +34,13 @@ export interface ISubscriberAccount {
   streetId: number;
   sector: `${SectorTypes.multiApartment}` | `${SectorTypes.private}` | `${SectorTypes.other}`;
   apartment: string | null;
+  house: IHouse;
+  owner: IOwner | null;
 }
 
 export type SubscriberAccounts = ISubscriberAccount[];
 
-export interface INewSubscriberAccount extends Omit<ISubscriberAccount, 'id'> {
+export interface INewSubscriberAccount extends Omit<ISubscriberAccount, 'id' | 'house'> {
   owner: IOwner;
 }
 
