@@ -58,9 +58,11 @@ export class AccountingController {
       })
       .toFile(filePath, (err, file) => {
         if (err) {
+          console.log(err);
           throw httpError({
             status: 404,
-            message: ErrorMessages.fileNotFound,
+            // message: ErrorMessages.fileNotFound,
+            message: err.message,
           });
         }
 
