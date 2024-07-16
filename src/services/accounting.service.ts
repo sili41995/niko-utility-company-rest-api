@@ -104,9 +104,9 @@ class AccountingService {
     const { tariff: privateSectorTariff } = privateSector;
     const { tariff: otherSectorTariff } = otherSector;
 
-    await prisma.$executeRaw`UPDATE "SubscriberAccount" SET "price" = "residents" * ${multiApartmentSectorTariff}, "lastCalculate" = ${currentDate}::timestamp WHERE "sector" = ${SectorTypes.multiApartment}::"SectorType"`;
-    await prisma.$executeRaw`UPDATE "SubscriberAccount" SET "price" = "residents" * ${privateSectorTariff}, "lastCalculate" = ${currentDate}::timestamp WHERE "sector" = ${SectorTypes.private}::"SectorType"`;
-    await prisma.$executeRaw`UPDATE "SubscriberAccount" SET "price" = "residents" * ${otherSectorTariff}, "lastCalculate" = ${currentDate}::timestamp WHERE "sector" = ${SectorTypes.other}::"SectorType"`;
+    await prisma.$executeRaw`UPDATE "SubscriberAccount" SET "price" = "residents" * ${multiApartmentSectorTariff}, "balance" = "balance" + "residents" * ${multiApartmentSectorTariff}, "lastCalculate" = ${currentDate}::timestamp WHERE "sector" = ${SectorTypes.multiApartment}::"SectorType"`;
+    await prisma.$executeRaw`UPDATE "SubscriberAccount" SET "price" = "residents" * ${privateSectorTariff},  "balance" = "balance" + "residents" * ${privateSectorTariff},"lastCalculate" = ${currentDate}::timestamp WHERE "sector" = ${SectorTypes.private}::"SectorType"`;
+    await prisma.$executeRaw`UPDATE "SubscriberAccount" SET "price" = "residents" * ${otherSectorTariff}, "balance" = "balance" + "residents" * ${otherSectorTariff},"lastCalculate" = ${currentDate}::timestamp WHERE "sector" = ${SectorTypes.other}::"SectorType"`;
 
     const result = await prisma.subscriberAccount.findFirst({ where: { lastCalculate: { not: null } } });
 
