@@ -64,7 +64,7 @@ export class AccountingController {
           });
         }
 
-        res.status(200).setHeader('Content-Disposition', `attachment; filename="${filename}"`).sendFile(file.filename);
+        res.status(200).sendFile(file.filename);
       });
   }
 }
