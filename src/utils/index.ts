@@ -7,3 +7,4 @@ export { default as getPaymentsFindFilters } from './getPaymentsFindFilters';
 export { default as createInvoice } from './createInvoice';
 export { default as createHtmlMarkup } from './createHtmlMarkup';
 export { default as getInvoices } from './getInvoices';
+export { default as saveInvoicesToPdf } from './saveInvoicesToPdf';

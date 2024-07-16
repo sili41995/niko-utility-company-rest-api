@@ -1,11 +1,6 @@
 import { Response, Request } from 'express';
 import AccountingService from '../services/accounting.service';
-import { getPaymentsFindFilters, httpError } from '../utils';
-import pdf from 'html-pdf';
-import path from 'path';
-import { ErrorMessages } from '../constants';
-import html_to_pdf from 'html-pdf-node';
-import fs from 'fs';
+import { getPaymentsFindFilters } from '../utils';
 
 export class AccountingController {
   constructor(private accountingService: AccountingService) {
@@ -50,16 +45,7 @@ export class AccountingController {
   }
 
   async getInvoices(req: Request, res: Response): Promise<void> {
-    const htmlMarkup = await this.accountingService.getInvoices();
-    const filename = 'invoices.pdf';
-    const filePath = path.resolve('temp', filename);
-
-    const options = { format: 'A4' };
-    const file = { content: htmlMarkup };
-
-    const pdfBuffer = (await html_to_pdf.generatePdf(file, options)) as unknown as Buffer;
-
-    fs.writeFileSync(filePath, pdfBuffer);
+    const filePath = await this.accountingService.getInvoices();
 
     res.status(200).sendFile(filePath);
   }

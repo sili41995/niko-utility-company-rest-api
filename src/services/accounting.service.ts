@@ -3,7 +3,7 @@ import { prisma } from '../app';
 import { ErrorMessages, SectorTypes } from '../constants';
 import { NewPriceAdjustment, IPeriod, IPriceAdjustment, Periods, IPayment, NewPayment, IFindAllPaymentsRes } from '../types/accounting.type';
 import { IPricesInfo } from '../types/subscriberAccount.type';
-import { getInvoices, getYearParams, httpError } from '../utils';
+import { getInvoices, getYearParams, httpError, saveInvoicesToPdf } from '../utils';
 import { IFindFilters } from '../types/types.type';
 
 class AccountingService {
@@ -177,8 +177,9 @@ class AccountingService {
     const subscriberAccounts = await prisma.subscriberAccount.findMany();
 
     const invoices = getInvoices({ subscriberAccounts });
+    const filePath = saveInvoicesToPdf(invoices);
 
-    return invoices;
+    return filePath;
   }
 }
 
