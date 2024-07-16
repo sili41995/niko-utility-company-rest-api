@@ -4,28 +4,28 @@ const createInvoice = () =>
       <tbody>
         <tr>
           <td class="section info">
-            <div style="font-size: 12px" class="section-item">
+            <div style="font-size: 10px" class="section-item">
               <p>Повідомлення</p>
               <strong>Комунальне підприємство «МІСЬКЕ ПАРКОВЕ ГОСПОДАРСТВО» НІКОПОЛЬСЬКОЇ МІСЬКОЇ РАДИ</strong>
               <p>Рахунок одержувача:</p>
               <strong>UA833054820000026006303324483</strong>
               <p>МФО: <strong>305482</strong>, код ЄДРПОУ: <strong>38033142</strong></p>
             </div>
-            <div style="font-size: 12px" class="section-item">
+            <div style="font-size: 10px" class="section-item">
               <p>Особовий рахунок №: <strong>14769</strong></p>
               <p>ПІБ: <strong>Пастухова Алла Федорівна</strong></p>
               <p>Адреса: <strong>м. Нікополь, вул. 50 років НЗФ 1/2 кв. 25</strong></p>
             </div>
-            <p style="font-size: 12px">До сплати: <strong>-52.28</strong></p>
+            <p style="font-size: 10px">До сплати: <strong>-52.28</strong></p>
           </td>
           <td class="section invoice">
-            <strong style="font-size: 12px">Рахунок-повідомлення за комунальні послуги за Липень 2024р.</strong>
-            <p style="font-size: 12px">
+            <strong style="font-size: 10px">Рахунок-повідомлення за комунальні послуги за Липень 2024р.</strong>
+            <p style="font-size: 10px">
               <strong>Комунальне підприємство «МІСЬКЕ ПАРКОВЕ ГОСПОДАРСТВО» НІКОПОЛЬСЬКОЇ МІСЬКОЇ РАДИ</strong>
               050 039-86-44
             </p>
-            <p style="font-size: 12px">Рахунок одержувача: <strong>UA833054820000026006303324483</strong>, МФО: <strong>305482</strong>, код ЄДРПОУ: <strong>38033142</strong></p>
-            <table style="font-size: 12px">
+            <p style="font-size: 10px">Рахунок одержувача: <strong>UA833054820000026006303324483</strong>, МФО: <strong>305482</strong>, код ЄДРПОУ: <strong>38033142</strong></p>
+            <table style="font-size: 10px">
               <tbody>
                 <tr>
                   <td class="subscriber-account-table-cell">Особовий рахунок №:</td>
@@ -45,7 +45,7 @@ const createInvoice = () =>
                 </tr>
               </tbody>
             </table>
-            <table style="font-size: 10px" class="invoice-table">
+            <table style="font-size: 8px" class="invoice-table">
        <thead>
                 <tr>
                   <th class="invoice-table-cell">Код</th>

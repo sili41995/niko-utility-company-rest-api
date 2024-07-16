@@ -5,7 +5,11 @@ const createHtmlMarkup = (content: string): string => `
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <style>
+     <style>
+      @page {
+        size: A4;
+        margin: 20mm;
+      }
       * {
         box-sizing: border-box;
         margin: 0;
@@ -17,6 +21,12 @@ const createHtmlMarkup = (content: string): string => `
       .container {
         width: 790px;
       }
+      .container:not(:first-of-type) {
+        margin-top: 12px;
+      }
+      .container:nth-child(6n) {
+        page-break-before: always;
+      }
       .section {
         padding: 2px;
         border: 1px solid #2a2a2a;
@@ -25,14 +35,14 @@ const createHtmlMarkup = (content: string): string => `
         width: 30%;
       }
       .section > *:not(:first-child) {
-        margin-top: 4px;
+        margin-top: 1px;
       }
       .section-item > *:not(:first-child) {
-        margin-top: 4px;
+        margin-top: 1px;
       }
       .subscriber-account-table-cell {
-        padding-top: 4px;
-        padding-bottom: 4px;
+        padding-top: 2px;
+        padding-bottom: 2px;
       }
       .invoice-table-cell {
         padding: 1px;
