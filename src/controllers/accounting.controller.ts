@@ -4,6 +4,7 @@ import { getPaymentsFindFilters, httpError } from '../utils';
 import pdf from 'html-pdf';
 import path from 'path';
 import { ErrorMessages } from '../constants';
+import html_to_pdf from 'html-pdf-node';
 
 export class AccountingController {
   constructor(private accountingService: AccountingService) {
@@ -52,22 +53,29 @@ export class AccountingController {
     const filename = 'invoices.pdf';
     const filePath = path.resolve('temp', filename);
 
-    pdf
-      .create(htmlMarkup, {
-        format: 'A4',
-      })
-      .toFile(filePath, (err, file) => {
-        if (err) {
-          console.log(err);
-          throw httpError({
-            status: 404,
-            // message: ErrorMessages.fileNotFound,
-            message: err.message,
-          });
-        }
+    const options = { format: 'A4' };
+    let file = { content: '<h1>Welcome to html-pdf-node</h1>', name: 'example.pdf' };
 
-        res.status(200).sendFile(file.filename);
-      });
+    const pdfBuffer = await html_to_pdf.generatePdf(file, options);
+
+    console.log('PDF Buffer:-', pdfBuffer);
+
+    // pdf
+    //   .create(htmlMarkup, {
+    //     format: 'A4',
+    //   })
+    //   .toFile(filePath, (err, file) => {
+    //     if (err) {
+    //       console.log(err);
+    //       throw httpError({
+    //         status: 404,
+    //         // message: ErrorMessages.fileNotFound,
+    //         message: err.message,
+    //       });
+    //     }
+
+    //   });
+    res.status(200).json(pdfBuffer);
   }
 }
 
