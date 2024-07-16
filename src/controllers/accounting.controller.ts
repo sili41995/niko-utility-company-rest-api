@@ -5,6 +5,7 @@ import pdf from 'html-pdf';
 import path from 'path';
 import { ErrorMessages } from '../constants';
 import html_to_pdf from 'html-pdf-node';
+import fs from 'fs';
 
 export class AccountingController {
   constructor(private accountingService: AccountingService) {
@@ -54,28 +55,13 @@ export class AccountingController {
     const filePath = path.resolve('temp', filename);
 
     const options = { format: 'A4' };
-    let file = { content: '<h1>Welcome to html-pdf-node</h1>', name: 'example.pdf' };
+    const file = { content: htmlMarkup };
 
-    const pdfBuffer = await html_to_pdf.generatePdf(file, options);
+    const pdfBuffer = (await html_to_pdf.generatePdf(file, options)) as unknown as Buffer;
 
-    console.log('PDF Buffer:-', pdfBuffer);
+    fs.writeFileSync(filePath, pdfBuffer);
 
-    // pdf
-    //   .create(htmlMarkup, {
-    //     format: 'A4',
-    //   })
-    //   .toFile(filePath, (err, file) => {
-    //     if (err) {
-    //       console.log(err);
-    //       throw httpError({
-    //         status: 404,
-    //         // message: ErrorMessages.fileNotFound,
-    //         message: err.message,
-    //       });
-    //     }
-
-    //   });
-    res.status(200).json(pdfBuffer);
+    res.status(200).sendFile(filePath);
   }
 }
 
