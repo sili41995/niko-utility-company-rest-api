@@ -146,6 +146,7 @@ model Statistics{
   accrued Int @default(0)
   penalty Int @default(0)
   adjustment Int
+  payments Int @default(0)
   benefits Int @default(0)
   subsidies Int @default(0)
   balanceEnd Int
