@@ -170,6 +170,9 @@ class AccountingService {
       },
     });
 
+    // update payments
+    await prisma.statistics.update({ where: { periodId: period.id }, data: { payments: { increment: result.amount } } });
+
     return result;
   }
 
