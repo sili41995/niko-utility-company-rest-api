@@ -5,14 +5,14 @@ const numberSettings = Joi.string().messages({
   'any.required': ErrorMessages.numberReqErr,
 });
 
-const streetSettings = Joi.number().messages({
-  'any.required': ErrorMessages.streetReqErr,
-  'number.base': ErrorMessages.streetNumberErr,
+const streetIdSettings = Joi.number().messages({
+  'any.required': ErrorMessages.streetIdReqErr,
+  'number.base': ErrorMessages.streetIdNumberErr,
 });
 
 const add = Joi.object({
   number: numberSettings.required(),
-  street: streetSettings.required(),
+  streetId: streetIdSettings.required(),
 });
 
 const schemas = {
