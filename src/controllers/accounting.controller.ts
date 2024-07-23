@@ -1,6 +1,6 @@
-import { Response, Request } from 'express';
+import { Response, Request, NextFunction } from 'express';
 import AccountingService from '../services/accounting.service';
-import { getPaymentsFindFilters } from '../utils';
+import { getPaymentsFindFilters, removeFile } from '../utils';
 
 export class AccountingController {
   constructor(private accountingService: AccountingService) {
@@ -44,10 +44,10 @@ export class AccountingController {
     res.status(201).json(result);
   }
 
-  async getInvoices(req: Request, res: Response): Promise<void> {
+  async getInvoices(req: Request, res: Response, next: NextFunction): Promise<void> {
     const filePath = await this.accountingService.getInvoices();
 
-    res.status(200).sendFile(filePath);
+    res.status(200).sendFile(filePath, {}, removeFile(filePath));
   }
 }
 
