@@ -9,3 +9,6 @@ export { default as createHtmlMarkup } from './createHtmlMarkup';
 export { default as getInvoices } from './getInvoices';
 export { default as saveInvoicesToPdf } from './saveInvoicesToPdf';
 export { default as removeFile } from './removeFile';
+export { default as getPaymentsBySourceData } from './getPaymentsBySourceData';
+export { default as savePaymentsToCsv } from './savePaymentsToCsv';
+export { default as getPaymentsBySourceFilePath } from './getPaymentsBySourceFilePath';

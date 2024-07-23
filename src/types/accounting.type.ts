@@ -52,3 +52,14 @@ export interface IFindAllPaymentsRes {
   data: Payments;
   count: number;
 }
+
+export interface IPaymentBySource {
+  subscriberAccount: string;
+  fullName: string;
+  address: string;
+  service: number;
+  balance: number;
+  date: string;
+}
+
+export type PaymentsBySource = IPaymentBySource[];

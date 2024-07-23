@@ -1,6 +1,7 @@
 import { Response, Request, NextFunction } from 'express';
 import AccountingService from '../services/accounting.service';
 import { getPaymentsFindFilters, removeFile } from '../utils';
+import { PaymentSources } from '../constants';
 
 export class AccountingController {
   constructor(private accountingService: AccountingService) {
@@ -46,6 +47,30 @@ export class AccountingController {
 
   async getInvoices(req: Request, res: Response, next: NextFunction): Promise<void> {
     const filePath = await this.accountingService.getInvoices();
+
+    res.status(200).sendFile(filePath, {}, removeFile(filePath));
+  }
+
+  async getPaymentsBySourcePostage(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const filePath = await this.accountingService.getPaymentsBySource(PaymentSources.postage);
+
+    res.status(200).sendFile(filePath, {}, removeFile(filePath));
+  }
+
+  async getPaymentsBySourcePrivatbank(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const filePath = await this.accountingService.getPaymentsBySource(PaymentSources.privatbank);
+
+    res.status(200).sendFile(filePath, {}, removeFile(filePath));
+  }
+
+  async getPaymentsBySourceOshchadbank(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const filePath = await this.accountingService.getPaymentsBySource(PaymentSources.oshchadbank);
+
+    res.status(200).sendFile(filePath, {}, removeFile(filePath));
+  }
+
+  async getPaymentsBySourceAbank(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const filePath = await this.accountingService.getPaymentsBySource(PaymentSources.abank);
 
     res.status(200).sendFile(filePath, {}, removeFile(filePath));
   }

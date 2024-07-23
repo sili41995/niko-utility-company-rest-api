@@ -16,6 +16,10 @@ const calculatePricesCtrl = ctrlWrapper(accountingController.calculatePrices.bin
 const getAllPaymentsCtrl = ctrlWrapper(accountingController.getAllPayments.bind(accountingController));
 const addPaymentCtrl = ctrlWrapper(accountingController.addPayment.bind(accountingController));
 const getInvoicesCtrl = ctrlWrapper(accountingController.getInvoices.bind(accountingController));
+const getPaymentsBySourcePostageCtrl = ctrlWrapper(accountingController.getPaymentsBySourcePostage.bind(accountingController));
+const getPaymentsBySourcePrivatbankCtrl = ctrlWrapper(accountingController.getPaymentsBySourcePrivatbank.bind(accountingController));
+const getPaymentsBySourceOshchadbankCtrl = ctrlWrapper(accountingController.getPaymentsBySourceOshchadbank.bind(accountingController));
+const getPaymentsBySourceAbankCtrl = ctrlWrapper(accountingController.getPaymentsBySourceAbank.bind(accountingController));
 
 // periods
 router.get(Endpoints.periods, getAllPeriodsCtrl);
@@ -28,5 +32,9 @@ router.post(Endpoints.prices, validateBody(priceAdjustmentSchemas.add), addPrice
 router.get(Endpoints.payments, getAllPaymentsCtrl);
 router.post(Endpoints.payments, validateBody(paymentsSchemas.add), addPaymentCtrl);
 router.get(Endpoints.invoices, getInvoicesCtrl);
+router.get(Endpoints.postagePayments, getPaymentsBySourcePostageCtrl);
+router.get(Endpoints.privatbankPayments, getPaymentsBySourcePrivatbankCtrl);
+router.get(Endpoints.oshchadbankPayments, getPaymentsBySourceOshchadbankCtrl);
+router.get(Endpoints.abankPayments, getPaymentsBySourceAbankCtrl);
 
 export default router;

@@ -1,4 +1,4 @@
-import { IPeriod } from './accounting.type';
+import { IPeriod, PaymentsBySource } from './accounting.type';
 import { IGeneralSettings } from './generalSettings.type';
 import { ISubscriberAccount, SubscriberAccounts } from './subscriberAccount.type';
 
@@ -38,4 +38,9 @@ export interface IFormatDateProps {
 
 export interface ICreateInvoiceProps extends Omit<IGetInvoicesProps, 'subscriberAccounts'> {
   subscriberAccount: ISubscriberAccount;
+}
+
+export interface ISavePaymentsToCsvProps {
+  filePath: string;
+  payments: PaymentsBySource;
 }

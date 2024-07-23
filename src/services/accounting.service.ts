@@ -1,9 +1,9 @@
 import { Prisma } from '@prisma/client';
 import { prisma } from '../app';
-import { ErrorMessages, SectorTypes } from '../constants';
+import { ErrorMessages, PaymentSources, SectorTypes } from '../constants';
 import { NewPriceAdjustment, IPeriod, IPriceAdjustment, Periods, IPayment, NewPayment, IFindAllPaymentsRes } from '../types/accounting.type';
 import { IPricesInfo } from '../types/subscriberAccount.type';
-import { getInvoices, getYearParams, httpError, saveInvoicesToPdf } from '../utils';
+import { getInvoices, getPaymentsBySourceData, getPaymentsBySourceFilePath, getYearParams, httpError, saveInvoicesToPdf, savePaymentsToCsv } from '../utils';
 import { IFindFilters } from '../types/types.type';
 
 class AccountingService {
@@ -197,6 +197,20 @@ class AccountingService {
 
     const invoices = getInvoices({ subscriberAccounts, generalSettings, period });
     const filePath = saveInvoicesToPdf(invoices);
+
+    return filePath;
+  }
+
+  async getPaymentsBySource(paymentSource: PaymentSources): Promise<string> {
+    const result = await prisma.payment.findMany({
+      where: { source: paymentSource, period: { isCurrentPeriod: true } },
+      include: { subscriberAccount: { include: { house: { include: { street: true } }, owner: true } } },
+    });
+
+    const payments = getPaymentsBySourceData(result);
+    const filePath = getPaymentsBySourceFilePath(paymentSource);
+
+    await savePaymentsToCsv({ filePath, payments });
 
     return filePath;
   }
