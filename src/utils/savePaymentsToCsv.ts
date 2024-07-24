@@ -12,6 +12,7 @@ const savePaymentsToCsv = async ({ filePath, payments }: ISavePaymentsToCsvProps
       { id: 'balance', title: 'Борг' },
       { id: 'date', title: 'Дата' },
     ],
+    fieldDelimiter: ';',
   });
 
   await csvWriter.writeRecords(payments);
