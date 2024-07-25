@@ -9,7 +9,7 @@ import { IFindFilters } from '../types/types.type';
 class AccountingService {
   async getAllPeriods(): Promise<Periods> {
     const { yearStart, yearEnd } = getYearParams();
-    const result = await prisma.period.findMany({ where: { start: { gte: yearStart, lte: yearEnd } }, include: { statistics: true }, orderBy: { start: 'desc' } });
+    const result = await prisma.period.findMany({ where: { start: { gte: yearStart, lte: yearEnd } }, include: { statistics: true, payments: true }, orderBy: { start: 'desc' } });
 
     return result;
   }
