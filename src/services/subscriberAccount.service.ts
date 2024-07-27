@@ -31,7 +31,7 @@ class SubscriberAccountService {
         documents: { orderBy: { createdAt: 'desc' } },
         payments: { orderBy: { date: 'desc' } },
         priceAdjustments: { orderBy: { date: 'desc' } },
-        prices: { orderBy: { date: 'desc' } },
+        prices: { include: { period: true }, orderBy: { date: 'desc' } },
       },
       skip,
       take,
