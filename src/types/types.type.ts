@@ -44,3 +44,8 @@ export interface ISavePaymentsToCsvProps {
   filePath: string;
   payments: PaymentsBySource;
 }
+
+export interface ITimePeriod {
+  from: Date;
+  to: Date;
+}

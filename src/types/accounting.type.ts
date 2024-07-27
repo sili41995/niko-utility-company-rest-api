@@ -63,3 +63,8 @@ export interface IPaymentBySource {
 }
 
 export type PaymentsBySource = IPaymentBySource[];
+
+export interface IReportsFindFilters {
+  from: string;
+  to: string;
+}

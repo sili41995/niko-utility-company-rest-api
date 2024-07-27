@@ -1,10 +1,11 @@
 import { Prisma } from '@prisma/client';
 import { prisma } from '../app';
 import { ErrorMessages, PaymentSources, SectorTypes } from '../constants';
-import { NewPriceAdjustment, IPeriod, IPriceAdjustment, Periods, IPayment, NewPayment, IFindAllPaymentsRes } from '../types/accounting.type';
+import { NewPriceAdjustment, IPeriod, IPriceAdjustment, Periods, IPayment, NewPayment, IFindAllPaymentsRes, IReportsFindFilters } from '../types/accounting.type';
 import { IPricesInfo } from '../types/subscriberAccount.type';
 import { getInvoices, getPaymentsBySourceData, getPaymentsBySourceFilePath, getYearParams, httpError, saveInvoicesToPdf, savePaymentsToCsv } from '../utils';
-import { IFindFilters } from '../types/types.type';
+import { IFindFilters, ITimePeriod } from '../types/types.type';
+import { addMonths, endOfMonth, startOfMonth } from 'date-fns';
 
 class AccountingService {
   async getAllPeriods(): Promise<Periods> {
@@ -210,6 +211,13 @@ class AccountingService {
     await savePaymentsToCsv({ filePath, payments });
 
     return filePath;
+  }
+
+  async getReportsByStreets({ from, to }: IReportsFindFilters) {
+    const fromDate = new Date(from);
+    const toDate = new Date(to);
+    const periodStart = fromDate;
+    const periodEnd = addMonths(toDate, 1);
   }
 }
 

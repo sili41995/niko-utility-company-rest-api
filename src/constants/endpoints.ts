@@ -5,11 +5,6 @@ const enum Endpoints {
   user = '/user',
   prices = '/prices',
   periods = '/periods',
-  payments = '/payments',
-  postagePayments = `${payments}/postage`,
-  privatbankPayments = `${payments}/privatbank`,
-  oshchadbankPayments = `${payments}/oshchadbank`,
-  abankPayments = `${payments}/abank`,
   invoices = '/invoices',
   dynamicId = 'id',
   fullAccess = `/:${dynamicId}/fullAccess`,
@@ -32,6 +27,17 @@ const enum Endpoints {
   dynamicType = 'type',
   dynamicComment = 'comment',
   dynamicDocument = 'document',
+  // reports
+  reports = '/reports',
+  reportsByStreets = `${reports}/streets`,
+  //payments
+  payments = '/payments',
+  postagePayments = `${payments}/postage`,
+  privatbankPayments = `${payments}/privatbank`,
+  oshchadbankPayments = `${payments}/oshchadbank`,
+  abankPayments = `${payments}/abank`,
+  dynamicFrom = 'from',
+  dynamicTo = 'to',
 }
 
 export default Endpoints;

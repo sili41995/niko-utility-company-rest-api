@@ -12,3 +12,4 @@ export { default as removeFile } from './removeFile';
 export { default as getPaymentsBySourceData } from './getPaymentsBySourceData';
 export { default as savePaymentsToCsv } from './savePaymentsToCsv';
 export { default as getPaymentsBySourceFilePath } from './getPaymentsBySourceFilePath';
+export { default as getReportsFindFilters } from './getReportsFindFilters';

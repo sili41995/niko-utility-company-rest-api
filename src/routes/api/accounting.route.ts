@@ -20,6 +20,7 @@ const getPaymentsBySourcePostageCtrl = ctrlWrapper(accountingController.getPayme
 const getPaymentsBySourcePrivatbankCtrl = ctrlWrapper(accountingController.getPaymentsBySourcePrivatbank.bind(accountingController));
 const getPaymentsBySourceOshchadbankCtrl = ctrlWrapper(accountingController.getPaymentsBySourceOshchadbank.bind(accountingController));
 const getPaymentsBySourceAbankCtrl = ctrlWrapper(accountingController.getPaymentsBySourceAbank.bind(accountingController));
+const getReportsByStreetsCtrl = ctrlWrapper(accountingController.getReportsByStreets.bind(accountingController));
 
 // periods
 router.get(Endpoints.periods, getAllPeriodsCtrl);
@@ -36,5 +37,7 @@ router.get(Endpoints.postagePayments, getPaymentsBySourcePostageCtrl);
 router.get(Endpoints.privatbankPayments, getPaymentsBySourcePrivatbankCtrl);
 router.get(Endpoints.oshchadbankPayments, getPaymentsBySourceOshchadbankCtrl);
 router.get(Endpoints.abankPayments, getPaymentsBySourceAbankCtrl);
+// reports
+router.get(Endpoints.reportsByStreets, getReportsByStreetsCtrl);
 
 export default router;

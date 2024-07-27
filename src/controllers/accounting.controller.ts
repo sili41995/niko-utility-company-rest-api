@@ -1,6 +1,6 @@
 import { Response, Request, NextFunction } from 'express';
 import AccountingService from '../services/accounting.service';
-import { getPaymentsFindFilters, removeFile } from '../utils';
+import { getPaymentsFindFilters, getReportsFindFilters, removeFile } from '../utils';
 import { PaymentSources } from '../constants';
 
 export class AccountingController {
@@ -10,32 +10,38 @@ export class AccountingController {
 
   async getAllPeriods(req: Request, res: Response): Promise<void> {
     const result = await this.accountingService.getAllPeriods();
+
     res.status(200).json(result);
   }
 
   async addPeriod(req: Request, res: Response): Promise<void> {
     const result = await this.accountingService.addPeriod();
+
     res.status(201).json(result);
   }
 
   async getPrices(req: Request, res: Response): Promise<void> {
     const result = await this.accountingService.getPrices();
+
     res.status(200).json(result);
   }
 
   async calculatePrices(req: Request, res: Response): Promise<void> {
     const result = await this.accountingService.calculatePrices();
+
     res.status(200).json(result);
   }
 
   async addPriceAdjustment(req: Request, res: Response): Promise<void> {
     const result = await this.accountingService.addPriceAdjustment(req.body);
+
     res.status(201).json(result);
   }
 
   async getAllPayments(req: Request, res: Response): Promise<void> {
     const findFilters = getPaymentsFindFilters(req.query);
     const result = await this.accountingService.getAllPayments(findFilters);
+
     res.status(200).json(result);
   }
 
@@ -73,6 +79,13 @@ export class AccountingController {
     const filePath = await this.accountingService.getPaymentsBySource(PaymentSources.abank);
 
     res.status(200).sendFile(filePath, {}, removeFile(filePath));
+  }
+
+  async getReportsByStreets(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const findFilters = getReportsFindFilters(req.query);
+    const result = await this.accountingService.getReportsByStreets(findFilters);
+
+    res.status(201).json(result);
   }
 }
 
