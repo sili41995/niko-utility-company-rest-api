@@ -1,6 +1,7 @@
 import { IPeriod, PaymentsBySource } from './accounting.type';
 import { IGeneralSettings } from './generalSettings.type';
 import { ISubscriberAccount, SubscriberAccounts } from './subscriberAccount.type';
+import { ICurrentTariffs } from './tariff.type';
 
 export interface IHttpError {
   status: number;
@@ -48,4 +49,10 @@ export interface ISavePaymentsToCsvProps {
 export interface ITimePeriod {
   from: Date;
   to: Date;
+}
+
+export interface INewPricesDataProps {
+  subscriberAccounts: SubscriberAccounts;
+  currentTariffs: ICurrentTariffs;
+  currentPeriod: IPeriod;
 }

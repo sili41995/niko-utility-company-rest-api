@@ -1,11 +1,10 @@
-import { Prisma } from '@prisma/client';
 import { prisma } from '../app';
-import { ErrorMessages, PaymentSources, SectorTypes } from '../constants';
+import { ErrorMessages, PaymentSources } from '../constants';
 import { NewPriceAdjustment, IPeriod, IPriceAdjustment, Periods, IPayment, NewPayment, IFindAllPaymentsRes, IReportsFindFilters } from '../types/accounting.type';
 import { IPricesInfo } from '../types/subscriberAccount.type';
-import { getInvoices, getPaymentsBySourceData, getPaymentsBySourceFilePath, getYearParams, httpError, saveInvoicesToPdf, savePaymentsToCsv } from '../utils';
-import { IFindFilters, ITimePeriod } from '../types/types.type';
-import { addMonths, endOfMonth, startOfMonth } from 'date-fns';
+import { getInvoices, getNewPricesData, getPaymentsBySourceData, getPaymentsBySourceFilePath, getCurrentTariffs, getYearParams, httpError, saveInvoicesToPdf, savePaymentsToCsv } from '../utils';
+import { IFindFilters } from '../types/types.type';
+import { addMonths } from 'date-fns';
 
 class AccountingService {
   async getAllPeriods(): Promise<Periods> {
@@ -31,16 +30,19 @@ class AccountingService {
     const { id } = await prisma.period.create({ data: { isCurrentPeriod: true } });
     const subscriberAccounts = await prisma.subscriberAccount.findMany();
 
-    if (!subscriberAccounts) {
-      throw httpError({
-        status: 404,
-        message: ErrorMessages.subscriberAccountNotFound,
-      });
-    }
-
     const subscriberAccountsTotalCount = await prisma.subscriberAccount.count();
     const residents = subscriberAccounts.reduce((acc, { residents }) => acc + residents, 0);
-    await prisma.statistics.create({ data: { periodId: id, residents, subscriberAccounts: subscriberAccountsTotalCount, adjustment: 0, balanceEnd: 0, balanceStart: 0 } });
+
+    const newStatisticsItem = {
+      periodId: id,
+      residents,
+      subscriberAccounts: subscriberAccountsTotalCount,
+      adjustment: 0,
+      balanceEnd: 0,
+      balanceStart: 0,
+    };
+
+    await prisma.statistics.create({ data: newStatisticsItem });
 
     const result = await prisma.period.findUnique({ where: { id }, include: { statistics: true } });
 
@@ -70,63 +72,28 @@ class AccountingService {
   }
 
   async calculatePrices(): Promise<IPricesInfo> {
-    const currentDate = new Date();
-    const tariffOrderBy: Prisma.TariffOrderByWithRelationInput = { start: 'desc' };
-    const tariffDateFilter = { lte: currentDate };
+    const currentTariffs = await getCurrentTariffs();
+    const subscriberAccounts = await prisma.subscriberAccount.findMany({ include: { owner: true, house: { include: { street: true } } } });
+    const currentPeriod = await prisma.period.findFirst({ where: { isCurrentPeriod: true } });
 
-    const multiApartmentSector = await prisma.tariff.findFirst({ where: { sector: SectorTypes.multiApartment, start: tariffDateFilter }, orderBy: tariffOrderBy });
-
-    const privateSector = await prisma.tariff.findFirst({ where: { sector: SectorTypes.private, start: tariffDateFilter }, orderBy: tariffOrderBy });
-
-    const otherSector = await prisma.tariff.findFirst({ where: { sector: SectorTypes.other, start: tariffDateFilter }, orderBy: tariffOrderBy });
-
-    if (!multiApartmentSector) {
+    if (!currentPeriod) {
       throw httpError({
         status: 404,
-        message: ErrorMessages.multiApartmentTariffNotFound,
+        message: ErrorMessages.periodNotFound,
       });
     }
 
-    if (!privateSector) {
-      throw httpError({
-        status: 404,
-        message: ErrorMessages.privateTariffNotFound,
-      });
-    }
+    const newPricesData = getNewPricesData({ subscriberAccounts, currentTariffs, currentPeriod });
 
-    if (!otherSector) {
-      throw httpError({
-        status: 404,
-        message: ErrorMessages.otherTariffNotFound,
-      });
-    }
-
-    const { tariff: multiApartmentSectorTariff } = multiApartmentSector;
-    const { tariff: privateSectorTariff } = privateSector;
-    const { tariff: otherSectorTariff } = otherSector;
-
-    await prisma.$executeRaw`UPDATE "SubscriberAccount" SET "price" = "residents" * ${multiApartmentSectorTariff}, "balance" = "balance" + "residents" * ${multiApartmentSectorTariff}, "lastCalculate" = ${currentDate}::timestamp WHERE "sector" = ${SectorTypes.multiApartment}::"SectorType"`;
-    await prisma.$executeRaw`UPDATE "SubscriberAccount" SET "price" = "residents" * ${privateSectorTariff},  "balance" = "balance" + "residents" * ${privateSectorTariff},"lastCalculate" = ${currentDate}::timestamp WHERE "sector" = ${SectorTypes.private}::"SectorType"`;
-    await prisma.$executeRaw`UPDATE "SubscriberAccount" SET "price" = "residents" * ${otherSectorTariff}, "balance" = "balance" + "residents" * ${otherSectorTariff},"lastCalculate" = ${currentDate}::timestamp WHERE "sector" = ${SectorTypes.other}::"SectorType"`;
-
-    const result = await prisma.subscriberAccount.findFirst({ where: { lastCalculate: { not: null } } });
-
-    if (!result || !result.lastCalculate) {
-      throw httpError({
-        status: 404,
-        message: ErrorMessages.priceNotFound,
-      });
-    }
+    const result = await prisma.price.createMany({ data: newPricesData });
 
     return {
-      lastCalculate: result.lastCalculate,
+      lastCalculate: newPricesData[0].date,
     };
   }
 
   async addPriceAdjustment(data: NewPriceAdjustment): Promise<IPriceAdjustment> {
     const result = await prisma.priceAdjustment.create({ data });
-
-    await prisma.subscriberAccount.update({ where: { id: data.subscriberAccountId }, data: { price: data.price } });
 
     return result;
   }

@@ -102,7 +102,6 @@ model SubscriberAccount{
   accountType String
   sector SectorType
   balance Float @default(0)
-  price Float @default(0)
   owner Owner?
   houseId Int
   house House @relation(fields: [houseId], references: [id])
@@ -111,6 +110,7 @@ model SubscriberAccount{
   documents Document[]
   priceAdjustments PriceAdjustment[]
   payments Payment[]
+  prices Price[]
   lastCalculate DateTime?
 }
 
@@ -136,6 +136,7 @@ model Period{
   start DateTime @db.Date @default(now())
   statistics Statistics?
   payments Payment[]
+  prices Price[]
 }
 
 model Statistics{
@@ -160,6 +161,16 @@ model PriceAdjustment{
   comment String
   subscriberAccountId Int
   subscriberAccount SubscriberAccount @relation(fields: [subscriberAccountId], references: [id])
+}
+
+model Price{
+  id Int @id @default(autoincrement())
+  amount Float
+  date DateTime @db.Date
+  subscriberAccountId Int
+  subscriberAccount SubscriberAccount @relation(fields: [subscriberAccountId], references: [id])
+  periodId Int
+  period Period @relation(fields: [periodId], references: [id])
 }
 
 model Payment{
