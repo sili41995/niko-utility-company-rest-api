@@ -111,7 +111,6 @@ model SubscriberAccount{
   priceAdjustments PriceAdjustment[]
   payments Payment[]
   prices Price[]
-  lastCalculate DateTime?
 }
 
 model Tariff{
@@ -167,6 +166,8 @@ model Price{
   id Int @id @default(autoincrement())
   amount Float
   date DateTime @db.Date
+  residents Int
+  tariff Float
   subscriberAccountId Int
   subscriberAccount SubscriberAccount @relation(fields: [subscriberAccountId], references: [id])
   periodId Int

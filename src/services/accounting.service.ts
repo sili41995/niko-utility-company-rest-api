@@ -57,7 +57,7 @@ class AccountingService {
   }
 
   async getPrices(): Promise<IPricesInfo> {
-    const result = await prisma.subscriberAccount.findFirst({ where: { lastCalculate: { not: null } } });
+    const result = await prisma.subscriberAccount.findFirst({ include: { prices: true } });
 
     if (!result || !result.lastCalculate) {
       throw httpError({
@@ -67,7 +67,7 @@ class AccountingService {
     }
 
     return {
-      lastCalculate: result.lastCalculate,
+      lastCalculate: result.prices[0].date,
     };
   }
 

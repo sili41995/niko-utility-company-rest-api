@@ -8,20 +8,13 @@ const getNewPricesData = ({ subscriberAccounts, currentTariffs, currentPeriod }:
     const isMultiApartmentSector = sector === SectorTypes.multiApartment;
     const isPrivateSector = sector === SectorTypes.private;
     const isOtherSector = sector === SectorTypes.other;
-
-    let amount = 0;
-
-    if (isMultiApartmentSector) {
-      amount = multiApartmentSectorTariff * residents;
-    } else if (isPrivateSector) {
-      amount = privateSectorTariff * residents;
-    } else if (isOtherSector) {
-      amount = otherSectorTariff * residents;
-    }
+    const tariff = isMultiApartmentSector ? multiApartmentSectorTariff : isPrivateSector ? privateSectorTariff : isOtherSector ? otherSectorTariff : 0;
 
     return {
-      amount,
+      amount: residents * tariff,
       date: new Date(),
+      residents,
+      tariff,
       subscriberAccountId: id,
       periodId: currentPeriod.id,
     };
