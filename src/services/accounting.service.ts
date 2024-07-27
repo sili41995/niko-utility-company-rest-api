@@ -59,7 +59,7 @@ class AccountingService {
   async getPrices(): Promise<IPricesInfo> {
     const result = await prisma.subscriberAccount.findFirst({ include: { prices: true } });
 
-    if (!result || !result.lastCalculate) {
+    if (!result) {
       throw httpError({
         status: 404,
         message: ErrorMessages.priceNotFound,
