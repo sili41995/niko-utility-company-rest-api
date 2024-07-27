@@ -24,7 +24,7 @@ class SubscriberAccountService {
     const result = await prisma.subscriberAccount.findMany({
       where,
       orderBy: { subscriberAccount: 'asc' },
-      include: { house: { include: { street: true } }, street: true, owner: true, documents: { orderBy: { createdAt: 'desc' } } },
+      include: { house: { include: { street: true } }, street: true, owner: true, documents: { orderBy: { createdAt: 'desc' } }, payments: true },
       skip,
       take,
     });
