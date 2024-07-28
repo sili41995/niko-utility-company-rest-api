@@ -129,15 +129,6 @@ class AccountingService {
 
     const result = await prisma.payment.create({ data: { ...data, periodId: period.id } });
 
-    await prisma.subscriberAccount.update({
-      where: { id: result.subscriberAccountId },
-      data: {
-        balance: {
-          decrement: result.amount,
-        },
-      },
-    });
-
     return result;
   }
 
