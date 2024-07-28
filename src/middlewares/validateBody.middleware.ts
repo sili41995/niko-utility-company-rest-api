@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
-import { ObjectSchema } from 'joi';
+import { ArraySchema, ObjectSchema } from 'joi';
 import { httpError } from '../utils';
 
 const validateBody =
-  <T>(schema: ObjectSchema<T>) =>
+  <T>(schema: ObjectSchema<T> | ArraySchema<T>) =>
   (req: Request, res: Response, next: NextFunction): void => {
     const { error } = schema.validate(req.body);
 

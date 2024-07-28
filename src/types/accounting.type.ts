@@ -48,6 +48,8 @@ export type Payments = IPayment[];
 
 export type NewPayment = Omit<IPayment, 'id' | 'subscriberAccount'>;
 
+export type NewPayments = NewPayment[];
+
 export interface IFindAllPaymentsRes {
   data: Payments;
   count: number;

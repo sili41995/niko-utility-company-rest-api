@@ -15,6 +15,7 @@ const getPricesCtrl = ctrlWrapper(accountingController.getPrices.bind(accounting
 const calculatePricesCtrl = ctrlWrapper(accountingController.calculatePrices.bind(accountingController));
 const getAllPaymentsCtrl = ctrlWrapper(accountingController.getAllPayments.bind(accountingController));
 const addPaymentCtrl = ctrlWrapper(accountingController.addPayment.bind(accountingController));
+const addPaymentsCtrl = ctrlWrapper(accountingController.addPayments.bind(accountingController));
 const getInvoicesCtrl = ctrlWrapper(accountingController.getInvoices.bind(accountingController));
 const getPaymentsBySourcePostageCtrl = ctrlWrapper(accountingController.getPaymentsBySourcePostage.bind(accountingController));
 const getPaymentsBySourcePrivatbankCtrl = ctrlWrapper(accountingController.getPaymentsBySourcePrivatbank.bind(accountingController));
@@ -32,6 +33,7 @@ router.post(Endpoints.prices, validateBody(priceAdjustmentSchemas.add), addPrice
 // payments
 router.get(Endpoints.payments, getAllPaymentsCtrl);
 router.post(Endpoints.payments, validateBody(paymentsSchemas.add), addPaymentCtrl);
+router.post(Endpoints.multiplePayments, validateBody(paymentsSchemas.addMany), addPaymentsCtrl);
 router.get(Endpoints.invoices, getInvoicesCtrl);
 router.get(Endpoints.postagePayments, getPaymentsBySourcePostageCtrl);
 router.get(Endpoints.privatbankPayments, getPaymentsBySourcePrivatbankCtrl);

@@ -51,6 +51,12 @@ export class AccountingController {
     res.status(201).json(result);
   }
 
+  async addPayments(req: Request, res: Response): Promise<void> {
+    const result = await this.accountingService.addPayments(req.body);
+
+    res.status(201).json(result);
+  }
+
   async getInvoices(req: Request, res: Response, next: NextFunction): Promise<void> {
     const filePath = await this.accountingService.getInvoices();
 

@@ -1,6 +1,6 @@
 import { prisma } from '../app';
 import { ErrorMessages, PaymentSources } from '../constants';
-import { NewPriceAdjustment, IPeriod, IPriceAdjustment, Periods, IPayment, NewPayment, IFindAllPaymentsRes, IReportsFindFilters } from '../types/accounting.type';
+import { NewPriceAdjustment, IPeriod, IPriceAdjustment, Periods, IPayment, NewPayment, IFindAllPaymentsRes, IReportsFindFilters, Payments, NewPayments } from '../types/accounting.type';
 import { IPricesInfo } from '../types/subscriberAccount.type';
 import { getInvoices, getNewPricesData, getPaymentsBySourceData, getPaymentsBySourceFilePath, getCurrentTariffs, getYearParams, httpError, saveInvoicesToPdf, savePaymentsToCsv } from '../utils';
 import { IFindFilters } from '../types/types.type';
@@ -139,6 +139,27 @@ class AccountingService {
     });
 
     return result;
+  }
+
+  async addPayments(data: NewPayments): Promise<number> {
+    const period = await prisma.period.findFirst({
+      where: {
+        isCurrentPeriod: true,
+      },
+    });
+
+    if (!period) {
+      throw httpError({
+        status: 404,
+        message: ErrorMessages.periodNotFound,
+      });
+    }
+
+    const updatedData = data.map((item) => ({ ...item, periodId: period.id }));
+
+    const result = await prisma.payment.createMany({ data: updatedData });
+
+    return result.count;
   }
 
   async getInvoices(): Promise<string> {

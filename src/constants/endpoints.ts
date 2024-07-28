@@ -33,6 +33,7 @@ const enum Endpoints {
   //payments
   payments = '/payments',
   postagePayments = `${payments}/postage`,
+  multiplePayments = `${payments}/multiple`,
   privatbankPayments = `${payments}/privatbank`,
   oshchadbankPayments = `${payments}/oshchadbank`,
   abankPayments = `${payments}/abank`,

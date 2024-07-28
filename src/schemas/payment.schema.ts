@@ -41,8 +41,11 @@ const add = Joi.object({
   subscriberAccountId: subscriberAccountIdSettings.required(),
 });
 
+const addMany = Joi.array().items(add);
+
 const schemas = {
   add,
+  addMany,
 };
 
 export default schemas;
