@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client';
 import { prisma } from '../app';
-import { ErrorMessages, SectorTypes } from '../constants';
+import { ErrorMessages } from '../constants';
 import {
   IFindAllSubscriberAccountsRes,
   ISubscriberAccount,
@@ -12,10 +12,10 @@ import {
 import { httpError } from '../utils';
 
 class SubscriberAccountService {
-  async getAll({ skip, take, surname, name, account, type, street, house, apartment }: ISubscriberAccountsFindFilters): Promise<IFindAllSubscriberAccountsRes> {
+  async getAll({ skip, take, surname, name, number, type, street, house, apartment }: ISubscriberAccountsFindFilters): Promise<IFindAllSubscriberAccountsRes> {
     const where: Prisma.SubscriberAccountWhereInput = {
       owner: { surname: { startsWith: surname, mode: 'insensitive' }, name: { startsWith: name, mode: 'insensitive' } },
-      subscriberAccount: { startsWith: account },
+      number: { startsWith: number },
       accountType: type,
       street: { name: { startsWith: street } },
       house: { number: { startsWith: house } },
@@ -23,7 +23,7 @@ class SubscriberAccountService {
     };
     const result = await prisma.subscriberAccount.findMany({
       where,
-      orderBy: { subscriberAccount: 'asc' },
+      orderBy: { number: 'asc' },
       include: {
         street: true,
         owner: true,
@@ -46,8 +46,8 @@ class SubscriberAccountService {
     };
   }
 
-  async getByNumber(subscriberAccount: string): Promise<ISubscriberAccount> {
-    const result = await prisma.subscriberAccount.findFirst({ where: { subscriberAccount }, include: { street: true, house: { include: { street: true } }, owner: true } });
+  async getByNumber(number: string): Promise<ISubscriberAccount> {
+    const result = await prisma.subscriberAccount.findFirst({ where: { number }, include: { street: true, house: { include: { street: true } }, owner: true } });
 
     if (!result) {
       throw httpError({
@@ -60,8 +60,8 @@ class SubscriberAccountService {
   }
 
   async add(data: INewSubscriberAccount): Promise<ISubscriberAccount> {
-    const subscriberAccount = await prisma.subscriberAccount.findFirst({ where: { OR: [{ subscriberAccount: data.subscriberAccount }, { contract: data.contract }] } });
-    const isDuplicateSubscriberAccount = subscriberAccount && subscriberAccount.subscriberAccount === data.subscriberAccount;
+    const subscriberAccount = await prisma.subscriberAccount.findFirst({ where: { OR: [{ number: data.number }, { contract: data.contract }] } });
+    const isDuplicateSubscriberAccount = subscriberAccount && subscriberAccount.number === data.number;
     const isDuplicateContract = subscriberAccount && subscriberAccount.contract === data.contract;
 
     if (isDuplicateSubscriberAccount) {
@@ -97,9 +97,9 @@ class SubscriberAccountService {
   }
 
   async updateById({ id, data }: IUpdateSubscriberAccountByIdProps): Promise<ISubscriberAccount> {
-    const { comment, document, owner, ...subscriberAccountData } = data;
+    const { comment, name, owner, ...subscriberAccountData } = data;
 
-    const documentResult = await prisma.document.findFirst({ where: { document } });
+    const documentResult = await prisma.document.findFirst({ where: { name } });
 
     if (documentResult) {
       throw httpError({
@@ -108,7 +108,7 @@ class SubscriberAccountService {
       });
     }
 
-    await prisma.document.create({ data: { document: data.document, comment: data.comment, subscriberAccountId: id } });
+    await prisma.document.create({ data: { name, comment, subscriberAccountId: id } });
 
     if (owner) {
       await prisma.owner.update({ where: { subscriberAccountId: id }, data: owner });

@@ -3,10 +3,10 @@ import { prisma } from '../app';
 import { IFindAllDocumentsRes, IDocumentsFindFilters } from '../types/document.type';
 
 class DocumentService {
-  async getAll({ skip, take, comment, document }: IDocumentsFindFilters): Promise<IFindAllDocumentsRes> {
+  async getAll({ skip, take, comment, name }: IDocumentsFindFilters): Promise<IFindAllDocumentsRes> {
     const where: Prisma.DocumentWhereInput = {
       comment: { startsWith: comment, mode: 'insensitive' },
-      document: { startsWith: document, mode: 'insensitive' },
+      name: { startsWith: name, mode: 'insensitive' },
     };
     const result = await prisma.document.findMany({ where, orderBy: { createdAt: 'desc' }, skip, take });
     const count = await prisma.document.count();

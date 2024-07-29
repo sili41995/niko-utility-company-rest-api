@@ -91,7 +91,7 @@ model Owner{
 model SubscriberAccount{
   id Int @id @default(autoincrement())
   apartment String?
-  subscriberAccount String @unique
+  number String @unique
   contract String @unique
   contractDate DateTime @db.Date
   isLivingApartment Boolean
@@ -101,7 +101,6 @@ model SubscriberAccount{
   isEligibleForBenefit Boolean
   accountType String
   sector SectorType
-  balance Float @default(0)
   owner Owner?
   houseId Int
   house House @relation(fields: [houseId], references: [id])
@@ -115,14 +114,14 @@ model SubscriberAccount{
 
 model Tariff{
   id Int @id @default(autoincrement())
-  tariff Float
+  price Float
   sector SectorType
   start DateTime @db.Date
 }
 
 model Document{
   id Int @id @default(autoincrement())
-  document String
+  name String
   comment String
   subscriberAccountId Int
   subscriberAccount SubscriberAccount @relation(fields: [subscriberAccountId], references: [id])

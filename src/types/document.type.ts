@@ -2,7 +2,7 @@ import { IFindFilters } from './types.type';
 
 export interface IDocument {
   id: number;
-  document: string;
+  name: string;
   comment: string;
   subscriberAccountId: number;
   createdAt: Date;
@@ -11,7 +11,7 @@ export interface IDocument {
 export type Documents = IDocument[];
 
 export interface IDocumentsFindFilters extends IFindFilters {
-  document: string | undefined;
+  name: string | undefined;
   comment: string | undefined;
 }
 

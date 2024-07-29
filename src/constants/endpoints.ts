@@ -18,7 +18,6 @@ const enum Endpoints {
   dynamicNumber = 'number',
   dynamicPage = 'page',
   dynamicLimit = 'limit',
-  dynamicAccount = 'account',
   dynamicApartment = 'apartment',
   dynamicHouse = 'house',
   dynamicName = 'name',
@@ -26,7 +25,6 @@ const enum Endpoints {
   dynamicSurname = 'surname',
   dynamicType = 'type',
   dynamicComment = 'comment',
-  dynamicDocument = 'document',
   // reports
   reports = '/reports',
   reportsByStreets = `${reports}/streets`,

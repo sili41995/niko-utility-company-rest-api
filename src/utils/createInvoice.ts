@@ -4,14 +4,14 @@ import formatDate from './formatDate';
 
 const createInvoice = ({ generalSettings, subscriberAccount, period }: ICreateInvoiceProps): string => {
   const { currentAccount, helpPhone, mfi } = generalSettings;
-  const { owner, subscriberAccount: subscriberAccountValue, house, apartment, balance, residents } = subscriberAccount;
+  const { owner, number, house, apartment, residents } = subscriberAccount;
   const { name: OwnerName, middleName, surname } = owner ?? {};
-  const { street, number } = house;
+  const { street, number: houseNumber } = house;
   const { type, name: streetName } = street;
   const { start } = period;
 
   const fullName = `${surname} ${OwnerName} ${middleName}`;
-  const houseAddress = `м. Нікополь, ${type} ${streetName} ${number}`;
+  const houseAddress = `м. Нікополь, ${type} ${streetName} ${houseNumber}`;
   const address = apartment ? `${houseAddress}, кв. ${apartment}` : houseAddress;
   const date = formatDate({ date: start, dateFormat: DateFormats.period });
 
@@ -28,11 +28,11 @@ const createInvoice = ({ generalSettings, subscriberAccount, period }: ICreateIn
             <p>МФО: <strong>${mfi}</strong>, код ЄДРПОУ: <strong>38033142</strong></p>
           </div>
           <div style="font-size: 10px" class="section-item">
-            <p>Особовий рахунок №: <strong>${subscriberAccountValue}</strong></p>
+            <p>Особовий рахунок №: <strong>${number}</strong></p>
             <p>ПІБ: <strong>${fullName}</strong></p>
             <p>Адреса: <strong>${address}</strong></p>
           </div>
-          <p style="font-size: 10px">До сплати: <strong>${balance}</strong></p>
+          <p style="font-size: 10px">До сплати: <strong>0</strong></p>
         </td>
         <td class="section invoice">
           <strong style="font-size: 10px">Рахунок-повідомлення за комунальні послуги за <span style="text-transform: capitalize;">${date}</span></strong>
@@ -44,7 +44,7 @@ const createInvoice = ({ generalSettings, subscriberAccount, period }: ICreateIn
             <tbody>
               <tr>
                 <td class="subscriber-account-table-cell">Особовий рахунок №:</td>
-                <td class="subscriber-account-table-cell"><strong>${subscriberAccountValue}</strong></td>
+                <td class="subscriber-account-table-cell"><strong>${number}</strong></td>
               </tr>
               <tr>
                 <td class="subscriber-account-table-cell">Прізвище, ім'я, по батькові:</td>
@@ -100,11 +100,11 @@ const createInvoice = ({ generalSettings, subscriberAccount, period }: ICreateIn
                 <td class="invoice-table-cell"></td>
                 <td class="invoice-table-cell"></td>
                 <td class="invoice-table-cell"></td>
-                <td class="invoice-table-cell">${balance}</td>
+                <td class="invoice-table-cell">0</td>
                 <td class="invoice-table-cell"></td>
                 <td class="invoice-table-cell"></td>
                 <td class="invoice-table-cell"></td>
-                <td class="invoice-table-cell">${balance}</td>
+                <td class="invoice-table-cell">0</td>
                 <td class="invoice-table-cell"></td>
               </tr>
             </tbody>

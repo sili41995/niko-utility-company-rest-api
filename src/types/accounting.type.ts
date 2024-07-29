@@ -56,11 +56,10 @@ export interface IFindAllPaymentsRes {
 }
 
 export interface IPaymentBySource {
-  subscriberAccount: string;
+  number: string;
   fullName: string;
   address: string;
   service: number;
-  balance: number;
   date: string;
 }
 

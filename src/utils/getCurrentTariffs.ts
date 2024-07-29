@@ -36,9 +36,9 @@ const getCurrentTariffs = async (): Promise<ICurrentTariffs> => {
     });
   }
 
-  const { tariff: multiApartmentSectorTariff } = multiApartmentSector;
-  const { tariff: privateSectorTariff } = privateSector;
-  const { tariff: otherSectorTariff } = otherSector;
+  const { price: multiApartmentSectorTariff } = multiApartmentSector;
+  const { price: privateSectorTariff } = privateSector;
+  const { price: otherSectorTariff } = otherSector;
 
   return { multiApartmentSectorTariff, privateSectorTariff, otherSectorTariff };
 };

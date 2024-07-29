@@ -20,7 +20,7 @@ export type UpdatedOwnerData = Pick<IOwner, 'phone' | 'additionalPhone' | 'email
 
 export interface ISubscriberAccount {
   id: number;
-  subscriberAccount: string;
+  number: string;
   contract: string;
   contractDate: Date;
   isLivingApartment: boolean;
@@ -29,7 +29,6 @@ export interface ISubscriberAccount {
   isRemovalHouseholdWaste: boolean;
   isEligibleForBenefit: boolean;
   accountType: string;
-  balance: number;
   houseId: number;
   streetId: number;
   sector: `${SectorTypes.multiApartment}` | `${SectorTypes.private}` | `${SectorTypes.other}`;
@@ -46,7 +45,7 @@ export interface INewSubscriberAccount extends Omit<ISubscriberAccount, 'id' | '
 
 export interface IEditSubscriberAccountData extends Pick<ISubscriberAccount, 'isEligibleForBenefit' | 'isLivingApartment' | 'isRemovalHouseholdWaste' | 'period' | 'residents'> {
   comment: string;
-  document: string;
+  name: string;
   owner?: UpdatedOwnerData;
 }
 
@@ -64,7 +63,7 @@ export interface IUpdateSubscriberAccountByIdProps {
 export interface ISubscriberAccountsFindFilters extends IFindFilters {
   surname: string | undefined;
   name: string | undefined;
-  account: string | undefined;
+  number: string | undefined;
   type: string | undefined;
   street: string | undefined;
   house: string | undefined;
