@@ -1,4 +1,4 @@
-import { IGetYearParams } from '../types/accounting.type';
+import { IGetYearParams } from '../types/types.type';
 
 const getYearParams = (): IGetYearParams => {
   const currentYear = new Date().getFullYear();

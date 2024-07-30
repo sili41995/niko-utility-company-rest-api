@@ -26,8 +26,8 @@ export class AccountingController {
     res.status(200).json(result);
   }
 
-  async calculatePrices(req: Request, res: Response): Promise<void> {
-    const result = await this.accountingService.calculatePrices();
+  async addPrices(req: Request, res: Response): Promise<void> {
+    const result = await this.accountingService.addPrices();
 
     res.status(200).json(result);
   }

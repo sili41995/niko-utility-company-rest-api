@@ -1,7 +1,8 @@
-import { IPeriod, PaymentsBySource } from './accounting.type';
+import { IPeriod } from './period.type';
 import { IGeneralSettings } from './generalSettings.type';
 import { ISubscriberAccount, SubscriberAccounts } from './subscriberAccount.type';
 import { ICurrentTariffs } from './tariff.type';
+import { PaymentsBySource } from './payment.type';
 
 export interface IHttpError {
   status: number;
@@ -55,4 +56,15 @@ export interface INewPricesDataProps {
   subscriberAccounts: SubscriberAccounts;
   currentTariffs: ICurrentTariffs;
   currentPeriod: IPeriod;
+}
+
+export interface IGetNewPeriodSubscriberAccountBalancesDataProps {
+  subscriberAccounts: SubscriberAccounts;
+  prevPeriodId: number;
+  currentPeriodId: number;
+}
+
+export interface IGetYearParams {
+  yearStart: string;
+  yearEnd: string;
 }

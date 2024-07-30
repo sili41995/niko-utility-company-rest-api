@@ -12,7 +12,7 @@ const getAllPeriodsCtrl = ctrlWrapper(accountingController.getAllPeriods.bind(ac
 const addPeriodCtrl = ctrlWrapper(accountingController.addPeriod.bind(accountingController));
 const addPriceAdjustmentCtrl = ctrlWrapper(accountingController.addPriceAdjustment.bind(accountingController));
 const getPricesCtrl = ctrlWrapper(accountingController.getPrices.bind(accountingController));
-const calculatePricesCtrl = ctrlWrapper(accountingController.calculatePrices.bind(accountingController));
+const addPricesCtrl = ctrlWrapper(accountingController.addPrices.bind(accountingController));
 const getAllPaymentsCtrl = ctrlWrapper(accountingController.getAllPayments.bind(accountingController));
 const addPaymentCtrl = ctrlWrapper(accountingController.addPayment.bind(accountingController));
 const addPaymentsCtrl = ctrlWrapper(accountingController.addPayments.bind(accountingController));
@@ -28,7 +28,7 @@ router.get(Endpoints.periods, getAllPeriodsCtrl);
 router.post(Endpoints.periods, addPeriodCtrl);
 // prices
 router.get(Endpoints.prices, getPricesCtrl);
-router.patch(Endpoints.prices, calculatePricesCtrl);
+router.patch(Endpoints.prices, addPricesCtrl);
 router.post(Endpoints.prices, validateBody(priceAdjustmentSchemas.add), addPriceAdjustmentCtrl);
 // payments
 router.get(Endpoints.payments, getAllPaymentsCtrl);

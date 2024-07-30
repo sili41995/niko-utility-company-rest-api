@@ -1,5 +1,5 @@
 import { DateFormats } from '../constants';
-import { IPaymentBySource, Payments, PaymentsBySource } from '../types/accounting.type';
+import { IPaymentBySource, Payments, PaymentsBySource } from '../types/payment.type';
 import formatDate from './formatDate';
 
 const getPaymentsBySourceData = (payments: Payments): PaymentsBySource =>

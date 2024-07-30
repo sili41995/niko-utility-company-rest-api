@@ -46,7 +46,7 @@ const enum ErrorMessages {
   //subscriberAccount
   apartmentReqErr = 'Missing required apartment field',
   subscriberAccountReqErr = 'Missing required subscriber account field',
-  subscriberAccountNumberErr = 'Subscriber account field must be a number',
+  numberNumberErr = 'Number field must be a number',
   contractReqErr = 'Missing required contract field',
   contractDateReqErr = 'Missing required contract date field',
   contractDateErr = 'Contract date field must be a date',

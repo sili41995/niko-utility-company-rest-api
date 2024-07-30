@@ -1,14 +1,7 @@
 import { Prisma } from '@prisma/client';
 import { prisma } from '../app';
 import { ErrorMessages } from '../constants';
-import {
-  IFindAllSubscriberAccountsRes,
-  ISubscriberAccount,
-  ISubscriberAccountsFindFilters,
-  IUpdateSubscriberAccountByIdProps,
-  INewSubscriberAccount,
-  IPricesInfo,
-} from '../types/subscriberAccount.type';
+import { IFindAllSubscriberAccountsRes, ISubscriberAccount, ISubscriberAccountsFindFilters, IUpdateSubscriberAccountByIdProps, INewSubscriberAccount } from '../types/subscriberAccount.type';
 import { httpError } from '../utils';
 
 class SubscriberAccountService {
@@ -29,9 +22,10 @@ class SubscriberAccountService {
         owner: true,
         house: { include: { street: true } },
         documents: { orderBy: { createdAt: 'desc' } },
-        payments: { orderBy: { date: 'desc' } },
-        priceAdjustments: { orderBy: { date: 'desc' } },
+        payments: { include: { period: true }, orderBy: { date: 'desc' } },
+        priceAdjustments: { include: { period: true }, orderBy: { date: 'desc' } },
         prices: { include: { period: true }, orderBy: { date: 'desc' } },
+        balances: { include: { period: true }, orderBy: { createdAt: 'desc' } },
       },
       skip,
       take,
@@ -47,7 +41,18 @@ class SubscriberAccountService {
   }
 
   async getByNumber(number: string): Promise<ISubscriberAccount> {
-    const result = await prisma.subscriberAccount.findFirst({ where: { number }, include: { street: true, house: { include: { street: true } }, owner: true } });
+    const result = await prisma.subscriberAccount.findFirst({
+      where: { number },
+      include: {
+        owner: true,
+        street: true,
+        balances: { include: { period: true } },
+        house: { include: { street: true } },
+        prices: { include: { period: true } },
+        priceAdjustments: { include: { period: true } },
+        payments: { include: { period: true } },
+      },
+    });
 
     if (!result) {
       throw httpError({
@@ -81,9 +86,29 @@ class SubscriberAccountService {
       data: subscriberAccountData,
     });
     await prisma.owner.create({ data: { ...owner, subscriberAccountId } });
+
+    const currentPeriod = await prisma.period.findFirst({ where: { isCurrentPeriod: true } });
+
+    if (!currentPeriod) {
+      throw httpError({
+        status: 404,
+        message: ErrorMessages.periodNotFound,
+      });
+    }
+
+    await prisma.balance.create({ data: { amount: 0, subscriberAccountId, periodId: currentPeriod.id } });
     const result = await prisma.subscriberAccount.findUnique({
       where: { id: subscriberAccountId },
-      include: { house: { include: { street: true } }, street: true, owner: true, documents: { orderBy: { createdAt: 'desc' } } },
+      include: {
+        street: true,
+        owner: true,
+        documents: true,
+        balances: { include: { period: true } },
+        house: { include: { street: true } },
+        prices: { include: { period: true } },
+        priceAdjustments: { include: { period: true } },
+        payments: { include: { period: true } },
+      },
     });
 
     if (!result) {
@@ -117,7 +142,16 @@ class SubscriberAccountService {
     const result = await prisma.subscriberAccount.update({
       where: { id },
       data: subscriberAccountData,
-      include: { house: { include: { street: true } }, owner: true, street: true, documents: { orderBy: { createdAt: 'desc' } } },
+      include: {
+        owner: true,
+        street: true,
+        balances: { include: { period: true } },
+        documents: { orderBy: { createdAt: 'desc' } },
+        house: { include: { street: true } },
+        prices: { include: { period: true } },
+        priceAdjustments: { include: { period: true } },
+        payments: { include: { period: true } },
+      },
     });
 
     return result;

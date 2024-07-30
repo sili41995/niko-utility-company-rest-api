@@ -110,6 +110,7 @@ model SubscriberAccount{
   priceAdjustments PriceAdjustment[]
   payments Payment[]
   prices Price[]
+  balances Balance[]
 }
 
 model Tariff{
@@ -132,24 +133,10 @@ model Period{
   id Int @id @default(autoincrement())
   isCurrentPeriod Boolean
   start DateTime @db.Date @default(now())
-  statistics Statistics?
   payments Payment[]
   prices Price[]
-}
-
-model Statistics{
-  id Int @id @default(autoincrement())
-  subscriberAccounts Int
-  residents Int
-  balanceStart Int
-  accrued Int @default(0)
-  penalty Int @default(0)
-  adjustment Int
-  benefits Int @default(0)
-  subsidies Int @default(0)
-  balanceEnd Int
-  periodId Int @unique
-  period Period @relation(fields: [periodId], references: [id])
+  balances Balance[]
+  priceAdjustments PriceAdjustment[]
 }
 
 model PriceAdjustment{
@@ -159,6 +146,8 @@ model PriceAdjustment{
   comment String
   subscriberAccountId Int
   subscriberAccount SubscriberAccount @relation(fields: [subscriberAccountId], references: [id])
+  periodId Int
+  period Period @relation(fields: [periodId], references: [id])
 }
 
 model Price{
@@ -182,4 +171,14 @@ model Payment{
   period Period @relation(fields: [periodId], references: [id])
   subscriberAccountId Int
   subscriberAccount SubscriberAccount @relation(fields: [subscriberAccountId], references: [id])
+}
+
+model Balance{
+  id Int @id @default(autoincrement())
+  amount Float
+  createdAt DateTime @default(now())
+  periodId Int
+  period Period @relation(fields: [periodId], references: [id])
+  subscriberAccount SubscriberAccount @relation(fields: [subscriberAccountId], references: [id])
+  subscriberAccountId Int
 }

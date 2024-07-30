@@ -1,5 +1,9 @@
 import { SectorTypes } from '../constants';
+import { Payments } from './payment.type';
+import { Balances } from './balance.types';
 import { IHouse } from './house.type';
+import { Prices } from './price.type';
+import { PriceAdjustments } from './priceAdjustment.type';
 import { IFindFilters } from './types.type';
 
 export interface IOwner {
@@ -34,12 +38,16 @@ export interface ISubscriberAccount {
   sector: `${SectorTypes.multiApartment}` | `${SectorTypes.private}` | `${SectorTypes.other}`;
   apartment: string | null;
   house: IHouse;
+  prices: Prices;
+  balances: Balances;
+  priceAdjustments: PriceAdjustments;
+  payments: Payments;
   owner: IOwner | null;
 }
 
 export type SubscriberAccounts = ISubscriberAccount[];
 
-export interface INewSubscriberAccount extends Omit<ISubscriberAccount, 'id' | 'house'> {
+export interface INewSubscriberAccount extends Omit<ISubscriberAccount, 'id' | 'house' | 'prices' | 'balances' | 'priceAdjustments' | 'payments'> {
   owner: IOwner;
 }
 

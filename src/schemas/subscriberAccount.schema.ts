@@ -5,9 +5,9 @@ const apartmentSettings = Joi.string().messages({
   'any.required': ErrorMessages.apartmentReqErr,
 });
 
-const subscriberAccountSettings = Joi.number().messages({
-  'any.required': ErrorMessages.subscriberAccountReqErr,
-  'number.base': ErrorMessages.subscriberAccountNumberErr,
+const numberSettings = Joi.number().messages({
+  'any.required': ErrorMessages.numberReqErr,
+  'number.base': ErrorMessages.numberNumberErr,
 });
 
 const contractSettings = Joi.string().messages({
@@ -129,7 +129,7 @@ const updatedOwnerDataSettings = Joi.object({
 
 const add = Joi.object({
   apartment: apartmentSettings,
-  subscriberAccount: subscriberAccountSettings.required(),
+  number: numberSettings.required(),
   contract: contractSettings.required(),
   contractDate: contractDateSettings.required(),
   isLivingApartment: isLivingApartmentSettings.required(),

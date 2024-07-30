@@ -15,3 +15,4 @@ export { default as getPaymentsBySourceFilePath } from './getPaymentsBySourceFil
 export { default as getReportsFindFilters } from './getReportsFindFilters';
 export { default as getCurrentTariffs } from './getCurrentTariffs';
 export { default as getNewPricesData } from './getNewPricesData';
+export { default as getNewPeriodSubscriberAccountBalancesData } from './getNewPeriodSubscriberAccountBalancesData';

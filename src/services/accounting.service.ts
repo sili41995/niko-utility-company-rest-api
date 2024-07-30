@@ -1,22 +1,36 @@
 import { prisma } from '../app';
 import { ErrorMessages, PaymentSources } from '../constants';
-import { NewPriceAdjustment, IPeriod, IPriceAdjustment, Periods, IPayment, NewPayment, IFindAllPaymentsRes, IReportsFindFilters, Payments, NewPayments } from '../types/accounting.type';
+import { IReportsFindFilters } from '../types/accounting.type';
+import { IPayment, NewPayment, IFindAllPaymentsRes, NewPayments } from '../types/payment.type';
 import { IPricesInfo } from '../types/subscriberAccount.type';
-import { getInvoices, getNewPricesData, getPaymentsBySourceData, getPaymentsBySourceFilePath, getCurrentTariffs, getYearParams, httpError, saveInvoicesToPdf, savePaymentsToCsv } from '../utils';
+import {
+  getInvoices,
+  getNewPricesData,
+  getPaymentsBySourceData,
+  getPaymentsBySourceFilePath,
+  getCurrentTariffs,
+  getYearParams,
+  httpError,
+  saveInvoicesToPdf,
+  savePaymentsToCsv,
+  getNewPeriodSubscriberAccountBalancesData,
+} from '../utils';
 import { IFindFilters } from '../types/types.type';
 import { addMonths } from 'date-fns';
+import { IPeriod, Periods } from '../types/period.type';
+import { IPriceAdjustment, NewPriceAdjustment } from '../types/priceAdjustment.type';
 
 class AccountingService {
   async getAllPeriods(): Promise<Periods> {
     const { yearStart, yearEnd } = getYearParams();
-    const result = await prisma.period.findMany({ where: { start: { gte: yearStart, lte: yearEnd } }, include: { statistics: true, payments: true }, orderBy: { start: 'desc' } });
+    const result = await prisma.period.findMany({ where: { start: { gte: yearStart, lte: yearEnd } }, include: { payments: true }, orderBy: { start: 'desc' } });
 
     return result;
   }
 
   async addPeriod(): Promise<IPeriod> {
     const date = new Date();
-
+    //check isExist period
     const period = await prisma.period.findFirst({ where: { start: date } });
 
     if (period) {
@@ -26,32 +40,31 @@ class AccountingService {
       });
     }
 
-    await prisma.period.updateMany({ where: { isCurrentPeriod: true }, data: { isCurrentPeriod: false } });
-    const { id } = await prisma.period.create({ data: { isCurrentPeriod: true } });
-    const subscriberAccounts = await prisma.subscriberAccount.findMany();
+    const currentPeriod = await prisma.period.findFirst({ where: { isCurrentPeriod: true } });
 
-    const subscriberAccountsTotalCount = await prisma.subscriberAccount.count();
-    const residents = subscriberAccounts.reduce((acc, { residents }) => acc + residents, 0);
-
-    const newStatisticsItem = {
-      periodId: id,
-      residents,
-      subscriberAccounts: subscriberAccountsTotalCount,
-      adjustment: 0,
-      balanceEnd: 0,
-      balanceStart: 0,
-    };
-
-    await prisma.statistics.create({ data: newStatisticsItem });
-
-    const result = await prisma.period.findUnique({ where: { id }, include: { statistics: true } });
-
-    if (!result) {
+    if (!currentPeriod) {
       throw httpError({
         status: 404,
         message: ErrorMessages.periodNotFound,
       });
     }
+
+    await prisma.period.update({ where: { id: currentPeriod.id }, data: { isCurrentPeriod: false } });
+
+    const result = await prisma.period.create({ data: { isCurrentPeriod: true } });
+    //add new period balances
+    const subscriberAccounts = await prisma.subscriberAccount.findMany({
+      include: {
+        owner: true,
+        house: { include: { street: true } },
+        payments: { include: { period: true } },
+        prices: { include: { period: true } },
+        priceAdjustments: { include: { period: true } },
+        balances: { include: { period: true }, orderBy: { createdAt: 'desc' } },
+      },
+    });
+    const balancesData = getNewPeriodSubscriberAccountBalancesData({ subscriberAccounts, currentPeriodId: result.id, prevPeriodId: currentPeriod.id });
+    await prisma.balance.createMany({ data: balancesData });
 
     return result;
   }
@@ -71,9 +84,18 @@ class AccountingService {
     };
   }
 
-  async calculatePrices(): Promise<IPricesInfo> {
+  async addPrices(): Promise<IPricesInfo> {
     const currentTariffs = await getCurrentTariffs();
-    const subscriberAccounts = await prisma.subscriberAccount.findMany({ include: { owner: true, house: { include: { street: true } } } });
+    const subscriberAccounts = await prisma.subscriberAccount.findMany({
+      include: {
+        owner: true,
+        balances: { include: { period: true } },
+        prices: { include: { period: true } },
+        house: { include: { street: true } },
+        priceAdjustments: { include: { period: true } },
+        payments: { include: { period: true } },
+      },
+    });
     const currentPeriod = await prisma.period.findFirst({ where: { isCurrentPeriod: true } });
 
     if (!currentPeriod) {
@@ -93,7 +115,20 @@ class AccountingService {
   }
 
   async addPriceAdjustment(data: NewPriceAdjustment): Promise<IPriceAdjustment> {
-    const result = await prisma.priceAdjustment.create({ data });
+    const period = await prisma.period.findFirst({
+      where: {
+        isCurrentPeriod: true,
+      },
+    });
+
+    if (!period) {
+      throw httpError({
+        status: 404,
+        message: ErrorMessages.periodNotFound,
+      });
+    }
+
+    const result = await prisma.priceAdjustment.create({ data: { ...data, periodId: period.id }, include: { period: true } });
 
     return result;
   }
@@ -101,7 +136,19 @@ class AccountingService {
   async getAllPayments({ skip, take }: IFindFilters): Promise<IFindAllPaymentsRes> {
     const result = await prisma.payment.findMany({
       orderBy: { date: 'desc' },
-      include: { subscriberAccount: { include: { house: { include: { street: true } }, owner: true } }, period: true },
+      include: {
+        subscriberAccount: {
+          include: {
+            owner: true,
+            balances: { include: { period: true } },
+            payments: { include: { period: true } },
+            house: { include: { street: true } },
+            prices: { include: { period: true } },
+            priceAdjustments: { include: { period: true } },
+          },
+        },
+        period: true,
+      },
       skip,
       take,
     });
@@ -127,7 +174,7 @@ class AccountingService {
       });
     }
 
-    const result = await prisma.payment.create({ data: { ...data, periodId: period.id } });
+    const result = await prisma.payment.create({ data: { ...data, periodId: period.id }, include: { period: true } });
 
     return result;
   }
@@ -154,7 +201,16 @@ class AccountingService {
   }
 
   async getInvoices(): Promise<string> {
-    const subscriberAccounts = await prisma.subscriberAccount.findMany({ include: { house: { include: { street: true } }, owner: true } });
+    const subscriberAccounts = await prisma.subscriberAccount.findMany({
+      include: {
+        owner: true,
+        house: { include: { street: true } },
+        prices: { include: { period: true } },
+        balances: { include: { period: true } },
+        priceAdjustments: { include: { period: true } },
+        payments: { include: { period: true } },
+      },
+    });
     const generalSettings = await prisma.generalSettings.findFirst();
     const period = await prisma.period.findFirst({ where: { isCurrentPeriod: true } });
 
@@ -181,7 +237,19 @@ class AccountingService {
   async getPaymentsBySource(paymentSource: PaymentSources): Promise<string> {
     const result = await prisma.payment.findMany({
       where: { source: paymentSource, period: { isCurrentPeriod: true } },
-      include: { subscriberAccount: { include: { house: { include: { street: true } }, owner: true } } },
+      include: {
+        period: true,
+        subscriberAccount: {
+          include: {
+            owner: true,
+            balances: { include: { period: true } },
+            house: { include: { street: true } },
+            prices: { include: { period: true } },
+            priceAdjustments: { include: { period: true } },
+            payments: { include: { period: true } },
+          },
+        },
+      },
     });
 
     const payments = getPaymentsBySourceData(result);
