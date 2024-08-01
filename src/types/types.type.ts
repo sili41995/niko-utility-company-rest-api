@@ -1,7 +1,7 @@
 import { IPeriod } from './period.type';
 import { IGeneralSettings } from './generalSettings.type';
 import { ISubscriberAccount, SubscriberAccounts } from './subscriberAccount.type';
-import { ICurrentTariffs } from './tariff.type';
+import { ICurrentTariffsId } from './tariff.type';
 import { PaymentsBySource } from './payment.type';
 
 export interface IHttpError {
@@ -54,7 +54,7 @@ export interface ITimePeriod {
 
 export interface INewPricesDataProps {
   subscriberAccounts: SubscriberAccounts;
-  currentTariffs: ICurrentTariffs;
+  currentTariffsId: ICurrentTariffsId;
   currentPeriod: IPeriod;
 }
 

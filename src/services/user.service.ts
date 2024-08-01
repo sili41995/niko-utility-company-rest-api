@@ -4,8 +4,6 @@ import { UserData, NewUser, IUpdateUserByIdProps, Users } from '../types/user.ty
 import { httpError } from '../utils';
 import bcrypt from 'bcryptjs';
 
-// const { SECRET_KEY } = process.env;
-
 class UserService {
   async getAll(): Promise<Users> {
     const result = await prisma.user.findMany();
@@ -32,22 +30,9 @@ class UserService {
         name: true,
         login: true,
         email: true,
-        fullAccess: true,
-        houses: true,
-        subscribers: true,
-        accounting: true,
-        documents: true,
-        counters: true,
-        oneOffJobs: true,
-        settings: true,
       },
     });
 
-    return result;
-  }
-
-  async updateById({ id, data }: IUpdateUserByIdProps): Promise<UserData> {
-    const result = await prisma.user.update({ where: { id }, data });
     return result;
   }
 }

@@ -11,8 +11,8 @@ export type NewTariff = Omit<ITariff, 'id'>;
 
 export type Tariffs = ITariff[];
 
-export interface ICurrentTariffs {
-  multiApartmentSectorTariff: number;
-  privateSectorTariff: number;
-  otherSectorTariff: number;
+export interface ICurrentTariffsId {
+  multiApartmentSectorTariffId: number;
+  privateSectorTariffId: number;
+  otherSectorTariffId: number;
 }

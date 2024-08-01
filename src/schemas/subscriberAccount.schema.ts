@@ -100,7 +100,9 @@ const sectorSettings = Joi.string().valid(SectorTypes.multiApartment, SectorType
 
 const commentSettings = Joi.string();
 
-const documentSettings = Joi.string();
+const documentNameSettings = Joi.string().messages({
+  'any.required': ErrorMessages.nameReqErr,
+});
 
 const birthdaySettings = Joi.string();
 
@@ -146,7 +148,7 @@ const add = Joi.object({
 
 const updateById = Joi.object({
   comment: commentSettings.required(),
-  document: documentSettings.required(),
+  name: documentNameSettings.required(),
   isEligibleForBenefit: isEligibleForBenefitSettings,
   isLivingApartment: isLivingApartmentSettings,
   isRemovalHouseholdWaste: isRemovalHouseholdWasteSettings,

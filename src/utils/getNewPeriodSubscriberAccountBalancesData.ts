@@ -9,7 +9,7 @@ const getNewPeriodSubscriberAccountBalancesData = ({ subscriberAccounts, current
     const startingBalance = startingBalances[0].amount;
 
     const currentPayments = payments.filter(filterFunc).reduce((acc, { amount }) => acc + amount, 0);
-    const currentPrices = prices.filter(filterFunc).reduce((acc, { amount }) => acc + amount, 0);
+    const currentPrices = prices.filter(filterFunc).reduce((acc, { residents, tariff: { price } }) => acc + residents * price, 0);
     const currentPriceAdjustments = priceAdjustments.filter(filterFunc).reduce((acc, { price }) => acc + price, 0);
 
     const balance = startingBalance + currentPrices + currentPriceAdjustments - currentPayments;

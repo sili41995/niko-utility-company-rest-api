@@ -2,9 +2,9 @@ import { Prisma } from '@prisma/client';
 import { ErrorMessages, SectorTypes } from '../constants';
 import httpError from './httpError';
 import { prisma } from '../app';
-import { ICurrentTariffs } from '../types/tariff.type';
+import { ICurrentTariffsId } from '../types/tariff.type';
 
-const getCurrentTariffs = async (): Promise<ICurrentTariffs> => {
+const getCurrentTariffsId = async (): Promise<ICurrentTariffsId> => {
   const currentDate = new Date();
   const tariffOrderBy: Prisma.TariffOrderByWithRelationInput = { start: 'desc' };
   const tariffDateFilter = { lte: currentDate };
@@ -36,11 +36,7 @@ const getCurrentTariffs = async (): Promise<ICurrentTariffs> => {
     });
   }
 
-  const { price: multiApartmentSectorTariff } = multiApartmentSector;
-  const { price: privateSectorTariff } = privateSector;
-  const { price: otherSectorTariff } = otherSector;
-
-  return { multiApartmentSectorTariff, privateSectorTariff, otherSectorTariff };
+  return { multiApartmentSectorTariffId: multiApartmentSector.id, privateSectorTariffId: privateSector.id, otherSectorTariffId: otherSector.id };
 };
 
-export default getCurrentTariffs;
+export default getCurrentTariffsId;

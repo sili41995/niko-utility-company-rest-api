@@ -13,6 +13,6 @@ export { default as getPaymentsBySourceData } from './getPaymentsBySourceData';
 export { default as savePaymentsToCsv } from './savePaymentsToCsv';
 export { default as getPaymentsBySourceFilePath } from './getPaymentsBySourceFilePath';
 export { default as getReportsFindFilters } from './getReportsFindFilters';
-export { default as getCurrentTariffs } from './getCurrentTariffs';
+export { default as getCurrentTariffsId } from './getCurrentTariffsId';
 export { default as getNewPricesData } from './getNewPricesData';
 export { default as getNewPeriodSubscriberAccountBalancesData } from './getNewPeriodSubscriberAccountBalancesData';

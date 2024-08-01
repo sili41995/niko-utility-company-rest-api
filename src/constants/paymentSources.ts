@@ -4,7 +4,7 @@ const enum PaymentSources {
   oshchadbank = 'oshchadbank',
   postage = 'postage',
   ukrsibbank = 'ukrsibbank',
-  benefitCompensation = 'benefitCompensation',
+  benefits = 'benefits',
   adjustment = 'adjustment',
   aval = 'aval',
   ukrgasbank = 'ukrgasbank',

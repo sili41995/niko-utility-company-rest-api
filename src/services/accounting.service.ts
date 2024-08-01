@@ -8,7 +8,7 @@ import {
   getNewPricesData,
   getPaymentsBySourceData,
   getPaymentsBySourceFilePath,
-  getCurrentTariffs,
+  getCurrentTariffsId,
   getYearParams,
   httpError,
   saveInvoicesToPdf,
@@ -58,7 +58,7 @@ class AccountingService {
         owner: true,
         house: { include: { street: true } },
         payments: { include: { period: true } },
-        prices: { include: { period: true } },
+        prices: { include: { period: true, tariff: true } },
         priceAdjustments: { include: { period: true } },
         balances: { include: { period: true }, orderBy: { createdAt: 'desc' } },
       },
@@ -69,28 +69,24 @@ class AccountingService {
     return result;
   }
 
-  async getPrices(): Promise<IPricesInfo> {
-    const result = await prisma.subscriberAccount.findFirst({ include: { prices: true } });
+  async getPrices(): Promise<IPricesInfo | null> {
+    const result = await prisma.price.findFirst({ orderBy: { date: 'desc' } });
+    const lastCalculateInfo = result
+      ? {
+          lastCalculate: result.date,
+        }
+      : null;
 
-    if (!result) {
-      throw httpError({
-        status: 404,
-        message: ErrorMessages.priceNotFound,
-      });
-    }
-
-    return {
-      lastCalculate: result.prices[0].date,
-    };
+    return lastCalculateInfo;
   }
 
   async addPrices(): Promise<IPricesInfo> {
-    const currentTariffs = await getCurrentTariffs();
+    const currentTariffsId = await getCurrentTariffsId();
     const subscriberAccounts = await prisma.subscriberAccount.findMany({
       include: {
         owner: true,
         balances: { include: { period: true } },
-        prices: { include: { period: true } },
+        prices: { include: { period: true, tariff: true } },
         house: { include: { street: true } },
         priceAdjustments: { include: { period: true } },
         payments: { include: { period: true } },
@@ -105,9 +101,9 @@ class AccountingService {
       });
     }
 
-    const newPricesData = getNewPricesData({ subscriberAccounts, currentTariffs, currentPeriod });
+    const newPricesData = getNewPricesData({ subscriberAccounts, currentTariffsId, currentPeriod });
 
-    const result = await prisma.price.createMany({ data: newPricesData });
+    await prisma.price.createMany({ data: newPricesData });
 
     return {
       lastCalculate: newPricesData[0].date,
@@ -143,7 +139,7 @@ class AccountingService {
             balances: { include: { period: true } },
             payments: { include: { period: true } },
             house: { include: { street: true } },
-            prices: { include: { period: true } },
+            prices: { include: { period: true, tariff: true } },
             priceAdjustments: { include: { period: true } },
           },
         },
@@ -205,7 +201,7 @@ class AccountingService {
       include: {
         owner: true,
         house: { include: { street: true } },
-        prices: { include: { period: true } },
+        prices: { include: { period: true, tariff: true } },
         balances: { include: { period: true } },
         priceAdjustments: { include: { period: true } },
         payments: { include: { period: true } },
@@ -244,7 +240,7 @@ class AccountingService {
             owner: true,
             balances: { include: { period: true } },
             house: { include: { street: true } },
-            prices: { include: { period: true } },
+            prices: { include: { period: true, tariff: true } },
             priceAdjustments: { include: { period: true } },
             payments: { include: { period: true } },
           },

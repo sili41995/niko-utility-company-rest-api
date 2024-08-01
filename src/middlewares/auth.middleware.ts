@@ -25,14 +25,6 @@ const auth = async (req: IAuthRequest, res: Response, next: NextFunction): Promi
         login: true,
         email: true,
         token: true,
-        fullAccess: true,
-        houses: true,
-        subscribers: true,
-        accounting: true,
-        documents: true,
-        counters: true,
-        oneOffJobs: true,
-        settings: true,
       },
     });
 

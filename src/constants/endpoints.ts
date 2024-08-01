@@ -1,20 +1,6 @@
 const enum Endpoints {
-  root = '/',
-  login = '/signin',
-  current = '/current',
-  user = '/user',
-  prices = '/prices',
-  periods = '/periods',
-  invoices = '/invoices',
+  //  dynamic params
   dynamicId = 'id',
-  fullAccess = `/:${dynamicId}/fullAccess`,
-  houses = `/:${dynamicId}/houses`,
-  subscribers = `/:${dynamicId}/subscribers`,
-  accounting = `/:${dynamicId}/accounting`,
-  documents = `/:${dynamicId}/documents`,
-  counters = `/:${dynamicId}/counters`,
-  oneOffJobs = `/:${dynamicId}/oneOffJobs`,
-  updateById = `/:${dynamicId}`,
   dynamicNumber = 'number',
   dynamicPage = 'page',
   dynamicLimit = 'limit',
@@ -25,6 +11,12 @@ const enum Endpoints {
   dynamicSurname = 'surname',
   dynamicType = 'type',
   dynamicComment = 'comment',
+  dynamicFrom = 'from',
+  dynamicTo = 'to',
+  // accounting
+  periods = '/periods',
+  prices = '/prices',
+  invoices = '/invoices',
   // reports
   reports = '/reports',
   reportsByStreets = `${reports}/streets`,
@@ -35,8 +27,11 @@ const enum Endpoints {
   privatbankPayments = `${payments}/privatbank`,
   oshchadbankPayments = `${payments}/oshchadbank`,
   abankPayments = `${payments}/abank`,
-  dynamicFrom = 'from',
-  dynamicTo = 'to',
+  // other
+  root = '/',
+  login = '/signin',
+  current = '/current',
+  updateById = `/:${dynamicId}`,
 }
 
 export default Endpoints;

@@ -11,7 +11,7 @@ const sourceSettings = Joi.string()
     PaymentSources.abank,
     PaymentSources.adjustment,
     PaymentSources.aval,
-    PaymentSources.benefitCompensation,
+    PaymentSources.benefits,
     PaymentSources.cash,
     PaymentSources.oshchadbank,
     PaymentSources.postage,

@@ -2,19 +2,17 @@ import { SectorTypes } from '../constants';
 import { NewPrices } from '../types/price.type';
 import { INewPricesDataProps } from '../types/types.type';
 
-const getNewPricesData = ({ subscriberAccounts, currentTariffs, currentPeriod }: INewPricesDataProps): NewPrices =>
+const getNewPricesData = ({ subscriberAccounts, currentTariffsId, currentPeriod }: INewPricesDataProps): NewPrices =>
   subscriberAccounts.map(({ id, residents, sector }) => {
-    const { multiApartmentSectorTariff, otherSectorTariff, privateSectorTariff } = currentTariffs;
+    const { multiApartmentSectorTariffId, otherSectorTariffId, privateSectorTariffId } = currentTariffsId;
     const isMultiApartmentSector = sector === SectorTypes.multiApartment;
     const isPrivateSector = sector === SectorTypes.private;
-    const isOtherSector = sector === SectorTypes.other;
-    const tariff = isMultiApartmentSector ? multiApartmentSectorTariff : isPrivateSector ? privateSectorTariff : isOtherSector ? otherSectorTariff : 0;
+    const tariffId = (isMultiApartmentSector && multiApartmentSectorTariffId) || (isPrivateSector && privateSectorTariffId) || otherSectorTariffId;
 
     return {
-      amount: residents * tariff,
       date: new Date(),
       residents,
-      tariff,
+      tariffId,
       subscriberAccountId: id,
       periodId: currentPeriod.id,
     };

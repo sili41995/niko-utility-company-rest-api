@@ -1,9 +1,9 @@
 import Joi from 'joi';
 import { ErrorMessages, SectorTypes } from '../constants';
 
-const tariffSettings = Joi.number().messages({
-  'any.required': ErrorMessages.tariffReqErr,
-  'number.base': ErrorMessages.tariffNumberErr,
+const priceSettings = Joi.number().messages({
+  'any.required': ErrorMessages.priceReqErr,
+  'number.base': ErrorMessages.priceNumberErr,
 });
 
 const sectorSettings = Joi.string().valid(SectorTypes.multiApartment, SectorTypes.private, SectorTypes.other).messages({
@@ -17,7 +17,7 @@ const startSettings = Joi.date().messages({
 });
 
 const add = Joi.object({
-  tariff: tariffSettings.required(),
+  price: priceSettings.required(),
   sector: sectorSettings.required(),
   start: startSettings.required(),
 });
