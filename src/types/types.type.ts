@@ -68,3 +68,7 @@ export interface IGetYearParams {
   yearStart: string;
   yearEnd: string;
 }
+
+export interface IAmount {
+  amount: number;
+}

@@ -16,3 +16,4 @@ export { default as getReportsFindFilters } from './getReportsFindFilters';
 export { default as getCurrentTariffsId } from './getCurrentTariffsId';
 export { default as getNewPricesData } from './getNewPricesData';
 export { default as getNewPeriodSubscriberAccountBalancesData } from './getNewPeriodSubscriberAccountBalancesData';
+export { default as getBalanceByPeriod } from './getBalanceByPeriod';

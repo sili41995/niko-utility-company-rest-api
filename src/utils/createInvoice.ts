@@ -1,6 +1,7 @@
 import { DateFormats } from '../constants';
 import { ICreateInvoiceProps } from '../types/types.type';
 import formatDate from './formatDate';
+import getBalanceByPeriod from './getBalanceByPeriod';
 
 const createInvoice = ({ generalSettings, subscriberAccount, period }: ICreateInvoiceProps): string => {
   const { currentAccount, helpPhone, mfi } = generalSettings;
@@ -14,6 +15,7 @@ const createInvoice = ({ generalSettings, subscriberAccount, period }: ICreateIn
   const houseAddress = `м. Нікополь, ${type} ${streetName} ${houseNumber}`;
   const address = apartment ? `${houseAddress}, кв. ${apartment}` : houseAddress;
   const date = formatDate({ date: start, dateFormat: DateFormats.period });
+  const balance = getBalanceByPeriod({ targetPeriodId: period.id, subscriberAccount });
 
   return `
   <table class="container">
@@ -32,7 +34,7 @@ const createInvoice = ({ generalSettings, subscriberAccount, period }: ICreateIn
             <p>ПІБ: <strong>${fullName}</strong></p>
             <p>Адреса: <strong>${address}</strong></p>
           </div>
-          <p style="font-size: 10px">До сплати: <strong>0</strong></p>
+          <p style="font-size: 10px">До сплати: <strong>${balance}</strong></p>
         </td>
         <td class="section invoice">
           <strong style="font-size: 10px">Рахунок-повідомлення за комунальні послуги за <span style="text-transform: capitalize;">${date}</span></strong>
@@ -100,11 +102,11 @@ const createInvoice = ({ generalSettings, subscriberAccount, period }: ICreateIn
                 <td class="invoice-table-cell"></td>
                 <td class="invoice-table-cell"></td>
                 <td class="invoice-table-cell"></td>
-                <td class="invoice-table-cell">0</td>
+                <td class="invoice-table-cell">${balance}</td>
                 <td class="invoice-table-cell"></td>
                 <td class="invoice-table-cell"></td>
                 <td class="invoice-table-cell"></td>
-                <td class="invoice-table-cell">0</td>
+                <td class="invoice-table-cell">${balance}</td>
                 <td class="invoice-table-cell"></td>
               </tr>
             </tbody>

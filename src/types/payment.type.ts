@@ -1,4 +1,5 @@
 import { PaymentSources } from '../constants';
+import { IPeriod } from './period.type';
 import { ISubscriberAccount } from './subscriberAccount.type';
 
 export interface IPayment {
