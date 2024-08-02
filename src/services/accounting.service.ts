@@ -42,29 +42,24 @@ class AccountingService {
 
     const currentPeriod = await prisma.period.findFirst({ where: { isCurrentPeriod: true } });
 
-    if (!currentPeriod) {
-      throw httpError({
-        status: 404,
-        message: ErrorMessages.periodNotFound,
-      });
-    }
-
-    await prisma.period.update({ where: { id: currentPeriod.id }, data: { isCurrentPeriod: false } });
-
     const result = await prisma.period.create({ data: { isCurrentPeriod: true } });
-    //add new period balances
-    const subscriberAccounts = await prisma.subscriberAccount.findMany({
-      include: {
-        owner: true,
-        house: { include: { street: true } },
-        payments: { include: { period: true } },
-        prices: { include: { period: true, tariff: true } },
-        priceAdjustments: { include: { period: true } },
-        balances: { include: { period: true }, orderBy: { createdAt: 'desc' } },
-      },
-    });
-    const balancesData = getNewPeriodSubscriberAccountBalancesData({ subscriberAccounts, currentPeriodId: result.id, prevPeriodId: currentPeriod.id });
-    await prisma.balance.createMany({ data: balancesData });
+
+    if (currentPeriod) {
+      await prisma.period.update({ where: { id: currentPeriod.id }, data: { isCurrentPeriod: false } });
+
+      const subscriberAccounts = await prisma.subscriberAccount.findMany({
+        include: {
+          owner: true,
+          house: { include: { street: true } },
+          payments: { include: { period: true } },
+          prices: { include: { period: true, tariff: true } },
+          priceAdjustments: { include: { period: true } },
+          balances: { include: { period: true }, orderBy: { createdAt: 'desc' } },
+        },
+      });
+      const balancesData = getNewPeriodSubscriberAccountBalancesData({ subscriberAccounts, currentPeriodId: result.id, prevPeriodId: currentPeriod.id });
+      await prisma.balance.createMany({ data: balancesData });
+    }
 
     return result;
   }

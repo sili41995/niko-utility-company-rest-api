@@ -11,7 +11,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  // shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 enum SectorType {
@@ -94,6 +94,7 @@ model SubscriberAccount{
   isEligibleForBenefit Boolean
   accountType String
   sector SectorType
+  comment String?
   owner Owner?
   houseId Int
   house House @relation(fields: [houseId], references: [id])
