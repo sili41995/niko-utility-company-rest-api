@@ -72,3 +72,14 @@ export interface IGetYearParams {
 export interface IAmount {
   amount: number;
 }
+
+export interface IGetReportByStreet {
+  streetName: string;
+  startingBalance: number;
+  prices: number;
+  payments: number;
+  benefits: number;
+  subsidy: number;
+  totalBalance: number;
+  percentagePayments: number;
+}

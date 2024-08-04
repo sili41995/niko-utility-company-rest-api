@@ -9,7 +9,6 @@ prisma
       console.log(`Now listening on port ${port}`);
     });
   })
-  .catch((error) => {
-    console.log(error);
+  .catch(() => {
     prisma.$disconnect();
   });

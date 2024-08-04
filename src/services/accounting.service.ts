@@ -14,6 +14,7 @@ import {
   saveInvoicesToPdf,
   savePaymentsToCsv,
   getNewPeriodSubscriberAccountBalancesData,
+  getReportByStreet,
 } from '../utils';
 import { IFindFilters } from '../types/types.type';
 import { addMonths } from 'date-fns';
@@ -256,6 +257,31 @@ class AccountingService {
     const toDate = new Date(to);
     const periodStart = fromDate;
     const periodEnd = addMonths(toDate, 1);
+
+    const filterByPeriodDate = { start: { gte: periodStart, lt: periodEnd } };
+    const filterByPeriod = { where: { period: filterByPeriodDate } };
+
+    const targetPeriods = await prisma.period.findMany({ where: filterByPeriodDate, orderBy: { start: 'asc' } });
+
+    const streets = await prisma.street.findMany({
+      include: {
+        subscriberAccounts: {
+          include: {
+            owner: true,
+            house: { include: { street: true } },
+            payments: { ...filterByPeriod, orderBy: { date: 'asc' } },
+            balances: { ...filterByPeriod, include: { period: true }, orderBy: { createdAt: 'asc' } },
+            prices: { ...filterByPeriod, include: { tariff: true, period: true }, orderBy: { date: 'asc' } },
+            priceAdjustments: { ...filterByPeriod, include: { period: true }, orderBy: { date: 'asc' } },
+          },
+        },
+      },
+    });
+
+    const startingPeriodId = targetPeriods[0].id;
+    const result = streets.map(({ subscriberAccounts, ...street }) => getReportByStreet({ subscriberAccounts, street, startingPeriodId }));
+
+    return result;
   }
 }
 
