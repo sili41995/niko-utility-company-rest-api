@@ -4,20 +4,22 @@ import { IReportsFindFilters } from '../types/accounting.type';
 import { IPayment, NewPayment, IFindAllPaymentsRes, NewPayments } from '../types/payment.type';
 import { IPricesInfo } from '../types/subscriberAccount.type';
 import {
-  getInvoices,
+  getInvoicesMarkup,
   getNewPricesData,
   getPaymentsBySourceData,
   getPaymentsBySourceFilePath,
   getCurrentTariffsId,
   getYearParams,
   httpError,
-  saveInvoicesToPdf,
+  saveDataToPdf,
   savePaymentsToCsv,
   getNewPeriodSubscriberAccountBalancesData,
   getReportByStreet,
+  getPeriodParams,
+  groupData,
+  getReportsByStreetsMarkup,
 } from '../utils';
-import { IFindFilters } from '../types/types.type';
-import { addMonths } from 'date-fns';
+import { IFindFilters, ReportsByStreets } from '../types/types.type';
 import { IPeriod, Periods } from '../types/period.type';
 import { IPriceAdjustment, NewPriceAdjustment } from '../types/priceAdjustment.type';
 
@@ -220,8 +222,8 @@ class AccountingService {
       });
     }
 
-    const invoices = getInvoices({ subscriberAccounts, generalSettings, period });
-    const filePath = saveInvoicesToPdf(invoices);
+    const invoicesMarkup = getInvoicesMarkup({ subscriberAccounts, generalSettings, period });
+    const filePath = saveDataToPdf({ content: invoicesMarkup, fileName: 'invoices.pdf' });
 
     return filePath;
   }
@@ -253,10 +255,7 @@ class AccountingService {
   }
 
   async getReportsByStreets({ from, to }: IReportsFindFilters) {
-    const fromDate = new Date(from);
-    const toDate = new Date(to);
-    const periodStart = fromDate;
-    const periodEnd = addMonths(toDate, 1);
+    const { periodEnd, periodStart } = getPeriodParams({ from, to });
 
     const filterByPeriodDate = { start: { gte: periodStart, lt: periodEnd } };
     const filterByPeriod = { where: { period: filterByPeriodDate } };
@@ -279,9 +278,13 @@ class AccountingService {
     });
 
     const startingPeriodId = targetPeriods[0].id;
-    const result = streets.map(({ subscriberAccounts, ...street }) => getReportByStreet({ subscriberAccounts, street, startingPeriodId }));
+    const reportsByStreetsData = streets.map(({ subscriberAccounts, ...street }) => getReportByStreet({ subscriberAccounts, street, startingPeriodId }));
 
-    return result;
+    const groupedReportsByStreetsData: ReportsByStreets[] = groupData({ data: reportsByStreetsData, size: 20 });
+    const reportsByStreetsMarkup = getReportsByStreetsMarkup({ groupedReportsByStreetsData, targetPeriods });
+    const filePath = saveDataToPdf({ content: reportsByStreetsMarkup, fileName: 'reports-streets.pdf' });
+
+    return filePath;
   }
 }
 

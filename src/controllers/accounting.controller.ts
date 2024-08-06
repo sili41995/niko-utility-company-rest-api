@@ -89,9 +89,9 @@ export class AccountingController {
 
   async getReportsByStreets(req: Request, res: Response, next: NextFunction): Promise<void> {
     const findFilters = getReportsFindFilters(req.query);
-    const result = await this.accountingService.getReportsByStreets(findFilters);
+    const filePath = await this.accountingService.getReportsByStreets(findFilters);
 
-    res.status(201).json(result);
+    res.status(200).sendFile(filePath, {}, removeFile(filePath));
   }
 }
 

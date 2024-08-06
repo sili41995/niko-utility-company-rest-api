@@ -3,6 +3,8 @@ import { IGeneralSettings } from './generalSettings.type';
 import { ISubscriberAccount, SubscriberAccounts } from './subscriberAccount.type';
 import { ICurrentTariffsId } from './tariff.type';
 import { PaymentsBySource } from './payment.type';
+import { IStreet } from './street.type';
+import { HtmlDocumentStyles } from '../constants';
 
 export interface IHttpError {
   status: number;
@@ -48,8 +50,8 @@ export interface ISavePaymentsToCsvProps {
 }
 
 export interface ITimePeriod {
-  from: Date;
-  to: Date;
+  from: string;
+  to: string;
 }
 
 export interface INewPricesDataProps {
@@ -73,7 +75,11 @@ export interface IAmount {
   amount: number;
 }
 
-export interface IGetReportByStreet {
+export interface IPriceProp {
+  price: number;
+}
+
+export interface IReportByStreet {
   streetName: string;
   startingBalance: number;
   prices: number;
@@ -81,5 +87,23 @@ export interface IGetReportByStreet {
   benefits: number;
   subsidy: number;
   totalBalance: number;
-  percentagePayments: number;
+  paymentsPercentage: number;
+}
+
+export interface IGetReportByStreetProps {
+  street: IStreet;
+  subscriberAccounts: SubscriberAccounts;
+  startingPeriodId: number;
+}
+
+export type ReportsByStreets = IReportByStreet[];
+
+export interface IPeriodParams {
+  periodStart: Date;
+  periodEnd: Date;
+}
+
+export interface ICreateHtmlMarkupProps {
+  content: string;
+  styles: HtmlDocumentStyles;
 }
