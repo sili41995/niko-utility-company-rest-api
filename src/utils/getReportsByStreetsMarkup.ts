@@ -1,13 +1,16 @@
 import { HtmlDocumentStyles } from '../constants';
-import { Periods } from '../types/period.type';
-import { ReportsByStreets } from '../types/types.type';
+import { IGetReportsByStreetsMarkupProps } from '../types/types.type';
 import createHtmlMarkup from './createHtmlMarkup';
+import createReportsByStreetsHtmlDocumentData from './createReportsByStreetsHtmlDocumentData';
+import getTargetPeriodsParams from './getTargetPeriodsParams';
 
-const getReportsByStreetsMarkup = ({ groupedReportsByStreetsData, targetPeriods }: { groupedReportsByStreetsData: ReportsByStreets[]; targetPeriods: Periods }): string => {
-  const periodStart = '';
-  const periodEnd = '';
+const getReportsByStreetsMarkup = ({ reportsByStreetsData, targetPeriods }: IGetReportsByStreetsMarkupProps): string => {
+  const { periodStart, periodEnd } = getTargetPeriodsParams(targetPeriods);
+
+  const title = 'Розрахунки по вулицях';
   const subtitle = `за период з ${periodStart} по ${periodEnd}`;
-  const reportsByStreets = createReportsByStreetsHtmlDocumentData({ title: '', subtitle, tablesData: groupedReportsByStreetsData });
+  const reportsByStreets = createReportsByStreetsHtmlDocumentData({ title, subtitle, tableData: reportsByStreetsData });
+
   const htmlMarkup = createHtmlMarkup({ content: reportsByStreets, styles: HtmlDocumentStyles.reports });
 
   return htmlMarkup;

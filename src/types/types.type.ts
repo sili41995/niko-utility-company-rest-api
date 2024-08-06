@@ -1,4 +1,4 @@
-import { IPeriod } from './period.type';
+import { IPeriod, Periods } from './period.type';
 import { IGeneralSettings } from './generalSettings.type';
 import { ISubscriberAccount, SubscriberAccounts } from './subscriberAccount.type';
 import { ICurrentTariffsId } from './tariff.type';
@@ -106,4 +106,26 @@ export interface IPeriodParams {
 export interface ICreateHtmlMarkupProps {
   content: string;
   styles: HtmlDocumentStyles;
+}
+
+export interface ITargetPeriodsParams {
+  periodStart: string;
+  periodEnd: string;
+}
+
+export interface ISaveDataToPdfProps {
+  content: string;
+  fileName: string;
+  landscape?: boolean;
+}
+
+export interface IGetReportsByStreetsMarkupProps {
+  reportsByStreetsData: ReportsByStreets;
+  targetPeriods: Periods;
+}
+
+export interface ICreateReportsByStreetsHtmlDocumentDataProps {
+  title: string;
+  subtitle: string;
+  tableData: ReportsByStreets;
 }

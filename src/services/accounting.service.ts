@@ -279,10 +279,8 @@ class AccountingService {
 
     const startingPeriodId = targetPeriods[0].id;
     const reportsByStreetsData = streets.map(({ subscriberAccounts, ...street }) => getReportByStreet({ subscriberAccounts, street, startingPeriodId }));
-
-    const groupedReportsByStreetsData: ReportsByStreets[] = groupData({ data: reportsByStreetsData, size: 20 });
-    const reportsByStreetsMarkup = getReportsByStreetsMarkup({ groupedReportsByStreetsData, targetPeriods });
-    const filePath = saveDataToPdf({ content: reportsByStreetsMarkup, fileName: 'reports-streets.pdf' });
+    const reportsByStreetsMarkup = getReportsByStreetsMarkup({ reportsByStreetsData, targetPeriods });
+    const filePath = saveDataToPdf({ content: reportsByStreetsMarkup, fileName: 'reports-streets.pdf', landscape: true });
 
     return filePath;
   }

@@ -91,7 +91,8 @@ export class AccountingController {
     const findFilters = getReportsFindFilters(req.query);
     const filePath = await this.accountingService.getReportsByStreets(findFilters);
 
-    res.status(200).sendFile(filePath, {}, removeFile(filePath));
+    // res.status(200).sendFile(filePath, {}, removeFile(filePath));
+    res.status(200).sendFile(filePath);
   }
 }
 
