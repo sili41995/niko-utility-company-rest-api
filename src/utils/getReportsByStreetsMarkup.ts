@@ -8,8 +8,7 @@ const getReportsByStreetsMarkup = ({ reportsByStreetsData, targetPeriods }: IGet
   const { periodStart, periodEnd } = getTargetPeriodsParams(targetPeriods);
 
   const title = 'Розрахунки по вулицях';
-  const subtitle = `за период з ${periodStart} по ${periodEnd}`;
-  const reportsByStreets = createReportsByStreetsHtmlDocumentData({ title, subtitle, tableData: reportsByStreetsData });
+  const reportsByStreets = createReportsByStreetsHtmlDocumentData({ title, periodStart, periodEnd, tableData: reportsByStreetsData });
 
   const htmlMarkup = createHtmlMarkup({ content: reportsByStreets, styles: HtmlDocumentStyles.reports });
 

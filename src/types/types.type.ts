@@ -126,6 +126,7 @@ export interface IGetReportsByStreetsMarkupProps {
 
 export interface ICreateReportsByStreetsHtmlDocumentDataProps {
   title: string;
-  subtitle: string;
+  periodStart: string;
+  periodEnd: string;
   tableData: ReportsByStreets;
 }

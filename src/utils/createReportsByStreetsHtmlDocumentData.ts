@@ -1,9 +1,9 @@
 import { ICreateReportsByStreetsHtmlDocumentDataProps } from '../types/types.type';
 
-const createReportsByStreetsHtmlDocumentData = ({ title, subtitle, tableData }: ICreateReportsByStreetsHtmlDocumentDataProps) => `
+const createReportsByStreetsHtmlDocumentData = ({ title, periodStart, periodEnd, tableData }: ICreateReportsByStreetsHtmlDocumentDataProps) => `
 <div class="container">
       <p class="title">${title}</p>
-      <p class="subtitle">${subtitle}</p>
+      <p class="subtitle">за період з <span class="date">${periodStart}</span> по <span class="date">${periodEnd}</span></p>
         <table>
         <thead>
           <tr>

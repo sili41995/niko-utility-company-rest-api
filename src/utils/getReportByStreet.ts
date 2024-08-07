@@ -26,15 +26,21 @@ const getReportByStreet = ({ street, subscriberAccounts, startingPeriodId }: IGe
 
   const paymentsPercentage = ((totalBalance - startingBalance) / startingBalance) * 100;
 
+  const startingBalanceFixedNumber = Number(startingBalance.toFixed(2));
+  const totalPricesFixedNumber = Number(totalPrices.toFixed(2));
+  const paymentsFixedNumber = Number(payments.toFixed(2));
+  const totalBalanceFixedNumber = Number(totalBalance.toFixed(2));
+  const paymentsPercentageFixedNumber = Number(paymentsPercentage.toFixed(2));
+
   return {
     streetName,
-    startingBalance,
-    prices: totalPrices,
-    payments,
+    startingBalance: startingBalanceFixedNumber,
+    prices: totalPricesFixedNumber,
+    payments: paymentsFixedNumber,
     benefits: 0,
     subsidy: 0,
-    totalBalance,
-    paymentsPercentage,
+    totalBalance: totalBalanceFixedNumber,
+    paymentsPercentage: paymentsPercentageFixedNumber,
   };
 };
 
