@@ -1,6 +1,5 @@
 import { prisma } from '../app';
 import { ErrorMessages, PaymentSources } from '../constants';
-import { IReportsFindFilters } from '../types/accounting.type';
 import { IPayment, NewPayment, IFindAllPaymentsRes, NewPayments } from '../types/payment.type';
 import { IPricesInfo } from '../types/subscriberAccount.type';
 import {
@@ -14,12 +13,11 @@ import {
   saveDataToPdf,
   savePaymentsToCsv,
   getNewPeriodSubscriberAccountBalancesData,
+  getFilterByPeriod,
   getReportByStreet,
-  getPeriodParams,
-  groupData,
   getReportsByStreetsMarkup,
 } from '../utils';
-import { IFindFilters, ReportsByStreets } from '../types/types.type';
+import { IFindFilters, ITimePeriod } from '../types/types.type';
 import { IPeriod, Periods } from '../types/period.type';
 import { IPriceAdjustment, NewPriceAdjustment } from '../types/priceAdjustment.type';
 
@@ -254,11 +252,8 @@ class AccountingService {
     return filePath;
   }
 
-  async getReportsByStreets({ from, to }: IReportsFindFilters) {
-    const { periodEnd, periodStart } = getPeriodParams({ from, to });
-
-    const filterByPeriodDate = { start: { gte: periodStart, lt: periodEnd } };
-    const filterByPeriod = { where: { period: filterByPeriodDate } };
+  async getReportsByStreets(timePeriod: ITimePeriod) {
+    const { filterByPeriod, filterByPeriodDate } = getFilterByPeriod(timePeriod);
 
     const targetPeriods = await prisma.period.findMany({ where: filterByPeriodDate, orderBy: { start: 'asc' } });
 
@@ -281,6 +276,34 @@ class AccountingService {
     const reportsByStreetsData = streets.map(({ subscriberAccounts, ...street }) => getReportByStreet({ subscriberAccounts, street, startingPeriodId }));
     const reportsByStreetsMarkup = getReportsByStreetsMarkup({ reportsByStreetsData, targetPeriods });
     const filePath = saveDataToPdf({ content: reportsByStreetsMarkup, fileName: 'reports-streets.pdf', landscape: true });
+
+    return filePath;
+  }
+
+  async getReportsByHouses(timePeriod: ITimePeriod) {
+    const { filterByPeriod, filterByPeriodDate } = getFilterByPeriod(timePeriod);
+
+    const targetPeriods = await prisma.period.findMany({ where: filterByPeriodDate, orderBy: { start: 'asc' } });
+
+    const houses = await prisma.house.findMany({
+      include: {
+        subscriberAccounts: {
+          include: {
+            owner: true,
+            house: { include: { street: true } },
+            payments: { ...filterByPeriod, orderBy: { date: 'asc' } },
+            balances: { ...filterByPeriod, include: { period: true }, orderBy: { createdAt: 'asc' } },
+            prices: { ...filterByPeriod, include: { tariff: true, period: true }, orderBy: { date: 'asc' } },
+            priceAdjustments: { ...filterByPeriod, include: { period: true }, orderBy: { date: 'asc' } },
+          },
+        },
+      },
+    });
+
+    const startingPeriodId = targetPeriods[0].id;
+    const reportsByHousesData = houses.map(({ subscriberAccounts, ...house }) => getReportByHouse({ subscriberAccounts, house, startingPeriodId }));
+    const reportsByHousesMarkup = getReportsByHousesMarkup({ reportsByHousesData, targetPeriods });
+    const filePath = saveDataToPdf({ content: reportsByHousesMarkup, fileName: 'reports-houses.pdf', landscape: true });
 
     return filePath;
   }

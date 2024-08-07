@@ -93,6 +93,13 @@ export class AccountingController {
 
     res.status(200).sendFile(filePath, {}, removeFile(filePath));
   }
+
+  async getReportsByHouses(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const findFilters = getReportsFindFilters(req.query);
+    const filePath = await this.accountingService.getReportsByHouses(findFilters);
+
+    res.status(200).sendFile(filePath, {}, removeFile(filePath));
+  }
 }
 
 const accountingController = new AccountingController(new AccountingService());

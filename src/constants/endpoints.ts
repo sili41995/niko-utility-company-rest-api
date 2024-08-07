@@ -20,6 +20,7 @@ const enum Endpoints {
   // reports
   reports = '/reports',
   reportsByStreets = `${reports}/streets`,
+  reportsByHouses = `${reports}/houses`,
   //payments
   payments = '/payments',
   postagePayments = `${payments}/postage`,

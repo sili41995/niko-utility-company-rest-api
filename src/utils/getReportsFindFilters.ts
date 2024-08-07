@@ -1,8 +1,8 @@
 import QueryString from 'qs';
 import { Endpoints } from '../constants';
-import { IReportsFindFilters } from '../types/accounting.type';
+import { ITimePeriod } from '../types/types.type';
 
-const getReportsFindFilters = (query: QueryString.ParsedQs): IReportsFindFilters => {
+const getReportsFindFilters = (query: QueryString.ParsedQs): ITimePeriod => {
   const fromQuery = query[Endpoints.dynamicFrom];
   const toQuery = query[Endpoints.dynamicTo];
 

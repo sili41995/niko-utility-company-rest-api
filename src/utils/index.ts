@@ -24,3 +24,4 @@ export { default as groupData } from './groupData';
 export { default as getReportsByStreetsMarkup } from './getReportsByStreetsMarkup';
 export { default as getTargetPeriodsParams } from './getTargetPeriodsParams';
 export { default as createReportsByStreetsHtmlDocumentData } from './createReportsByStreetsHtmlDocumentData';
+export { default as getFilterByPeriod } from './getFilterByPeriod';

@@ -1,6 +1,7 @@
 import { IPeriodId } from '../types/period.type';
 import { IPrice } from '../types/price.type';
-import { IAmount, IReportByStreet, IGetReportByStreetProps, IPriceProp } from '../types/types.type';
+import { IAmount, IGetReportByStreetProps, IPriceProp } from '../types/types.type';
+import { IReportByStreet } from '../types/report.type';
 
 const getReportByStreet = ({ street, subscriberAccounts, startingPeriodId }: IGetReportByStreetProps): IReportByStreet => {
   const { name, type } = street;
