@@ -79,6 +79,15 @@ class AccountingService {
   }
 
   async addPrices(): Promise<IPricesInfo> {
+    const currentPeriod = await prisma.period.findFirst({ where: { isCurrentPeriod: true } });
+
+    if (!currentPeriod) {
+      throw httpError({
+        status: 404,
+        message: ErrorMessages.periodNotFound,
+      });
+    }
+
     const currentTariffsId = await getCurrentTariffsId();
     const subscriberAccounts = await prisma.subscriberAccount.findMany({
       include: {
@@ -90,14 +99,6 @@ class AccountingService {
         payments: { include: { period: true } },
       },
     });
-    const currentPeriod = await prisma.period.findFirst({ where: { isCurrentPeriod: true } });
-
-    if (!currentPeriod) {
-      throw httpError({
-        status: 404,
-        message: ErrorMessages.periodNotFound,
-      });
-    }
 
     const newPricesData = getNewPricesData({ subscriberAccounts, currentTariffsId, currentPeriod });
 
@@ -195,16 +196,6 @@ class AccountingService {
   }
 
   async getInvoices(): Promise<string> {
-    const subscriberAccounts = await prisma.subscriberAccount.findMany({
-      include: {
-        owner: true,
-        house: { include: { street: true } },
-        prices: { include: { period: true, tariff: true } },
-        balances: { include: { period: true } },
-        priceAdjustments: { include: { period: true } },
-        payments: { include: { period: true } },
-      },
-    });
     const generalSettings = await prisma.generalSettings.findFirst();
     const period = await prisma.period.findFirst({ where: { isCurrentPeriod: true } });
 
@@ -221,6 +212,17 @@ class AccountingService {
         message: ErrorMessages.periodNotFound,
       });
     }
+
+    const subscriberAccounts = await prisma.subscriberAccount.findMany({
+      include: {
+        owner: true,
+        house: { include: { street: true } },
+        prices: { include: { period: true, tariff: true } },
+        balances: { include: { period: true } },
+        priceAdjustments: { include: { period: true } },
+        payments: { include: { period: true } },
+      },
+    });
 
     const invoicesMarkup = getInvoicesMarkup({ subscriberAccounts, generalSettings, period });
     const filePath = saveDataToPdf({ content: invoicesMarkup, fileName: 'invoices.pdf' });

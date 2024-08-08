@@ -14,6 +14,7 @@ export const prisma = new PrismaClient();
 
 app.use(logger(formatsLogger));
 app.use(cors());
+// app.use(cors({ origin: 'https://nikpark.in.ua' }));
 app.use(express.json());
 
 router.init();

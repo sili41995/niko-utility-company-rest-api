@@ -20,7 +20,6 @@ export { default as getBalanceByPeriod } from './getBalanceByPeriod';
 export { default as getReportByStreet } from './getReportByStreet';
 export { default as getSavedFilePath } from './getSavedFilePath';
 export { default as getPeriodParams } from './getPeriodParams';
-export { default as groupData } from './groupData';
 export { default as getReportsByStreetsMarkup } from './getReportsByStreetsMarkup';
 export { default as getTargetPeriodsParams } from './getTargetPeriodsParams';
 export { default as createReportsByStreetsHtmlDocumentData } from './createReportsByStreetsHtmlDocumentData';

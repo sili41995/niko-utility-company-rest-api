@@ -65,6 +65,15 @@ class SubscriberAccountService {
   }
 
   async add(data: INewSubscriberAccount): Promise<ISubscriberAccount> {
+    const currentPeriod = await prisma.period.findFirst({ where: { isCurrentPeriod: true } });
+
+    if (!currentPeriod) {
+      throw httpError({
+        status: 404,
+        message: ErrorMessages.periodNotFound,
+      });
+    }
+
     const subscriberAccount = await prisma.subscriberAccount.findFirst({ where: { OR: [{ number: data.number }, { contract: data.contract }] } });
     const isDuplicateSubscriberAccount = subscriberAccount && subscriberAccount.number === data.number;
     const isDuplicateContract = subscriberAccount && subscriberAccount.contract === data.contract;
@@ -86,16 +95,6 @@ class SubscriberAccountService {
       data: subscriberAccountData,
     });
     await prisma.owner.create({ data: { ...owner, subscriberAccountId } });
-
-    const currentPeriod = await prisma.period.findFirst({ where: { isCurrentPeriod: true } });
-
-    if (!currentPeriod) {
-      throw httpError({
-        status: 404,
-        message: ErrorMessages.periodNotFound,
-      });
-    }
-
     await prisma.balance.create({ data: { amount: 0, subscriberAccountId, periodId: currentPeriod.id } });
     const result = await prisma.subscriberAccount.findUnique({
       where: { id: subscriberAccountId },
