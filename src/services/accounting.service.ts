@@ -16,6 +16,8 @@ import {
   getFilterByPeriod,
   getReportByStreet,
   getReportsByStreetsMarkup,
+  getReportByHouse,
+  getReportsByHousesMarkup,
 } from '../utils';
 import { IFindFilters, ITimePeriod } from '../types/types.type';
 import { IPeriod, Periods } from '../types/period.type';
@@ -287,6 +289,7 @@ class AccountingService {
 
     const houses = await prisma.house.findMany({
       include: {
+        street: true,
         subscriberAccounts: {
           include: {
             owner: true,

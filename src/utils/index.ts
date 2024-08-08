@@ -25,3 +25,5 @@ export { default as getReportsByStreetsMarkup } from './getReportsByStreetsMarku
 export { default as getTargetPeriodsParams } from './getTargetPeriodsParams';
 export { default as createReportsByStreetsHtmlDocumentData } from './createReportsByStreetsHtmlDocumentData';
 export { default as getFilterByPeriod } from './getFilterByPeriod';
+export { default as getReportByHouse } from './getReportByHouse';
+export { default as getReportsByHousesMarkup } from './getReportsByHousesMarkup';

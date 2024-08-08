@@ -1,13 +1,13 @@
-import { ICreateReportsByStreetsHtmlDocumentDataProps } from '../types/types.type';
+import { ICreateReportsByHousesHtmlDocumentDataProps } from '../types/types.type';
 
-const createReportsByStreetsHtmlDocumentData = ({ periodStart, periodEnd, tableData }: ICreateReportsByStreetsHtmlDocumentDataProps) => `
+const createReportsByHousesHtmlDocumentData = ({ periodStart, periodEnd, tableData }: ICreateReportsByHousesHtmlDocumentDataProps) => `
 <div class="container">
-      <p class="title">Розрахунки по вулицях</p>
+      <p class="title">Розрахунки по будинках</p>
       <p class="subtitle">за період з <span class="date">${periodStart}</span> по <span class="date">${periodEnd}</span></p>
         <table>
         <thead>
           <tr>
-            <th>Вулиця</th>
+            <th>Будинок</th>
             <th>Борг на початок періоду</th>
             <th>Нараховано</th>
             <th>Сплачено всього</th>
@@ -20,8 +20,8 @@ const createReportsByStreetsHtmlDocumentData = ({ periodStart, periodEnd, tableD
         <tbody>
         ${tableData
           .map(
-            ({ benefits, payments, paymentsPercentage, prices, startingBalance, streetName, subsidy, totalBalance }) => `<tr>
-            <td>${streetName}</td>
+            ({ benefits, payments, paymentsPercentage, prices, startingBalance, address, subsidy, totalBalance }) => `<tr>
+            <td>${address}</td>
             <td>${startingBalance}</td>
             <td>${prices}</td>
             <td>${payments}</td>
@@ -37,4 +37,4 @@ const createReportsByStreetsHtmlDocumentData = ({ periodStart, periodEnd, tableD
     </div>
 `;
 
-export default createReportsByStreetsHtmlDocumentData;
+export default createReportsByHousesHtmlDocumentData;

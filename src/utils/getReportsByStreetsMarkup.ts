@@ -7,8 +7,7 @@ import getTargetPeriodsParams from './getTargetPeriodsParams';
 const getReportsByStreetsMarkup = ({ reportsByStreetsData, targetPeriods }: IGetReportsByStreetsMarkupProps): string => {
   const { periodStart, periodEnd } = getTargetPeriodsParams(targetPeriods);
 
-  const title = 'Розрахунки по вулицях';
-  const reportsByStreets = createReportsByStreetsHtmlDocumentData({ title, periodStart, periodEnd, tableData: reportsByStreetsData });
+  const reportsByStreets = createReportsByStreetsHtmlDocumentData({ periodStart, periodEnd, tableData: reportsByStreetsData });
 
   const htmlMarkup = createHtmlMarkup({ content: reportsByStreets, styles: HtmlDocumentStyles.reports });
 

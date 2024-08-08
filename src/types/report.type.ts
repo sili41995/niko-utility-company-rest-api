@@ -13,3 +13,9 @@ export interface IReportByStreet extends IReport {
 }
 
 export type ReportsByStreets = IReportByStreet[];
+
+export interface IReportByHouse extends IReport {
+  address: string;
+}
+
+export type ReportsByHouses = IReportByHouse[];

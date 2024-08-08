@@ -5,7 +5,8 @@ import { ICurrentTariffsId } from './tariff.type';
 import { PaymentsBySource } from './payment.type';
 import { IStreet } from './street.type';
 import { HtmlDocumentStyles } from '../constants';
-import { ReportsByStreets } from './report.type';
+import { ReportsByHouses, ReportsByStreets } from './report.type';
+import { IHouse } from './house.type';
 
 export interface IHttpError {
   status: number;
@@ -113,7 +114,6 @@ export interface IGetReportsByStreetsMarkupProps {
 }
 
 export interface ICreateReportsByStreetsHtmlDocumentDataProps {
-  title: string;
   periodStart: string;
   periodEnd: string;
   tableData: ReportsByStreets;
@@ -126,4 +126,21 @@ export interface IPeriodStartInterval {
 export interface IFilterByPeriod {
   filterByPeriodDate: IPeriodStartInterval;
   filterByPeriod: { where: { period: IPeriodStartInterval } };
+}
+
+export interface IGetReportByHouseProps {
+  house: IHouse;
+  subscriberAccounts: SubscriberAccounts;
+  startingPeriodId: number;
+}
+
+export interface IGetReportsByHousesMarkupProps {
+  reportsByHousesData: ReportsByHouses;
+  targetPeriods: Periods;
+}
+
+export interface ICreateReportsByHousesHtmlDocumentDataProps {
+  periodStart: string;
+  periodEnd: string;
+  tableData: ReportsByHouses;
 }
