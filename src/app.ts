@@ -5,7 +5,6 @@ import 'dotenv/config';
 import { IHttpError } from './types/types.type';
 import { PrismaClient } from '@prisma/client';
 import AppRouter from './routes';
-import bcrypt from 'bcryptjs';
 
 const app: Express = express();
 const router = new AppRouter(app);
