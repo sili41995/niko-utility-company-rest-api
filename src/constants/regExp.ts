@@ -5,7 +5,6 @@ const regExp: IRegExp = {
   login: /^\S+$/,
   phone: /^\+?[\d -]+$/,
   currentAccount: /^UA\d{27}$/,
-  mfi: /^\d{6}$/,
   notEmptyValue: /\S/,
 };
 

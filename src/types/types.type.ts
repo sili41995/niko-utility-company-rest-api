@@ -23,7 +23,6 @@ export interface IRegExp {
   notEmptyValue: RegExp;
   phone: RegExp;
   currentAccount: RegExp;
-  mfi: RegExp;
 }
 
 export interface IFindFilters {

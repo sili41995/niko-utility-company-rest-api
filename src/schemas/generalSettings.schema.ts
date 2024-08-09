@@ -6,8 +6,9 @@ const currentAccountSettings = Joi.string().pattern(regExp.currentAccount).messa
   'string.pattern.base': ErrorMessages.currentAccountRegExpErr,
 });
 
-const mfiSettings = Joi.string().pattern(regExp.mfi).messages({
-  'string.pattern.base': ErrorMessages.mfiRegExpErr,
+const mfiSettings = Joi.number().integer().min(100000).max(999999).messages({
+  'any.required': ErrorMessages.mfiReqErr,
+  'number.base': ErrorMessages.mfiNumberErr,
 });
 
 const helpPhoneSettings = Joi.string().pattern(regExp.phone).messages({
