@@ -14,11 +14,13 @@ const helpPhoneSettings = Joi.string().pattern(regExp.phone).messages({
   'string.pattern.base': ErrorMessages.helpPhoneRegExpErr,
 });
 
+const adsInPaymentsSettings = Joi.string().allow(null);
+
 const updateById = Joi.object({
   currentAccount: currentAccountSettings,
   mfi: mfiSettings,
   helpPhone: helpPhoneSettings,
-  adsInPayments: Joi.string(),
+  adsInPayments: adsInPaymentsSettings,
 })
   .min(1)
   .messages({
