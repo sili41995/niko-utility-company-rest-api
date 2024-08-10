@@ -17,10 +17,15 @@ const enum Endpoints {
   dynamicComment = 'comment',
   dynamicFrom = 'from',
   dynamicTo = 'to',
+  dynamicStreetId = 'streetId',
+  dynamicHouseId = 'houseId',
+  dynamicPeriodId = 'periodId',
+  dynamicMinDebt = 'debt',
   // reports
   reports = '/reports',
   reportsByStreets = `${reports}/streets`,
   reportsByHouses = `${reports}/houses`,
+  reportsBySubscribers = `${reports}/subscribers`,
   //payments
   payments = '/payments',
   postagePayments = `${payments}/postage`,

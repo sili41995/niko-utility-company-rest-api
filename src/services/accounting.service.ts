@@ -22,6 +22,7 @@ import {
 import { IFindFilters, ITimePeriod } from '../types/types.type';
 import { IPeriod, Periods } from '../types/period.type';
 import { IPriceAdjustment, NewPriceAdjustment } from '../types/priceAdjustment.type';
+import { IReportsBySubscribersFindFilters, IReportsFindFilters } from '../types/accounting.type';
 
 class AccountingService {
   async getAllPeriods(): Promise<Periods> {
@@ -309,6 +310,33 @@ class AccountingService {
     const reportsByHousesData = houses.map(({ subscriberAccounts, ...house }) => getReportByHouse({ subscriberAccounts, house, startingPeriodId }));
     const reportsByHousesMarkup = getReportsByHousesMarkup({ reportsByHousesData, targetPeriods });
     const filePath = saveDataToPdf({ content: reportsByHousesMarkup, fileName: 'reports-houses.pdf', landscape: true });
+
+    return filePath;
+  }
+
+  async getReportsBySubscribers({ periodId, streetId, houseId, minDebt }: IReportsBySubscribersFindFilters) {
+    const period = await prisma.period.findUnique({ where: { id: periodId } });
+
+    if (!period) {
+      throw httpError({
+        status: 404,
+        message: ErrorMessages.periodNotFound,
+      });
+    }
+
+    const subscriberAccounts = await prisma.subscriberAccount.findMany({
+      where: { streetId, houseId },
+      include: {
+        balances: { where: { periodId }, orderBy: { createdAt: 'asc' } },
+        payments: { where: { periodId }, orderBy: { date: 'asc' } },
+        priceAdjustments: { where: { periodId }, orderBy: { date: 'asc' } },
+        prices: { where: { periodId }, orderBy: { date: 'asc' } },
+      },
+    });
+
+    const reportsBySubscribersData = subscriberAccounts.map(({ subscriberAccounts, ...house }) => getReportBySubscriber({ subscriberAccounts, house, startingPeriodId }));
+    // const reportsByHousesMarkup = getReportsByHousesMarkup({ reportsByHousesData, targetPeriods });
+    // const filePath = saveDataToPdf({ content: reportsByHousesMarkup, fileName: 'reports-houses.pdf', landscape: true });
 
     return filePath;
   }
