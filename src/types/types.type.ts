@@ -147,4 +147,11 @@ export interface ICreateReportsByHousesHtmlDocumentDataProps {
 export interface IGetReportsBySubscribersMarkupProps {
   reportsBySubscribersData: ReportsBySubscribers;
   period: IPeriod;
+  minDebt: number;
+}
+
+export interface ICreateReportsBySubscribersHtmlDocumentDataProps {
+  tableData: ReportsBySubscribers;
+  periodDate: string;
+  minDebt: number;
 }
