@@ -23,7 +23,7 @@ import {
 import { IFindFilters, ITimePeriod } from '../types/types.type';
 import { IPeriod, Periods } from '../types/period.type';
 import { IPriceAdjustment, NewPriceAdjustment } from '../types/priceAdjustment.type';
-import { IReportsBySubscribersFindFilters, IReportsFindFilters } from '../types/accounting.type';
+import { IReportsBySubscribersFindFilters } from '../types/report.type';
 
 class AccountingService {
   async getAllPeriods(): Promise<Periods> {
@@ -328,16 +328,17 @@ class AccountingService {
     const subscriberAccounts = await prisma.subscriberAccount.findMany({
       where: { streetId, houseId },
       include: {
-        house: true,
-        balances: { where: { periodId }, orderBy: { createdAt: 'asc' } },
+        owner: true,
+        house: { include: { street: true } },
         payments: { where: { periodId }, orderBy: { date: 'asc' } },
-        priceAdjustments: { where: { periodId }, orderBy: { date: 'asc' } },
-        prices: { where: { periodId }, orderBy: { date: 'asc' } },
+        priceAdjustments: { where: { periodId }, include: { period: true }, orderBy: { date: 'asc' } },
+        balances: { where: { periodId }, include: { period: true }, orderBy: { createdAt: 'asc' } },
+        prices: { where: { periodId }, include: { tariff: true, period: true }, orderBy: { date: 'asc' } },
       },
     });
 
-    const reportsBySubscribersData = subscriberAccounts.map((subscriberAccount) => getReportBySubscriber({ subscriberAccount, house, period }));
-    // const reportsByHousesMarkup = getReportsByHousesMarkup({ reportsByHousesData, targetPeriods });
+    const reportsBySubscribersData = subscriberAccounts.map((subscriberAccount) => getReportBySubscriber(subscriberAccount));
+    const reportsBySubscribersMarkup = getReportsBySubscribersMarkup({ reportsBySubscribersData, period });
     // const filePath = saveDataToPdf({ content: reportsByHousesMarkup, fileName: 'reports-houses.pdf', landscape: true });
 
     return filePath;

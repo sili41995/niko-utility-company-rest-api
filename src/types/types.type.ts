@@ -5,7 +5,7 @@ import { ICurrentTariffsId } from './tariff.type';
 import { PaymentsBySource } from './payment.type';
 import { IStreet } from './street.type';
 import { HtmlDocumentStyles } from '../constants';
-import { ReportsByHouses, ReportsByStreets } from './report.type';
+import { ReportsByHouses, ReportsByStreets, ReportsBySubscribers } from './report.type';
 import { IHouse } from './house.type';
 
 export interface IHttpError {
@@ -142,4 +142,9 @@ export interface ICreateReportsByHousesHtmlDocumentDataProps {
   periodStart: string;
   periodEnd: string;
   tableData: ReportsByHouses;
+}
+
+export interface IGetReportsBySubscribersMarkupProps {
+  reportsBySubscribersData: ReportsBySubscribers;
+  period: IPeriod;
 }

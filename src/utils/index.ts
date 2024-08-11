@@ -27,3 +27,4 @@ export { default as getFilterByPeriod } from './getFilterByPeriod';
 export { default as getReportByHouse } from './getReportByHouse';
 export { default as getReportsByHousesMarkup } from './getReportsByHousesMarkup';
 export { default as getReportBySubscriber } from './getReportBySubscriber';
+export { default as getReportsBySubscribersMarkup } from './getReportsBySubscribersMarkup';

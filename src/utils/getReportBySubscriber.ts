@@ -1,14 +1,12 @@
-import { IPeriod, IPeriodId } from '../types/period.type';
 import { IReportBySubscriber } from '../types/report.type';
 import { ISubscriberAccount } from '../types/subscriberAccount.type';
-import { IHouse } from '../types/house.type';
 import { IAmount, IPriceProp } from '../types/types.type';
 import { IPrice } from '../types/price.type';
 
-const getReportBySubscriber = ({ subscriberAccount, house, period }: { subscriberAccount: ISubscriberAccount; house: IHouse; period: IPeriod }): IReportBySubscriber => {
+const getReportBySubscriber = (subscriberAccount: ISubscriberAccount): IReportBySubscriber => {
+  const { apartment, owner, number, balances, priceAdjustments, prices, payments, house } = subscriberAccount;
   const { number: houseNumber, street } = house;
   const { name: streetName, type } = street;
-  const { apartment, owner, number, balances, priceAdjustments, prices, payments } = subscriberAccount;
   const { surname, name, middleName, phone, additionalPhone } = owner ?? {};
 
   const address = `м. Нікополь, ${type} ${streetName}, буд. ${houseNumber}`;
@@ -19,11 +17,10 @@ const getReportBySubscriber = ({ subscriberAccount, house, period }: { subscribe
   const subscriberAccountPriceIncrementFunc = (acc: number, { residents, tariff: { price } }: IPrice) => acc + residents * price;
   const priceIncrementFunc = (acc: number, { price }: IPriceProp) => acc + price;
   const amountIncrementFunc = (acc: number, { amount }: IAmount) => acc + amount;
-  const filterByPeriodIdFunc = ({ periodId }: IPeriodId) => periodId === period.id;
 
-  const balance = balances.find(filterByPeriodIdFunc)?.amount!;
-  const startingPriceAdjustments = priceAdjustments.filter(filterByPeriodIdFunc).reduce(priceIncrementFunc, 0);
-  const startingPrices = prices.filter(filterByPeriodIdFunc).reduce(subscriberAccountPriceIncrementFunc, 0);
+  const balance = balances[0].amount;
+  const startingPriceAdjustments = priceAdjustments.reduce(priceIncrementFunc, 0);
+  const startingPrices = prices.reduce(subscriberAccountPriceIncrementFunc, 0);
   const startingBalance = Number((balance + startingPrices + startingPriceAdjustments).toFixed(2));
 
   const subscriberAccountPrices = prices.reduce(subscriberAccountPriceIncrementFunc, 0);

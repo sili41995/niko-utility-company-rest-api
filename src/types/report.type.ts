@@ -38,3 +38,5 @@ export interface IReportBySubscriber extends IReport {
   number: string;
   phoneNumber: string;
 }
+
+export type ReportsBySubscribers = IReportBySubscriber[];
