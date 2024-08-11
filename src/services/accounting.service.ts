@@ -18,6 +18,7 @@ import {
   getReportsByStreetsMarkup,
   getReportByHouse,
   getReportsByHousesMarkup,
+  getReportBySubscriber,
 } from '../utils';
 import { IFindFilters, ITimePeriod } from '../types/types.type';
 import { IPeriod, Periods } from '../types/period.type';
@@ -327,6 +328,7 @@ class AccountingService {
     const subscriberAccounts = await prisma.subscriberAccount.findMany({
       where: { streetId, houseId },
       include: {
+        house: true,
         balances: { where: { periodId }, orderBy: { createdAt: 'asc' } },
         payments: { where: { periodId }, orderBy: { date: 'asc' } },
         priceAdjustments: { where: { periodId }, orderBy: { date: 'asc' } },
@@ -334,7 +336,7 @@ class AccountingService {
       },
     });
 
-    const reportsBySubscribersData = subscriberAccounts.map(({ subscriberAccounts, ...house }) => getReportBySubscriber({ subscriberAccounts, house, startingPeriodId }));
+    const reportsBySubscribersData = subscriberAccounts.map((subscriberAccount) => getReportBySubscriber({ subscriberAccount, house, period }));
     // const reportsByHousesMarkup = getReportsByHousesMarkup({ reportsByHousesData, targetPeriods });
     // const filePath = saveDataToPdf({ content: reportsByHousesMarkup, fileName: 'reports-houses.pdf', landscape: true });
 

@@ -1,6 +1,6 @@
 import QueryString from 'qs';
 import { Endpoints } from '../constants';
-import { IReportsFindFilters } from '../types/accounting.type';
+import { IReportsFindFilters } from '../types/report.type';
 
 const getReportsFindFilters = (query: QueryString.ParsedQs): IReportsFindFilters => {
   const fromQuery = query[Endpoints.dynamicFrom];
