@@ -155,3 +155,8 @@ export interface ICreateReportsBySubscribersHtmlDocumentDataProps {
   periodDate: string;
   minDebt: number;
 }
+
+export interface IFilterReportsBySubscriberProps {
+  reportsBySubscribersData: ReportsBySubscribers;
+  minDebt: number;
+}
