@@ -30,7 +30,7 @@ class HouseService {
   }
 
   async getByStreetId(id: number): Promise<Houses | null> {
-    const result = await prisma.house.findMany({ where: { streetId: id }, include: { street: true } });
+    const result = await prisma.house.findMany({ where: { streetId: id }, include: { street: true }, orderBy: { number: 'asc' } });
 
     return result;
   }
