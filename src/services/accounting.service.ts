@@ -20,6 +20,7 @@ import {
   getReportsByHousesMarkup,
   getReportBySubscriber,
   getReportsBySubscribersMarkup,
+  filterReportsBySubscriber,
 } from '../utils';
 import { IFindFilters, ITimePeriod } from '../types/types.type';
 import { IPeriod, Periods } from '../types/period.type';
@@ -339,7 +340,8 @@ class AccountingService {
     });
 
     const reportsBySubscribersData = subscriberAccounts.map((subscriberAccount) => getReportBySubscriber(subscriberAccount));
-    const reportsBySubscribersMarkup = getReportsBySubscribersMarkup({ reportsBySubscribersData, period, minDebt });
+    const filteredReportsBySubscriber = filterReportsBySubscriber({ reportsBySubscribersData, minDebt });
+    const reportsBySubscribersMarkup = getReportsBySubscribersMarkup({ reportsBySubscribersData: filteredReportsBySubscriber, period, minDebt });
     const filePath = saveDataToPdf({ content: reportsBySubscribersMarkup, fileName: 'reports-subscribers.pdf', landscape: true });
 
     return filePath;

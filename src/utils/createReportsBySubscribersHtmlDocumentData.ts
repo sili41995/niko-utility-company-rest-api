@@ -2,7 +2,7 @@ import { ICreateReportsBySubscribersHtmlDocumentDataProps } from '../types/types
 
 const createReportsBySubscribersHtmlDocumentData = ({ periodDate, minDebt, tableData }: ICreateReportsBySubscribersHtmlDocumentDataProps) => `
 <div class="container">
-      <p class="title">Розрахунки по вулицях</p>
+      <p class="title">Розрахунки по абонентах (борг)</p>
       <p class="subtitle">за період <span class="date">${periodDate}</span> Борг від ${minDebt} грн.</p>
         <table>
         <thead>
