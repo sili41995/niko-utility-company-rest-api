@@ -20,7 +20,7 @@ const enum Endpoints {
   // accounting
   periods = '/periods',
   prices = '/prices',
-  invoices = `/invoices?${dynamicStreetId}&${dynamicHouseId}`,
+  invoices = `/invoices`,
   // reports
   reports = '/reports',
   reportsByStreets = `${reports}/streets`,
