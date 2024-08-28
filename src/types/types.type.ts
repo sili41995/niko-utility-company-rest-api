@@ -160,3 +160,8 @@ export interface IFilterReportsBySubscriberProps {
   reportsBySubscribersData: ReportsBySubscribers;
   minDebt: number;
 }
+
+export interface IInvoicesFindFilters {
+  streetId: number | undefined;
+  houseId: number | undefined;
+}

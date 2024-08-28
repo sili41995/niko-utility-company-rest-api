@@ -22,7 +22,7 @@ import {
   getReportsBySubscribersMarkup,
   filterReportsBySubscriber,
 } from '../utils';
-import { IFindFilters, ITimePeriod } from '../types/types.type';
+import { IFindFilters, IInvoicesFindFilters, ITimePeriod } from '../types/types.type';
 import { IPeriod, Periods } from '../types/period.type';
 import { IPriceAdjustment, NewPriceAdjustment } from '../types/priceAdjustment.type';
 import { IReportsBySubscribersFindFilters } from '../types/report.type';
@@ -199,7 +199,7 @@ class AccountingService {
     return result.count;
   }
 
-  async getInvoices(): Promise<string> {
+  async getInvoices({ houseId, streetId }: IInvoicesFindFilters): Promise<string> {
     const generalSettings = await prisma.generalSettings.findFirst();
     const period = await prisma.period.findFirst({ where: { isCurrentPeriod: true } });
 
@@ -218,6 +218,7 @@ class AccountingService {
     }
 
     const subscriberAccounts = await prisma.subscriberAccount.findMany({
+      where: { houseId, streetId },
       include: {
         owner: true,
         house: { include: { street: true } },

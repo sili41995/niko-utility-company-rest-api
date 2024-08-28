@@ -1,8 +1,4 @@
 const enum Endpoints {
-  // accounting
-  periods = '/periods',
-  prices = '/prices',
-  invoices = '/invoices',
   //  dynamic params
   dynamicId = 'id',
   dynamicNumber = 'number',
@@ -21,6 +17,10 @@ const enum Endpoints {
   dynamicHouseId = 'houseId',
   dynamicPeriodId = 'periodId',
   dynamicMinDebt = 'debt',
+  // accounting
+  periods = '/periods',
+  prices = '/prices',
+  invoices = `/invoices?${dynamicStreetId}&${dynamicHouseId}`,
   // reports
   reports = '/reports',
   reportsByStreets = `${reports}/streets`,

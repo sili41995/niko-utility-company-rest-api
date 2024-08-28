@@ -30,3 +30,4 @@ export { default as getReportBySubscriber } from './getReportBySubscriber';
 export { default as getReportsBySubscribersMarkup } from './getReportsBySubscribersMarkup';
 export { default as createReportsBySubscribersHtmlDocumentData } from './createReportsBySubscribersHtmlDocumentData';
 export { default as filterReportsBySubscriber } from './filterReportsBySubscriber';
+export { default as getInvoicesFindFilters } from './getInvoicesFindFilters';

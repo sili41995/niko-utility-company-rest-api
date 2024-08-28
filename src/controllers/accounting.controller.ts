@@ -1,6 +1,6 @@
 import { Response, Request, NextFunction } from 'express';
 import AccountingService from '../services/accounting.service';
-import { getPaymentsFindFilters, getReportsFindFilters, removeFile } from '../utils';
+import { getInvoicesFindFilters, getPaymentsFindFilters, getReportsFindFilters, removeFile } from '../utils';
 import { PaymentSources } from '../constants';
 
 export class AccountingController {
@@ -58,7 +58,8 @@ export class AccountingController {
   }
 
   async getInvoices(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const filePath = await this.accountingService.getInvoices();
+    const findFilters = getInvoicesFindFilters(req.query);
+    const filePath = await this.accountingService.getInvoices(findFilters);
 
     res.status(200).sendFile(filePath, {}, removeFile(filePath));
   }
