@@ -7,12 +7,15 @@ import { httpError } from '../utils';
 class SubscriberAccountService {
   async getAll({ skip, take, surname, name, number, type, street, house, apartment }: ISubscriberAccountsFindFilters): Promise<IFindAllSubscriberAccountsRes> {
     const where: Prisma.SubscriberAccountWhereInput = {
-      owner: { surname: { startsWith: surname, mode: 'insensitive' }, name: { startsWith: name, mode: 'insensitive' } },
+      owner: {
+        surname: { startsWith: surname, mode: 'insensitive' },
+        name: { startsWith: name, mode: 'insensitive' },
+      },
       number: { startsWith: number },
-      accountType: type,
-      street: { name: { startsWith: street } },
       house: { number: { startsWith: house } },
-      apartment: { startsWith: apartment },
+      accountType: type,
+      street: { name: { startsWith: street, mode: 'insensitive' } },
+      apartment: { startsWith: apartment, mode: 'insensitive' },
     };
     const result = await prisma.subscriberAccount.findMany({
       where,
