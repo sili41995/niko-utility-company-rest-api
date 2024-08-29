@@ -1,5 +1,6 @@
+import { Tariff } from '@prisma/client';
 import { prisma } from '../app';
-import { ITariff, NewTariff, Tariffs } from '../types/tariff.type';
+import { NewTariff, Tariffs } from '../types/tariff.type';
 
 class TariffService {
   async getAll(): Promise<Tariffs> {
@@ -8,7 +9,7 @@ class TariffService {
     return result;
   }
 
-  async add(data: NewTariff): Promise<ITariff> {
+  async add(data: NewTariff): Promise<Tariff> {
     const result = await prisma.tariff.create({ data });
 
     return result;

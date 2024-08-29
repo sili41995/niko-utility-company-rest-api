@@ -1,6 +1,7 @@
+import { House } from '@prisma/client';
 import { prisma } from '../app';
 import { ErrorMessages } from '../constants';
-import { IHouse, NewHouse, Houses } from '../types/house.type';
+import { NewHouse, Houses } from '../types/house.type';
 import { httpError } from '../utils';
 
 class HouseService {
@@ -10,7 +11,7 @@ class HouseService {
     return result;
   }
 
-  async add(data: NewHouse): Promise<IHouse> {
+  async add(data: NewHouse): Promise<House> {
     const { number, streetId } = data;
     const house = await prisma.house.findFirst({ where: { number, streetId } });
 

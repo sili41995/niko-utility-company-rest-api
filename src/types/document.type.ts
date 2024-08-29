@@ -1,14 +1,7 @@
+import { Document } from '@prisma/client';
 import { IFindFilters } from './types.type';
 
-export interface IDocument {
-  id: number;
-  name: string;
-  comment: string;
-  subscriberAccountId: number;
-  createdAt: Date;
-}
-
-export type Documents = IDocument[];
+export type Documents = Document[];
 
 export interface IDocumentsFindFilters extends IFindFilters {
   name: string | undefined;

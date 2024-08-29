@@ -1,14 +1,15 @@
+import { GeneralSettings } from '@prisma/client';
 import { prisma } from '../app';
-import { IGeneralSettings, IUpdateGeneralSettingsProps } from '../types/generalSettings.type';
+import { IUpdateGeneralSettingsProps } from '../types/generalSettings.type';
 
 class GeneralSettingsService {
-  async get(): Promise<IGeneralSettings | null> {
+  async get(): Promise<GeneralSettings | null> {
     const result = await prisma.generalSettings.findFirst();
 
     return result;
   }
 
-  async update({ id, data }: IUpdateGeneralSettingsProps): Promise<IGeneralSettings> {
+  async update({ id, data }: IUpdateGeneralSettingsProps): Promise<GeneralSettings> {
     const result = await prisma.generalSettings.update({ where: { id }, data });
 
     return result;

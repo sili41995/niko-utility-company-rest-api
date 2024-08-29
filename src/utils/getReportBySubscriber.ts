@@ -1,9 +1,9 @@
 import { IReportBySubscriber } from '../types/report.type';
-import { ISubscriberAccount } from '../types/subscriberAccount.type';
 import { IAmount, IPriceProp } from '../types/types.type';
-import { IPrice } from '../types/price.type';
+import { IFullSubscriberAccount } from '../types/subscriberAccount.type';
+import { IPriceWithTariff } from '../types/price.type';
 
-const getReportBySubscriber = (subscriberAccount: ISubscriberAccount): IReportBySubscriber => {
+const getReportBySubscriber = (subscriberAccount: IFullSubscriberAccount): IReportBySubscriber => {
   const { apartment, owner, number, balances, priceAdjustments, prices, payments, house } = subscriberAccount;
   const { number: houseNumber, street } = house;
   const { name: streetName, type } = street;
@@ -14,7 +14,7 @@ const getReportBySubscriber = (subscriberAccount: ISubscriberAccount): IReportBy
   const ownerName = `${surname} ${name} ${middleName}`;
   const phoneNumber = `${phone}, ${additionalPhone}`;
 
-  const subscriberAccountPriceIncrementFunc = (acc: number, { residents, tariff: { price } }: IPrice) => acc + residents * price;
+  const subscriberAccountPriceIncrementFunc = (acc: number, { residents, tariff: { price } }: IPriceWithTariff) => acc + residents * price;
   const priceIncrementFunc = (acc: number, { price }: IPriceProp) => acc + price;
   const amountIncrementFunc = (acc: number, { amount }: IAmount) => acc + amount;
 

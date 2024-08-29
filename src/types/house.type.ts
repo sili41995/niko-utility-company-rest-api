@@ -1,12 +1,9 @@
-import { IStreet } from './street.type';
+import { House, Street } from '@prisma/client';
 
-export interface IHouse {
-  id: number;
-  number: string;
-  streetId: number;
-  street: IStreet;
+export type NewHouse = Pick<House, 'number' | 'streetId'>;
+
+export type Houses = House[];
+
+export interface IFullHouse extends House {
+  street: Street;
 }
-
-export type NewHouse = Pick<IHouse, 'number' | 'streetId'>;
-
-export type Houses = IHouse[];

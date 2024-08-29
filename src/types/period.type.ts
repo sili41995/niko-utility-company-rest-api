@@ -1,11 +1,7 @@
-export interface IPeriod {
-  id: number;
-  isCurrentPeriod: boolean;
-  start: Date;
-}
+import { Period } from '@prisma/client';
 
 export interface IPeriodId {
   periodId: number;
 }
 
-export type Periods = IPeriod[];
+export type Periods = Period[];

@@ -1,8 +1,8 @@
 import { DateFormats } from '../constants';
-import { IPaymentBySource, Payments, PaymentsBySource } from '../types/payment.type';
+import { IPaymentBySource, PaymentsBySource, PaymentsWithSubscriberAccount } from '../types/payment.type';
 import formatDate from './formatDate';
 
-const getPaymentsBySourceData = (payments: Payments): PaymentsBySource =>
+const getPaymentsBySourceData = (payments: PaymentsWithSubscriberAccount): PaymentsBySource =>
   payments.map(({ date, subscriberAccount }): IPaymentBySource => {
     const { owner, apartment, house, number = '' } = subscriberAccount ?? {};
     const { name, middleName, surname } = owner ?? {};

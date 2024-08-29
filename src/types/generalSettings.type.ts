@@ -1,12 +1,6 @@
-export interface IGeneralSettings {
-  id: number;
-  currentAccount: string;
-  mfi: number;
-  helpPhone: string;
-  adsInPayments: string | null;
-}
+import { GeneralSettings } from '@prisma/client';
 
-export type GeneralSettingsData = Pick<IGeneralSettings, 'adsInPayments' | 'currentAccount' | 'helpPhone' | 'mfi'>;
+export type GeneralSettingsData = Pick<GeneralSettings, 'adsInPayments' | 'currentAccount' | 'helpPhone' | 'mfi'>;
 
 export interface IUpdateGeneralSettingsProps {
   id: number;

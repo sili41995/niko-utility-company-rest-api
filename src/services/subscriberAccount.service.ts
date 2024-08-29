@@ -1,7 +1,7 @@
-import { Prisma } from '@prisma/client';
+import { Prisma, SubscriberAccount } from '@prisma/client';
 import { prisma } from '../app';
 import { ErrorMessages } from '../constants';
-import { IFindAllSubscriberAccountsRes, ISubscriberAccount, ISubscriberAccountsFindFilters, IUpdateSubscriberAccountByIdProps, INewSubscriberAccount } from '../types/subscriberAccount.type';
+import { IFindAllSubscriberAccountsRes, ISubscriberAccountsFindFilters, IUpdateSubscriberAccountByIdProps, INewSubscriberAccount } from '../types/subscriberAccount.type';
 import { httpError } from '../utils';
 
 class SubscriberAccountService {
@@ -43,7 +43,7 @@ class SubscriberAccountService {
     };
   }
 
-  async getByNumber(number: string): Promise<ISubscriberAccount> {
+  async getByNumber(number: string): Promise<SubscriberAccount> {
     const result = await prisma.subscriberAccount.findFirst({
       where: { number },
       include: {
@@ -67,7 +67,7 @@ class SubscriberAccountService {
     return result;
   }
 
-  async add(data: INewSubscriberAccount): Promise<ISubscriberAccount> {
+  async add(data: INewSubscriberAccount): Promise<SubscriberAccount> {
     const currentPeriod = await prisma.period.findFirst({ where: { isCurrentPeriod: true } });
 
     if (!currentPeriod) {
@@ -123,7 +123,7 @@ class SubscriberAccountService {
     return result;
   }
 
-  async updateById({ id, data }: IUpdateSubscriberAccountByIdProps): Promise<ISubscriberAccount> {
+  async updateById({ id, data }: IUpdateSubscriberAccountByIdProps): Promise<SubscriberAccount> {
     const { comment, name, owner, ...subscriberAccountData } = data;
 
     const documentResult = await prisma.document.findFirst({ where: { name } });

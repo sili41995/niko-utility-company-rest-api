@@ -1,8 +1,7 @@
 import { IPeriodId } from '../types/period.type';
-import { ISubscriberAccount } from '../types/subscriberAccount.type';
-import { IAmount } from '../types/types.type';
+import { IAmount, IGetBalanceByPeriodProps } from '../types/types.type';
 
-const getBalanceByPeriod = ({ targetPeriodId, subscriberAccount }: { targetPeriodId: number; subscriberAccount: ISubscriberAccount }): number => {
+const getBalanceByPeriod = ({ targetPeriodId, subscriberAccount }: IGetBalanceByPeriodProps): number => {
   const { payments, prices, priceAdjustments, balances } = subscriberAccount;
 
   const filterFunc = ({ periodId }: IPeriodId) => targetPeriodId === periodId;

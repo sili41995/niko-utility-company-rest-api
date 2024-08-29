@@ -1,14 +1,14 @@
 import { IPeriodId } from '../types/period.type';
-import { IPrice } from '../types/price.type';
 import { IAmount, IGetReportByStreetProps, IPriceProp } from '../types/types.type';
 import { IReportByStreet } from '../types/report.type';
+import { IPriceWithTariff } from '../types/price.type';
 
 const getReportByStreet = ({ street, subscriberAccounts, startingPeriodId }: IGetReportByStreetProps): IReportByStreet => {
   const { name, type } = street;
 
   const streetName = `м. Нікополь, ${type} ${name}`;
 
-  const subscriberAccountPriceIncrementFunc = (acc: number, { residents, tariff: { price } }: IPrice) => acc + residents * price;
+  const subscriberAccountPriceIncrementFunc = (acc: number, { residents, tariff: { price } }: IPriceWithTariff) => acc + residents * price;
   const priceIncrementFunc = (acc: number, { price }: IPriceProp) => acc + price;
   const amountIncrementFunc = (acc: number, { amount }: IAmount) => acc + amount;
   const filterByPeriodIdFunc = ({ periodId }: IPeriodId) => periodId === startingPeriodId;

@@ -1,7 +1,7 @@
 import { IPeriodId } from '../types/period.type';
-import { IPrice } from '../types/price.type';
 import { IAmount, IGetReportByHouseProps, IPriceProp } from '../types/types.type';
 import { IReportByHouse } from '../types/report.type';
+import { IPriceWithTariff } from '../types/price.type';
 
 const getReportByHouse = ({ house, subscriberAccounts, startingPeriodId }: IGetReportByHouseProps): IReportByHouse => {
   const { number, street } = house;
@@ -9,7 +9,7 @@ const getReportByHouse = ({ house, subscriberAccounts, startingPeriodId }: IGetR
 
   const address = `${type} ${name}, ${number}`;
 
-  const subscriberAccountPriceIncrementFunc = (acc: number, { residents, tariff: { price } }: IPrice) => acc + residents * price;
+  const subscriberAccountPriceIncrementFunc = (acc: number, { residents, tariff: { price } }: IPriceWithTariff) => acc + residents * price;
   const priceIncrementFunc = (acc: number, { price }: IPriceProp) => acc + price;
   const amountIncrementFunc = (acc: number, { amount }: IAmount) => acc + amount;
   const filterByPeriodIdFunc = ({ periodId }: IPeriodId) => periodId === startingPeriodId;

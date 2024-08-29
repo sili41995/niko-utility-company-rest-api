@@ -1,6 +1,7 @@
+import { Street } from '@prisma/client';
 import { prisma } from '../app';
 import { ErrorMessages } from '../constants';
-import { IStreet, NewStreet, Streets } from '../types/street.type';
+import { NewStreet, Streets } from '../types/street.type';
 import { httpError } from '../utils';
 
 class StreetService {
@@ -10,7 +11,7 @@ class StreetService {
     return result;
   }
 
-  async add(data: NewStreet): Promise<IStreet> {
+  async add(data: NewStreet): Promise<Street> {
     const street = await prisma.street.findUnique({ where: { name: data.name } });
 
     if (street) {

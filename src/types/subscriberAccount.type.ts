@@ -1,57 +1,20 @@
-import { SectorTypes } from '../constants';
-import { Payments } from './payment.type';
-import { Balances } from './balance.types';
-import { IHouse } from './house.type';
-import { Prices } from './price.type';
-import { PriceAdjustments } from './priceAdjustment.type';
+import { House, Owner, Street, SubscriberAccount } from '@prisma/client';
 import { IFindFilters } from './types.type';
+import { IFullHouse } from './house.type';
+import { Payments } from './payment.type';
+import { PricesWithTariff } from './price.type';
+import { PriceAdjustments } from './priceAdjustment.type';
+import { Balances } from './balance.types';
 
-export interface IOwner {
-  id: number;
-  utr: string;
-  passport: string;
-  surname: string;
-  name: string;
-  middleName: string;
-  phone: string;
-  additionalPhone: string;
-  email: string | null;
-  birthday: Date | null;
-  subscriberAccountId: number;
+export type UpdatedOwnerData = Pick<Owner, 'phone' | 'additionalPhone' | 'email' | 'birthday'>;
+
+export type SubscriberAccounts = SubscriberAccount[];
+
+export interface INewSubscriberAccount extends Omit<SubscriberAccount, 'id' | 'house' | 'prices' | 'balances' | 'priceAdjustments' | 'payments'> {
+  owner: Owner;
 }
 
-export type UpdatedOwnerData = Pick<IOwner, 'phone' | 'additionalPhone' | 'email' | 'birthday'>;
-
-export interface ISubscriberAccount {
-  id: number;
-  number: string;
-  contract: string;
-  contractDate: Date;
-  isLivingApartment: boolean;
-  residents: number;
-  period: Date;
-  isRemovalHouseholdWaste: boolean;
-  isEligibleForBenefit: boolean;
-  accountType: string;
-  houseId: number;
-  streetId: number;
-  sector: `${SectorTypes.multiApartment}` | `${SectorTypes.private}` | `${SectorTypes.other}`;
-  apartment: string | null;
-  house: IHouse;
-  prices: Prices;
-  balances: Balances;
-  priceAdjustments: PriceAdjustments;
-  payments: Payments;
-  owner: IOwner | null;
-}
-
-export type SubscriberAccounts = ISubscriberAccount[];
-
-export interface INewSubscriberAccount extends Omit<ISubscriberAccount, 'id' | 'house' | 'prices' | 'balances' | 'priceAdjustments' | 'payments'> {
-  owner: IOwner;
-}
-
-export interface IEditSubscriberAccountData extends Pick<ISubscriberAccount, 'isEligibleForBenefit' | 'isLivingApartment' | 'isRemovalHouseholdWaste' | 'period' | 'residents'> {
+export interface IEditSubscriberAccountData extends Pick<SubscriberAccount, 'isEligibleForBenefit' | 'isLivingApartment' | 'isRemovalHouseholdWaste' | 'period' | 'residents'> {
   comment: string;
   name: string;
   owner?: UpdatedOwnerData;
@@ -81,3 +44,14 @@ export interface ISubscriberAccountsFindFilters extends IFindFilters {
 export interface IPricesInfo {
   lastCalculate: Date;
 }
+
+export interface IFullSubscriberAccount extends SubscriberAccount {
+  house: IFullHouse;
+  owner: Owner | null;
+  payments: Payments;
+  prices: PricesWithTariff;
+  priceAdjustments: PriceAdjustments;
+  balances: Balances;
+}
+
+export type FullSubscriberAccounts = IFullSubscriberAccount[];

@@ -1,9 +1,5 @@
-export interface IStreet {
-  id: number;
-  name: string;
-  type: string;
-}
+import { Street } from '@prisma/client';
 
-export type NewStreet = Pick<IStreet, 'name' | 'type'>;
+export type NewStreet = Pick<Street, 'name' | 'type'>;
 
-export type Streets = IStreet[];
+export type Streets = Street[];

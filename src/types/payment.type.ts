@@ -1,30 +1,9 @@
-import { PaymentSources } from '../constants';
-import { IPeriod } from './period.type';
-import { ISubscriberAccount } from './subscriberAccount.type';
+import { Payment, SubscriberAccount } from '@prisma/client';
+import { IFullSubscriberAccount } from './subscriberAccount.type';
 
-export interface IPayment {
-  id: number;
-  amount: number;
-  source:
-    | `${PaymentSources.abank}`
-    | `${PaymentSources.adjustment}`
-    | `${PaymentSources.aval}`
-    | `${PaymentSources.benefits}`
-    | `${PaymentSources.cash}`
-    | `${PaymentSources.oshchadbank}`
-    | `${PaymentSources.postage}`
-    | `${PaymentSources.privatbank}`
-    | `${PaymentSources.ukrgasbank}`
-    | `${PaymentSources.ukrsibbank}`;
-  date: Date;
-  subscriberAccountId: number;
-  subscriberAccount?: ISubscriberAccount;
-  periodId: number;
-}
+export type Payments = Payment[];
 
-export type Payments = IPayment[];
-
-export type NewPayment = Omit<IPayment, 'id' | 'subscriberAccount'>;
+export type NewPayment = Omit<Payment, 'id' | 'subscriberAccount'>;
 
 export type NewPayments = NewPayment[];
 
@@ -42,3 +21,9 @@ export interface IPaymentBySource {
 }
 
 export type PaymentsBySource = IPaymentBySource[];
+
+export interface IPaymentWithSubscriberAccount extends Payment {
+  subscriberAccount: IFullSubscriberAccount;
+}
+
+export type PaymentsWithSubscriberAccount = IPaymentWithSubscriberAccount[];

@@ -1,12 +1,11 @@
-import { IPeriod, Periods } from './period.type';
-import { IGeneralSettings } from './generalSettings.type';
-import { ISubscriberAccount, SubscriberAccounts } from './subscriberAccount.type';
+import { Periods } from './period.type';
+import { FullSubscriberAccounts, IFullSubscriberAccount, SubscriberAccounts } from './subscriberAccount.type';
 import { ICurrentTariffsId } from './tariff.type';
 import { PaymentsBySource } from './payment.type';
-import { IStreet } from './street.type';
 import { HtmlDocumentStyles } from '../constants';
 import { ReportsByHouses, ReportsByStreets, ReportsBySubscribers } from './report.type';
-import { IHouse } from './house.type';
+import { GeneralSettings, House, Period, Street } from '@prisma/client';
+import { IFullHouse } from './house.type';
 
 export interface IHttpError {
   status: number;
@@ -31,9 +30,9 @@ export interface IFindFilters {
 }
 
 export interface IGetInvoicesProps {
-  subscriberAccounts: SubscriberAccounts;
-  generalSettings: IGeneralSettings;
-  period: IPeriod;
+  subscriberAccounts: FullSubscriberAccounts;
+  generalSettings: GeneralSettings;
+  period: Period;
 }
 
 export interface IFormatDateProps {
@@ -42,7 +41,7 @@ export interface IFormatDateProps {
 }
 
 export interface ICreateInvoiceProps extends Omit<IGetInvoicesProps, 'subscriberAccounts'> {
-  subscriberAccount: ISubscriberAccount;
+  subscriberAccount: IFullSubscriberAccount;
 }
 
 export interface ISavePaymentsToCsvProps {
@@ -58,11 +57,11 @@ export interface ITimePeriod {
 export interface INewPricesDataProps {
   subscriberAccounts: SubscriberAccounts;
   currentTariffsId: ICurrentTariffsId;
-  currentPeriod: IPeriod;
+  currentPeriod: Period;
 }
 
 export interface IGetNewPeriodSubscriberAccountBalancesDataProps {
-  subscriberAccounts: SubscriberAccounts;
+  subscriberAccounts: FullSubscriberAccounts;
   prevPeriodId: number;
   currentPeriodId: number;
 }
@@ -81,8 +80,8 @@ export interface IPriceProp {
 }
 
 export interface IGetReportByStreetProps {
-  street: IStreet;
-  subscriberAccounts: SubscriberAccounts;
+  street: Street;
+  subscriberAccounts: FullSubscriberAccounts;
   startingPeriodId: number;
 }
 
@@ -128,8 +127,8 @@ export interface IFilterByPeriod {
 }
 
 export interface IGetReportByHouseProps {
-  house: IHouse;
-  subscriberAccounts: SubscriberAccounts;
+  house: IFullHouse;
+  subscriberAccounts: FullSubscriberAccounts;
   startingPeriodId: number;
 }
 
@@ -146,7 +145,7 @@ export interface ICreateReportsByHousesHtmlDocumentDataProps {
 
 export interface IGetReportsBySubscribersMarkupProps {
   reportsBySubscribersData: ReportsBySubscribers;
-  period: IPeriod;
+  period: Period;
   minDebt: number;
 }
 
@@ -164,4 +163,9 @@ export interface IFilterReportsBySubscriberProps {
 export interface IInvoicesFindFilters {
   streetId: number | undefined;
   houseId: number | undefined;
+}
+
+export interface IGetBalanceByPeriodProps {
+  targetPeriodId: number;
+  subscriberAccount: IFullSubscriberAccount;
 }

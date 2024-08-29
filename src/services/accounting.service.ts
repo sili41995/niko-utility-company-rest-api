@@ -1,6 +1,6 @@
 import { prisma } from '../app';
 import { ErrorMessages, PaymentSources } from '../constants';
-import { IPayment, NewPayment, IFindAllPaymentsRes, NewPayments } from '../types/payment.type';
+import { NewPayment, IFindAllPaymentsRes, NewPayments } from '../types/payment.type';
 import { IPricesInfo } from '../types/subscriberAccount.type';
 import {
   getInvoicesMarkup,
@@ -23,9 +23,10 @@ import {
   filterReportsBySubscriber,
 } from '../utils';
 import { IFindFilters, IInvoicesFindFilters, ITimePeriod } from '../types/types.type';
-import { IPeriod, Periods } from '../types/period.type';
-import { IPriceAdjustment, NewPriceAdjustment } from '../types/priceAdjustment.type';
+import { Periods } from '../types/period.type';
+import { NewPriceAdjustment } from '../types/priceAdjustment.type';
 import { IReportsBySubscribersFindFilters } from '../types/report.type';
+import { Payment, Period, PriceAdjustment } from '@prisma/client';
 
 class AccountingService {
   async getAllPeriods(): Promise<Periods> {
@@ -35,7 +36,7 @@ class AccountingService {
     return result;
   }
 
-  async addPeriod(): Promise<IPeriod> {
+  async addPeriod(): Promise<Period> {
     const date = new Date();
     //check isExist period
     const period = await prisma.period.findFirst({ where: { start: date } });
@@ -93,16 +94,7 @@ class AccountingService {
     }
 
     const currentTariffsId = await getCurrentTariffsId();
-    const subscriberAccounts = await prisma.subscriberAccount.findMany({
-      include: {
-        owner: true,
-        balances: { include: { period: true } },
-        prices: { include: { period: true, tariff: true } },
-        house: { include: { street: true } },
-        priceAdjustments: { include: { period: true } },
-        payments: { include: { period: true } },
-      },
-    });
+    const subscriberAccounts = await prisma.subscriberAccount.findMany();
 
     const newPricesData = getNewPricesData({ subscriberAccounts, currentTariffsId, currentPeriod });
 
@@ -113,7 +105,7 @@ class AccountingService {
     };
   }
 
-  async addPriceAdjustment(data: NewPriceAdjustment): Promise<IPriceAdjustment> {
+  async addPriceAdjustment(data: NewPriceAdjustment): Promise<PriceAdjustment> {
     const period = await prisma.period.findFirst({
       where: {
         isCurrentPeriod: true,
@@ -159,18 +151,11 @@ class AccountingService {
     };
   }
 
-  async addPayment(data: NewPayment): Promise<IPayment> {
-    const period = await prisma.period.findFirst({
-      where: {
-        isCurrentPeriod: true,
-      },
-    });
+  async addPayment(data: NewPayment): Promise<Payment> {
+    const period = await prisma.period.findFirst({ where: { isCurrentPeriod: true } });
 
     if (!period) {
-      throw httpError({
-        status: 404,
-        message: ErrorMessages.periodNotFound,
-      });
+      throw httpError({ status: 404, message: ErrorMessages.periodNotFound });
     }
 
     const result = await prisma.payment.create({ data: { ...data, periodId: period.id }, include: { period: true } });
@@ -179,17 +164,10 @@ class AccountingService {
   }
 
   async addPayments(data: NewPayments): Promise<number> {
-    const period = await prisma.period.findFirst({
-      where: {
-        isCurrentPeriod: true,
-      },
-    });
+    const period = await prisma.period.findFirst({ where: { isCurrentPeriod: true } });
 
     if (!period) {
-      throw httpError({
-        status: 404,
-        message: ErrorMessages.periodNotFound,
-      });
+      throw httpError({ status: 404, message: ErrorMessages.periodNotFound });
     }
 
     const updatedData = data.map((item) => ({ ...item, periodId: period.id }));
@@ -204,17 +182,11 @@ class AccountingService {
     const period = await prisma.period.findFirst({ where: { isCurrentPeriod: true } });
 
     if (!generalSettings) {
-      throw httpError({
-        status: 404,
-        message: ErrorMessages.generalSettingsNotFound,
-      });
+      throw httpError({ status: 404, message: ErrorMessages.generalSettingsNotFound });
     }
 
     if (!period) {
-      throw httpError({
-        status: 404,
-        message: ErrorMessages.periodNotFound,
-      });
+      throw httpError({ status: 404, message: ErrorMessages.periodNotFound });
     }
 
     const subscriberAccounts = await prisma.subscriberAccount.findMany({
@@ -239,7 +211,6 @@ class AccountingService {
     const result = await prisma.payment.findMany({
       where: { source: paymentSource, period: { isCurrentPeriod: true } },
       include: {
-        period: true,
         subscriberAccount: {
           include: {
             owner: true,
