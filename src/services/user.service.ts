@@ -6,7 +6,9 @@ import bcrypt from 'bcryptjs';
 
 class UserService {
   async getAll(): Promise<Users> {
-    const result = await prisma.user.findMany();
+    const result = await prisma.user.findMany({
+      select: { id: true, name: true, login: true, email: true },
+    });
 
     return result;
   }
